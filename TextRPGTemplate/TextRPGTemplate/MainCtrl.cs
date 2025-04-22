@@ -84,8 +84,8 @@ namespace TextRPG
             var dungeonDataJson = File.ReadAllText(JsonPath.dungeonDataJsonPath);
             var dungeonData = JsonSerializer.Deserialize<List<DungeonData>>(dungeonDataJson);
 
-
-            GameContext gameContext = new(saveData!, dungeonData!);
+            AnimationPlayer animationPlayer = new AnimationPlayer();
+            GameContext gameContext = new(saveData!, dungeonData!, animationPlayer);
             AScene startScene = sceneFactoryMap[SceneID.Main](gameContext, 
                 viewMap, 
                 sceneTextMap,
@@ -110,7 +110,6 @@ namespace TextRPG
         static void initanimationPathMap(Dictionary<string, string> animationPathMap)
         {
             var animationPathJson = File.ReadAllText(JsonPath.animationPathJsonPath);
-            Console.WriteLine(animationPathJson);
             var animationPaths = JsonSerializer.Deserialize<List<AnimationPath>>(animationPathJson);
             foreach (var animationPath in animationPaths!)
             {
