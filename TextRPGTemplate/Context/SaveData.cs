@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPGTemplate.Context;
 
 namespace TextRPG.Context
 {
@@ -20,6 +21,8 @@ namespace TextRPG.Context
         public int clearCount {  get; set; }
         public Item[] items { get; set; } = System.Array.Empty<Item>();
         public Item[] shopItems { get; set; } = System.Array.Empty<Item>();
+        public Skill[] skill { get; set; }
+
         public SaveData() { }
         public SaveData(GameContext gameContext)
         {

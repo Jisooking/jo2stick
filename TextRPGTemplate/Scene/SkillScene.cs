@@ -41,13 +41,6 @@ namespace TextRPGTemplate.Scene
         //기능
         public override string respond(int i)
         {
-            /*
-            if(i)
-            {
-                
-            }
-            */
-
             return sceneNext.next![i];
         }
     }

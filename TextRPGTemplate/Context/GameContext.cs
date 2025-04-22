@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPGTemplate.Context;
 
 namespace TextRPG.Context
 {
@@ -17,6 +18,8 @@ namespace TextRPG.Context
         public int curHp {  get; set; }
         public int prevGold { get; set; }
         public int curGold {  get; set; }
+
+
         public GameContext(SaveData saveData, List<DungeonData> dungeonData)
         {
             ch = new(saveData);

@@ -36,6 +36,7 @@ namespace TextRPG.Scene
         }
         public override string respond(int i)
         {
+
             return sceneNext.next![i];
         }
     }
