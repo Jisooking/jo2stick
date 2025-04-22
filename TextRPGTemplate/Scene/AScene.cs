@@ -23,6 +23,7 @@ namespace TextRPG.Scene
         public const string DungeonClear = "DungeonClear";
         public const string DungeonFail = "DungeonFail";
         public const string StatUp = "StatUp";
+        public const string Skill = "Skill";
     }
     internal abstract class AScene
     {

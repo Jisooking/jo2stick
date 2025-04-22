@@ -5,6 +5,7 @@ using TextRPG.View;
 using TextRPG.Scene;
 using static System.Formats.Asn1.AsnWriter;
 using TextRPG.Context;
+using TextRPGTemplate.Scene;
 
 
 namespace TextRPG
@@ -239,6 +240,7 @@ namespace TextRPG
             RegisterScene<DungeonClearScene>(sceneFactoryMap, SceneID.DungeonClear);
             RegisterScene<DungeonFailScene>(sceneFactoryMap, SceneID.DungeonFail);
             RegisterScene<StatUpScene>(sceneFactoryMap, SceneID.StatUp);
+            RegisterScene<SkillScene>(sceneFactoryMap, SceneID.Skill);
         }
     }
 }
