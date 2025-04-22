@@ -35,7 +35,8 @@ namespace TextRPG.Scene
                 if (ch.gold >= 500)
                 {
                     ch.gold -= 500;
-                    ch.hp = 100;
+                    ch.hp = ch.MaxHp;
+                    ch.Mp = ch.MaxMp;
                     ((LogView)viewMap[ViewID.Log]).AddLog("휴식을 완료했습니다.");
                 }
                 else

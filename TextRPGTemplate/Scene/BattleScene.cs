@@ -73,6 +73,7 @@ namespace TextRPG.Scene
             if (player.hp <= 0)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다!");
+                ((LogView)viewMap[ViewID.Log]).ClearText();
                 return SceneID.DungeonFail;
             }
 
@@ -175,6 +176,9 @@ namespace TextRPG.Scene
             if (damage < 0) damage = 0;
 
             player.hp -= damage;
+
+            if (player.hp < 0) player.hp = 0;
+
             ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}가 {player.name}에게 공격! {damage} 데미지!");
 
             if (player.hp <= 0)
