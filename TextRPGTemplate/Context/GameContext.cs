@@ -19,6 +19,8 @@ namespace TextRPG.Context
         public int prevGold { get; set; }
         public int curGold {  get; set; }
 
+        public Skill[] skills { get; set; }
+
 
         public GameContext(SaveData saveData, List<DungeonData> dungeonData)
         {

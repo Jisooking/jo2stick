@@ -38,6 +38,8 @@ namespace TextRPG.Context
             clearCount = gameContext.ch.clearCount;
             items = gameContext.ch.inventory.items!.ToArray();
             shopItems = gameContext.shop.items!.ToArray();
+
+            skill = gameContext.skills;
         }
     }
 }
