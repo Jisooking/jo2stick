@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TextRPG.Context;
 using TextRPG.View;
+using TextRPGTemplate.Animation;
 
 namespace TextRPG.Scene
 {

@@ -21,7 +21,7 @@ namespace TextRPG.Scene
             List<string> dynamicText = new();
 
             Character ch = gameContext.ch;
-            
+
             dynamicText.Add($"Lv.{ch.getLevel()}");
             dynamicText.Add($"{ch.name} ({ch.job})");
             dynamicText.Add($"공격력 : {ch.getTotalAttack() } {(ch.getPlusAttack() > 0 ? "(+" + ch.getPlusAttack() + ")" : "")}");
@@ -31,7 +31,7 @@ namespace TextRPG.Scene
             dynamicText.Add($"Critical : {ch.critical}");
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
 
             Render();
         }

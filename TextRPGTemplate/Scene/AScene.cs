@@ -23,7 +23,6 @@ namespace TextRPG.Scene
         public const string DungeonClear = "DungeonClear";
         public const string DungeonFail = "DungeonFail";
         public const string StatUp = "StatUp";
-        public const string Skill = "Skill";
     }
     internal abstract class AScene
     {
@@ -52,7 +51,7 @@ namespace TextRPG.Scene
             ((ScriptView)viewMap[ViewID.Script]).SetText(sceneText.scriptText!);
             ((ChoiceView)viewMap[ViewID.Choice]).SetText(sceneText.choiceText!);
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(System.Array.Empty<string>());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
             foreach (var pair in viewMap)
             {
                 pair.Value.Update();
@@ -66,7 +65,7 @@ namespace TextRPG.Scene
             ((ScriptView)viewMap[ViewID.Script]).SetText(sceneText.scriptText!);
             ((ChoiceView)viewMap[ViewID.Choice]).SetText(sceneText.choiceText!);
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(System.Array.Empty<string>());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(System.Array.Empty<string>());
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(System.Array.Empty<string>());
 
             foreach (var pair in viewMap)
             {

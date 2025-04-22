@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TextRPG.Context;
 using TextRPG.View;
+//text 123
 namespace TextRPG.Scene
 {
     internal class DungeonSelectScene : AScene
@@ -23,7 +24,7 @@ namespace TextRPG.Scene
             }
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
 
             Render();
         }

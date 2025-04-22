@@ -15,5 +15,6 @@ namespace TextRPG
         public const string defaultDataJsonPath = "defaultData.json";
         public const string itemCatalogJsonPath = "ItemCatalog.json";
         public const string dungeonDataJsonPath = "dungeonData.json";
+        public const string animationPathJsonPath = "AnimationPath.json";
     }
 }

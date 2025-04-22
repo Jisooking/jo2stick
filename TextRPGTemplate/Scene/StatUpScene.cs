@@ -25,7 +25,7 @@ namespace TextRPG.Scene
             dynamicText.Add($"1. 공격력 : {gameContext.ch.defaultAttack}");
             dynamicText.Add($"2. 방어력 : {gameContext.ch.defaultGuard}");
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
 
             Render();
         }

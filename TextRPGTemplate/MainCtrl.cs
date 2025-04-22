@@ -5,8 +5,8 @@ using TextRPG.View;
 using TextRPG.Scene;
 using static System.Formats.Asn1.AsnWriter;
 using TextRPG.Context;
-using TextRPGTemplate.Scene;
-
+using TextRPGTemplate.Animation;
+//
 
 namespace TextRPG
 {
@@ -15,8 +15,8 @@ namespace TextRPG
         static void Main(string[] args)
         {
             // 화면 크기 조정
-            Console.SetWindowSize(113, 52);
-            Console.SetBufferSize(113, 52);
+            Console.SetWindowSize(193, 52);
+            Console.SetBufferSize(193, 52);
             int width = Console.WindowWidth;
             int height = Console.WindowHeight;
 
@@ -84,13 +84,18 @@ namespace TextRPG
             var dungeonDataJson = File.ReadAllText(JsonPath.dungeonDataJsonPath);
             var dungeonData = JsonSerializer.Deserialize<List<DungeonData>>(dungeonDataJson);
 
-
-            GameContext gameContext = new(saveData!, dungeonData!);
+            AnimationPlayer animationPlayer = new AnimationPlayer();
+            GameContext gameContext = new(saveData!, dungeonData!, animationPlayer);
             AScene startScene = sceneFactoryMap[SceneID.Main](gameContext, 
                 viewMap, 
                 sceneTextMap,
                 sceneMap, 
                 sceneNextMap);
+
+            Dictionary<string, string> animationPathMap = new();
+            initanimationPathMap(animationPathMap);
+            Dictionary<string, Animation> animationMap = new();
+            initanimationMap(animationPathMap, animationMap);
 
             //실행
             run(gameContext,
@@ -100,6 +105,25 @@ namespace TextRPG
                 sceneMap, 
                 sceneFactoryMap,
                 sceneNextMap);
+        }
+
+        static void initanimationPathMap(Dictionary<string, string> animationPathMap)
+        {
+            var animationPathJson = File.ReadAllText(JsonPath.animationPathJsonPath);
+            var animationPaths = JsonSerializer.Deserialize<List<AnimationPath>>(animationPathJson);
+            foreach (var animationPath in animationPaths!)
+            {
+                animationPathMap[animationPath.key] = animationPath.animationPath;
+            }
+        }
+        static void initanimationMap(Dictionary<string, string> animationPathMap, Dictionary<string, Animation> animationMap)
+        {
+            string animationJson;
+            foreach(var pair in animationPathMap)
+            {
+                animationJson = File.ReadAllText(animationPathMap[pair.Key]);
+                animationMap[pair.Key] = JsonSerializer.Deserialize<Animation>(animationJson)!;
+            }
         }
 
         static void run(GameContext gameContext,
@@ -240,7 +264,6 @@ namespace TextRPG
             RegisterScene<DungeonClearScene>(sceneFactoryMap, SceneID.DungeonClear);
             RegisterScene<DungeonFailScene>(sceneFactoryMap, SceneID.DungeonFail);
             RegisterScene<StatUpScene>(sceneFactoryMap, SceneID.StatUp);
-            RegisterScene<SkillScene>(sceneFactoryMap, SceneID.Skill);
         }
     }
 }

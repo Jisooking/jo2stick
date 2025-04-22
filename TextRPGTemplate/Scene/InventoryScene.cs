@@ -30,13 +30,12 @@ namespace TextRPG.Scene
                 dynamicText.Add($"\t {tmp.description}");
             }
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
 
             Render();
         }
         public override string respond(int i)
         {
-
             return sceneNext.next![i];
         }
     }
