@@ -18,8 +18,6 @@ namespace TextRPG.Scene
 
         public override string respond(int i)
         {
-            Animation animation = gameContext.
-            gameContext.animationPlayer.play()
             return sceneNext.next![i];
         }
     }
