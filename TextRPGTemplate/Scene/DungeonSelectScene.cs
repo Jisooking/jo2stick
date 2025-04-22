@@ -1,105 +1,113 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TextRPG.Context;
 using TextRPG.View;
+
 namespace TextRPG.Scene
 {
     internal class DungeonSelectScene : AScene
     {
-        public DungeonSelectScene(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext) : base(gameContext, viewMap, sceneText, sceneNext)
-        {
+        private Random rnd = new Random();
 
-        }
+        public DungeonSelectScene(GameContext gameContext, Dictionary<string, AView> viewMap,
+                                SceneText sceneText, SceneNext sceneNext)
+            : base(gameContext, viewMap, sceneText, sceneNext) { }
+
         public override void DrawScene()
         {
             ClearScene();
             List<string> dynamicText = new();
-            List<DungeonData> dungeonList = gameContext.dungeonList;
-            for (int i = 0; i < dungeonList.Count; i++) {
-                dynamicText.Add($"{i + 1}.{dungeonList[i].title} \t| 방어력 {dungeonList[i].recommandArmor} 이상 권장");
+
+            for (int i = 0; i < gameContext.dungeonList.Count; i++)
+            {
+                var dungeon = gameContext.dungeonList[i];
+                dynamicText.Add($"{i + 1}. {dungeon.Name} \t| 방어력 {dungeon.RecommendedDefense} 이상 권장");
             }
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
-
             Render();
         }
 
         public override string respond(int i)
         {
-            List<DungeonData> dungeonList = gameContext.dungeonList;
-            Character ch = gameContext.ch;
-            if (i > 0 && i < dungeonList.Count + 1)
+            if (i > 0 && i <= gameContext.dungeonList.Count)
             {
-                gameContext.enteredDungeon = dungeonList[i - 1];
-                gameContext.prevHp = ch.hp;
-                gameContext.prevGold = ch.gold;
-                bool success = Success(i - 1);
-                if (success)
+                var dungeon = gameContext.dungeonList[i - 1];
+                gameContext.enteredDungeon = dungeon;
+                gameContext.prevHp = gameContext.ch.hp;
+                gameContext.prevGold = gameContext.ch.gold;
+
+                // 던전에 적합한 몬스터 생성
+                var dungeonMonsters = GenerateMonstersForDungeon(dungeon);
+
+                if (dungeonMonsters == null || dungeonMonsters.Count == 0)
                 {
-                    gameContext.curHp = gameContext.prevHp - calculReduceHp(i - 1);
-                    gameContext.curGold = gameContext.prevGold + calculReward(i - 1);
-                    if (gameContext.curHp > 0)
-                    {
-                        return SceneID.DungeonClear;
-                    }
-                    else
-                    {
-                        return SceneID.DungeonFail;
-                    }
+                    ((LogView)viewMap[ViewID.Log]).AddLog("해당 던전에 적합한 몬스터가 없습니다!");
+                    return SceneID.Nothing;
                 }
-                else
-                {
-                    gameContext.curHp = (int)(gameContext.prevHp * 0.5f);
-                    gameContext.curGold = gameContext.prevGold;
-                    return SceneID.DungeonFail;
-                }
+
+                // 생성된 몬스터를 GameContext에 저장
+                gameContext.currentBattleMonsters = dungeonMonsters;
+                return SceneID.BattleScene;
             }
+
             return sceneNext.next![i];
         }
 
-        public int calculReduceHp(int i)
+        private List<MonsterData> GenerateMonstersForDungeon(DungeonData dungeon)
         {
-            List<DungeonData> dungeonList = gameContext.dungeonList;
-            Character ch = gameContext.ch;
-            float changeDamage = dungeonList[i].recommandArmor - ch.getTotalGuard();
-            float minDamage = Math.Max(20 + changeDamage, 0);
-            float maxDamage = Math.Max(35 + changeDamage, 0);
-            Random rand = new Random();
-            return (int)(rand.NextDouble() * (maxDamage - minDamage) + minDamage);
-        }
+            var monsters = new List<MonsterData>();
+            int monsterCount = rnd.Next(dungeon.MonsterCountMin, dungeon.MonsterCountMax + 1);
 
-        public int calculReward(int i)
-        {
-            List<DungeonData> dungeonList = gameContext.dungeonList;
-            Character ch = gameContext.ch;
-            float changeDamage = dungeonList[i].recommandArmor - ch.getTotalGuard();
-            float minExtraReward = 0.01f * ch.getTotalAttack();
-            float maxExtraReward = 0.02f * ch.getTotalAttack();
-            Random rand = new Random();
-            return (int)(dungeonList[i].reward + dungeonList[i].reward * 
-                (rand.NextDouble() * (maxExtraReward - minExtraReward) + minExtraReward));
-        }
-        public bool Success(int i)
-        {
-            List<DungeonData> dungeonList = gameContext.dungeonList;
-            Character ch = gameContext.ch;
-            if (dungeonList[i].recommandArmor > ch.getTotalGuard())
+            for (int i = 0; i < monsterCount; i++)
             {
-                Random rand = new Random();
-                if(rand.NextDouble() > 0.4)
+                var monster = GenerateMonsterForDungeon(dungeon);
+                if (monster != null)
                 {
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    monsters.Add(monster);
                 }
             }
-            return true;
+
+            return monsters;
+        }
+
+        private MonsterData GenerateMonsterForDungeon(DungeonData dungeon)
+        {
+            // 던전의 MonsterTypes에 해당하는 몬스터만 필터링
+            var validMonsters = gameContext.monsterList
+                .Where(m => dungeon.MonsterTypes.Contains(m.Name))
+                .ToList();
+
+            if (validMonsters.Count == 0)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog($"경고: {dungeon.Name}에 설정된 몬스터 타입이 없습니다!");
+                return null;
+            }
+
+            // 가중치 랜덤 선택 (레벨이 높을수록 확률 감소)
+            var selected = WeightedRandomSelection(validMonsters);
+            return selected?.Clone();
+        }
+
+        private MonsterData WeightedRandomSelection(List<MonsterData> monsters)
+        {
+            // 레벨이 낮을수록 선택 확률 높임 (가중치 = 1/레벨)
+            var weights = monsters.Select(m => 1f / m.Level).ToList();
+            float totalWeight = weights.Sum();
+            float randomValue = (float)rnd.NextDouble() * totalWeight;
+
+            for (int i = 0; i < monsters.Count; i++)
+            {
+                if (randomValue < weights[i])
+                {
+                    return monsters[i];
+                }
+                randomValue -= weights[i];
+            }
+
+            return monsters.Last();
         }
     }
 }

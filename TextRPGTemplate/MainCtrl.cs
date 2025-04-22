@@ -5,6 +5,7 @@ using TextRPG.View;
 using TextRPG.Scene;
 using static System.Formats.Asn1.AsnWriter;
 using TextRPG.Context;
+using TextRPGTemplate.Managers;
 
 
 namespace TextRPG
@@ -62,9 +63,12 @@ namespace TextRPG
                 Console.Clear();
                 Console.Write("사용할 이름을 입력하세요 : ");
                 name = Console.ReadLine();
+                var statCreater = new FirstStatsCreater(autoGenerate: true);
+                statCreater.GenerateStats();
                 Console.Clear();
                 saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
                 saveData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
+                saveData = statCreater.ToSaveData();
                 saveData.name = name;
             }
 
@@ -79,12 +83,21 @@ namespace TextRPG
             Dictionary<string, SceneMaker> sceneFactoryMap = new();
             initSceneFactoryMap(sceneFactoryMap);
 
+            var options = new JsonSerializerOptions
+            {
+                AllowTrailingCommas = true,
+                PropertyNameCaseInsensitive = true
+            };
             //Save 외의 동적 데이터 불러오기
             var dungeonDataJson = File.ReadAllText(JsonPath.dungeonDataJsonPath);
             var dungeonData = JsonSerializer.Deserialize<List<DungeonData>>(dungeonDataJson);
 
+            // 몬스터 데이터 로드 추가
+            var monsterDataJson = File.ReadAllText(JsonPath.monsterDataJsonPath);
+            var monsterList = JsonSerializer.Deserialize<List<MonsterData>>(monsterDataJson);
 
-            GameContext gameContext = new(saveData!, dungeonData!);
+            GameContext gameContext = new(saveData!, dungeonData!, monsterList!);
+
             AScene startScene = sceneFactoryMap[SceneID.Main](gameContext, 
                 viewMap, 
                 sceneTextMap,
@@ -218,6 +231,7 @@ namespace TextRPG
                 {
                     var sceneText = sceneTextMap[sceneID];
                     var sceneNext = sceneNextMap[sceneID];
+                    var monsters = gameContext.currentBattleMonsters;
                     sceneMap[sceneID] = (AScene)Activator.CreateInstance(typeof(T), gameContext, viewMap, sceneText, sceneNext)!;
                 }
                 return sceneMap[sceneID];
@@ -238,6 +252,7 @@ namespace TextRPG
             RegisterScene<DungeonSelectScene>(sceneFactoryMap, SceneID.DungeonSelect);
             RegisterScene<DungeonClearScene>(sceneFactoryMap, SceneID.DungeonClear);
             RegisterScene<DungeonFailScene>(sceneFactoryMap, SceneID.DungeonFail);
+            RegisterScene<BattleScene>(sceneFactoryMap, SceneID.BattleScene);
             RegisterScene<StatUpScene>(sceneFactoryMap, SceneID.StatUp);
         }
     }

@@ -22,7 +22,7 @@ namespace TextRPG.Scene
             if (gameContext.curHp > 0)
             {
                 dynamicText.Add("축하합니다!!");
-                dynamicText.Add($"{gameContext.enteredDungeon!.title}을 클리어 하였습니다");
+                dynamicText.Add($"{gameContext.enteredDungeon!.Name}을 클리어 하였습니다");
                 dynamicText.Add("\n");
                 dynamicText.Add("[탐험 결과]");
                 dynamicText.Add($"체력 {gameContext.prevHp} -> {gameContext.curHp}");

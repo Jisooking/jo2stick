@@ -21,7 +21,7 @@ namespace TextRPG.Scene
             List<string> dynamicText = new();
             if (gameContext.curHp > 0)
             {
-                dynamicText.Add($"{gameContext.enteredDungeon!.title} 클리어를 실패했습니다.");
+                dynamicText.Add($"{gameContext.enteredDungeon!.Name} 클리어를 실패했습니다.");
                 dynamicText.Add("\n");
                 dynamicText.Add("[탐험 결과]");
                 dynamicText.Add($"체력 {gameContext.prevHp} -> {gameContext.curHp}");
@@ -29,7 +29,7 @@ namespace TextRPG.Scene
             }
             else
             {
-                dynamicText.Add($"{gameContext.enteredDungeon!.title} 클리어 도중 체력이 다했습니다.");
+                dynamicText.Add($"{gameContext.enteredDungeon!.Name} 클리어 도중 체력이 다했습니다.");
                 dynamicText.Add("\n");
                 dynamicText.Add("[탐험 결과]");
                 dynamicText.Add($"체력 {gameContext.prevHp} -> {gameContext.curHp} -> 1");
