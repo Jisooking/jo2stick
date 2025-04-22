@@ -65,6 +65,7 @@ namespace TextRPG.Scene
             else if (i == 0)
             {
                 //((LogView)viewMap[ViewID.Log]).AddLog("메인 화면으로 돌아갑니다!");
+                ((LogView)viewMap[ViewID.Log]).ClearText();
             }
             return sceneNext.next![i];
         }

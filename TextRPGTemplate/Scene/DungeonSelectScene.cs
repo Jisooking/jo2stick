@@ -32,28 +32,46 @@ namespace TextRPG.Scene
 
         public override string respond(int i)
         {
-            if (i > 0 && i <= gameContext.dungeonList.Count)
+            if (i == 0) return SceneID.Main;
+
+            if (i < 1 || i > gameContext.dungeonList.Count)
             {
-                var dungeon = gameContext.dungeonList[i - 1];
-                gameContext.enteredDungeon = dungeon;
-                gameContext.prevHp = gameContext.ch.hp;
-                gameContext.prevGold = gameContext.ch.gold;
-
-                // 던전에 적합한 몬스터 생성
-                var dungeonMonsters = GenerateMonstersForDungeon(dungeon);
-
-                if (dungeonMonsters == null || dungeonMonsters.Count == 0)
-                {
-                    ((LogView)viewMap[ViewID.Log]).AddLog("해당 던전에 적합한 몬스터가 없습니다!");
-                    return SceneID.Nothing;
-                }
-
-                // 생성된 몬스터를 GameContext에 저장
-                gameContext.currentBattleMonsters = dungeonMonsters;
-                return SceneID.BattleScene;
+                ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 번호입니다.");
+                return SceneID.DungeonSelect;
             }
 
-            return sceneNext.next![i];
+            var selectedDungeon = gameContext.dungeonList[i - 1]; 
+            gameContext.currentBattleMonsters = new List<MonsterData>();
+            gameContext.currentBattleMonsters = GenerateMonstersForDungeon(selectedDungeon);
+            Console.WriteLine($"생성된 몬스터 수: {gameContext.currentBattleMonsters.Count}");
+
+            foreach (var m in gameContext.currentBattleMonsters)
+            {
+                Console.WriteLine($"- {m.Name} (HP: {m.HP}/{m.MaxHP})");
+            }
+            if (gameContext.currentBattleMonsters == null || gameContext.currentBattleMonsters.Count == 0)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog("몬스터 생성 실패! 전투를 시작할 수 없습니다.");
+                return SceneID.DungeonSelect;
+            }
+            ((LogView)viewMap[ViewID.Log]).AddLog($"선택된 던전 타입: {string.Join(",", selectedDungeon.MonsterTypes)}");
+            ((LogView)viewMap[ViewID.Log]).AddLog($"전체 몬스터 타입 목록:");
+            // 생성된 몬스터 로그 출력 (수정된 위치)
+            foreach (var m in gameContext.currentBattleMonsters)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog($"[던전 입장] {m.Name} 등장 (Lv.{m.Level})");
+            }
+
+            if (gameContext.currentBattleMonsters.Count == 0)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog("경고: 생성된 몬스터가 없습니다!");
+                return SceneID.DungeonSelect;
+            }
+
+            gameContext.enteredDungeon = selectedDungeon;
+            gameContext.prevHp = gameContext.ch.hp;
+            gameContext.prevGold = gameContext.ch.gold;
+            return SceneID.BattleScene;
         }
 
         private List<MonsterData> GenerateMonstersForDungeon(DungeonData dungeon)
@@ -68,6 +86,10 @@ namespace TextRPG.Scene
                 {
                     monsters.Add(monster);
                 }
+                else
+                {
+                    ((LogView)viewMap[ViewID.Log]).AddLog($"경고: {dungeon.Name}에서 몬스터 생성 실패");
+                }
             }
 
             return monsters;
@@ -75,36 +97,45 @@ namespace TextRPG.Scene
 
         private MonsterData GenerateMonsterForDungeon(DungeonData dungeon)
         {
-            // 던전의 MonsterTypes에 해당하는 몬스터만 필터링
+            // 대소문자 무시하고 공백 제거 후 비교
             var validMonsters = gameContext.monsterList
-                .Where(m => dungeon.MonsterTypes.Contains(m.Name))
+                .Where(m => m.Type.Any(mType =>
+                    dungeon.MonsterTypes.Any(dType =>
+                        string.Equals(
+                            mType?.Trim(),
+                            dType?.Trim(),
+                            StringComparison.OrdinalIgnoreCase)))
+                )
                 .ToList();
 
             if (validMonsters.Count == 0)
             {
-                ((LogView)viewMap[ViewID.Log]).AddLog($"경고: {dungeon.Name}에 설정된 몬스터 타입이 없습니다!");
+                ((LogView)viewMap[ViewID.Log]).AddLog($"경고: {dungeon.Name}에 적합한 몬스터 없음");
+                ((LogView)viewMap[ViewID.Log]).AddLog($"던전 타입: {string.Join(",", dungeon.MonsterTypes)}");
+                ((LogView)viewMap[ViewID.Log]).AddLog($"가능한 몬스터 타입: {string.Join(",",gameContext.monsterList.SelectMany(m => m.Type).Distinct())}");
                 return null;
             }
 
-            // 가중치 랜덤 선택 (레벨이 높을수록 확률 감소)
-            var selected = WeightedRandomSelection(validMonsters);
-            return selected?.Clone();
+            return WeightedRandomSelection(validMonsters)?.Clone();
         }
 
         private MonsterData WeightedRandomSelection(List<MonsterData> monsters)
         {
-            // 레벨이 낮을수록 선택 확률 높임 (가중치 = 1/레벨)
-            var weights = monsters.Select(m => 1f / m.Level).ToList();
+            if (monsters.Count == 0) return null;
+            if (monsters.Count == 1) return monsters[0];
+
+            // 가중치 계산 (레벨이 낮을수록 높은 가중치)
+            var weights = monsters.Select(m => 1f / (m.Level + 1)).ToList();
             float totalWeight = weights.Sum();
-            float randomValue = (float)rnd.NextDouble() * totalWeight;
+            float randomPoint = (float)rnd.NextDouble() * totalWeight;
 
             for (int i = 0; i < monsters.Count; i++)
             {
-                if (randomValue < weights[i])
+                if (randomPoint < weights[i])
                 {
                     return monsters[i];
                 }
-                randomValue -= weights[i];
+                randomPoint -= weights[i];
             }
 
             return monsters.Last();

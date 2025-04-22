@@ -12,13 +12,19 @@ namespace TextRPG.Context
         public Character ch { get; set; }
         public Shop shop { get; set; }
         public List<DungeonData> dungeonList { get; set; } = new List<DungeonData>();
-        public List<MonsterData> currentBattleMonsters { get; set; }
+        public List<MonsterData> currentBattleMonsters { get; set; } = new List<MonsterData>();
         public List<MonsterData> monsterList { get; set; } = new List<MonsterData>();
+        public List<MonsterData>? clearedMonsters { get; set; }
         public DungeonData? enteredDungeon { get; set; } = null;
         public int prevHp { get; set; }
         public int curHp {  get; set; }
         public int prevGold { get; set; }
         public int curGold {  get; set; }
+
+        public void ResetBattleMonsters()
+        {
+            currentBattleMonsters.Clear();
+        }
         public GameContext(SaveData saveData, List<DungeonData> dungeonData, List<MonsterData> monsters)
         {
             ch = new(saveData);

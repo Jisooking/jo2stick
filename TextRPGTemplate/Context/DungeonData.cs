@@ -15,13 +15,13 @@ public class DungeonData
     public DungeonData() { }
 
     public DungeonData(int id, string name, float recommandArmor, int reward,
-              List<string> monsterTypes, int minMonsters = 1, int maxMonsters = 3)
+              List<string> Type, int minMonsters = 1, int maxMonsters = 3)
     {
         this.Id = id;
         this.Name = name;
         this.RecommendedDefense = recommandArmor;
         this.reward = reward;
-        this.MonsterTypes = monsterTypes; // 🔹 추가된 부분!
+        this.MonsterTypes = Type;
         this.MonsterCountMin = minMonsters;
         this.MonsterCountMax = maxMonsters;
     }

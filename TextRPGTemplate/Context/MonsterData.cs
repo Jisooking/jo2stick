@@ -1,14 +1,31 @@
 ﻿// Monster.cs
+using System.Reflection.Emit;
+using System.Xml.Linq;
+
 [Serializable]
 public class MonsterData
 {
-    public string Name { get; set; }
-    public int HP { get; set; }
-    public int MaxHP { get; set; }  // 최대 체력 속성 추가
+    public string Name { get; set; } = "";
     public int Level { get; set; }
-    public int Power { get; set; }
+    public List<string> Type { get; set; } = new();  // 던전 타입 (예: ["숲", "동굴"])
     public int ExpReward { get; set; }
     public int GoldReward { get; set; }
+    public int HP { get; set; }
+    public int MaxHP { get; set; }
+    public int Power { get; set; }
+
+
+    public MonsterData(MonsterData other)
+    {
+        this.Name = other.Name;  // other 객체의 값 복사
+        this.Level = other.Level;
+        this.Type = new List<string>(other.Type);  // List는 복사해야 함
+        this.ExpReward = other.ExpReward;
+        this.GoldReward = other.GoldReward;
+        this.HP = other.HP;
+        this.MaxHP = other.MaxHP;
+        this.Power = other.Power;
+    }
 
     public MonsterData()
     {
@@ -19,11 +36,13 @@ public class MonsterData
         return new MonsterData
         {
             Name = this.Name,
-            HP = this.MaxHP, // 복제 시 항상 풀체력
-            Power = this.Power,
+            Level = this.Level,
+            HP = this.HP,
             MaxHP = this.MaxHP,
+            Power = this.Power,
             ExpReward = this.ExpReward,
             GoldReward = this.GoldReward,
+            Type = new List<string>(this.Type)
         };
     }
 }
