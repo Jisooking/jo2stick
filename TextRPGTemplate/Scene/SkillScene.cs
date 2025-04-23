@@ -24,12 +24,14 @@ namespace TextRPGTemplate.Scene
 
             dynamicText.Add("[보유 스킬]");
             dynamicText.Add("");
-            for (int i = 0; i < gameContext.ch.skills.Count; i++)
+            for (int i = 0; i < gameContext.ch.learnSkillList.Count; i++)
             {
-                Skill tmp = gameContext.ch.skills[i];
+                Skill tmp = gameContext.ch.learnSkillList[i];
                 dynamicText.Add($"- {i + 1} {(tmp.isEquip ? "[E]" : "")} {tmp.skillName} \t | {(tmp.skillType == 0 ? "공격스킬" : "방어스킬")} + {(tmp.effectAmount)} 데미지");
                 dynamicText.Add($"\t {tmp.description}");
             }
+
+            dynamicText.Add($"{gameContext.skillList[0].skillName}");
 
                 ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);

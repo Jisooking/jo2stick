@@ -21,7 +21,8 @@ namespace TextRPG.Context
         public int clearCount {  get; set; }
         public Item[] items { get; set; } = System.Array.Empty<Item>();
         public Item[] shopItems { get; set; } = System.Array.Empty<Item>();
-        public Skill[] skill { get; set; }
+        public List<Skill> learnSkill { get; set; }
+        public Skill[] skillList { get; set; }
 
         public SaveData() { }
         public SaveData(GameContext gameContext)
@@ -39,7 +40,8 @@ namespace TextRPG.Context
             items = gameContext.ch.inventory.items!.ToArray();
             shopItems = gameContext.shop.items!.ToArray();
 
-            skill = gameContext.skills;
+            skillList = gameContext.skillList.ToArray();
+            learnSkill = gameContext.ch.learnSkillList.ToList();
         }
     }
 }

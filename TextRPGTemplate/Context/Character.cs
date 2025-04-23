@@ -20,8 +20,7 @@ namespace TextRPG.Context
         public int clearCount {  get; set; }
         public Inventory inventory
         { get; set; }
-
-       public List<Skill> skills { get; set; }
+        public List<Skill>? learnSkillList { get; set; }
 
         public Character(SaveData saveData)
         {
@@ -34,11 +33,16 @@ namespace TextRPG.Context
             this.clearCount = saveData.clearCount;
             this.inventory = new Inventory(new List<Item>(saveData.items));
             this.critical = saveData.critical;
-            skills = new List<Skill>();
-            string[] test = new string[2];
-            test[0] = "기본 공격";
-            test[1] = "입니다.";
-            skills.Add(new Skill("ataack", "공격스킬", "테스트용 스킬", SkillType.Attack, StatType.Str, TargetType.Enemy, true, true, 5, 5, 1.5f, 1, 0, 3, 0, 1, test));
+
+            try 
+            {
+                learnSkillList = new List<Skill>(saveData.learnSkill);
+            }
+            catch
+            {
+                learnSkillList = new List<Skill>();
+            }
+              
         }
 
         public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, float critical)

@@ -19,7 +19,7 @@ namespace TextRPG.Context
         public int prevGold { get; set; }
         public int curGold {  get; set; }
 
-        public Skill[] skills { get; set; }
+        public Skill[] skillList { get; set; } 
 
 
         public GameContext(SaveData saveData, List<DungeonData> dungeonData)
@@ -27,6 +27,7 @@ namespace TextRPG.Context
             ch = new(saveData);
             shop = new(new List<Item>(saveData.shopItems));
             this.dungeonList = new List<DungeonData>(dungeonData);
+            skillList = saveData.skillList.ToArray();
         }
     }
 }
