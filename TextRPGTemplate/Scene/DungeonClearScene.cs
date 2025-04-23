@@ -1,0 +1,64 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TextRPG.Context;
+using TextRPG.View;
+
+namespace TextRPG.Scene
+{
+    public class DungeonClearScene : AScene
+    {
+        public DungeonClearScene(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext) : base(gameContext, viewMap, sceneText, sceneNext)
+        {
+
+        }
+        public override void DrawScene()
+        {
+            ClearScene();
+            List<string> dynamicText = new();
+
+            // 디버그 정보 출력
+            Console.WriteLine($"clearedMonsters 개수: {gameContext.clearedMonsters?.Count}");
+
+            if (gameContext.clearedMonsters != null && gameContext.clearedMonsters.Count > 0)
+            {
+                dynamicText.Add("축하합니다!!");
+                dynamicText.Add($"{gameContext.enteredDungeon!.Name}을 클리어 하였습니다");
+                dynamicText.Add("");
+
+                int totalExp = gameContext.clearedMonsters.Sum(m => m.ExpReward);
+                int totalGold = gameContext.clearedMonsters.Sum(m => m.GoldReward);
+
+                // 실제 보상 적용
+                gameContext.ch.Exp += totalExp;            // 총 경험치 누적 (기록용)
+                gameContext.ch.CurrentExp += totalExp;     // 실제 레벨업 계산에 사용됨
+                gameContext.ch.getLevel();                 // 레벨업 처리 (CurrentExp, MaxExp 반영)
+                gameContext.ch.gold += totalGold;
+
+                gameContext.curGold = gameContext.ch.gold;
+                gameContext.curHp = gameContext.ch.hp;
+
+                dynamicText.Add($"획득 경험치: {totalExp} EXP");
+                dynamicText.Add($"획득 골드: {totalGold} G");
+                dynamicText.Add("");
+                dynamicText.Add("[탐험 결과]");
+                dynamicText.Add($"체력 {gameContext.prevHp} -> {gameContext.curHp}");
+                dynamicText.Add($"골드 {gameContext.prevGold}G -> {gameContext.curGold}G");
+
+                gameContext.ch.clearCount++;
+            }
+
+    // 뷰 업데이트
+    ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
+            Render();
+        }
+
+
+        public override string respond(int i)
+        {
+            return sceneNext.next![i];
+        }
+    }
+}
