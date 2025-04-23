@@ -22,13 +22,12 @@ namespace TextRPG.Context
         public int prevGold { get; set; }
         public int curGold {  get; set; }
         public AnimationPlayer animationPlayer { get; set; }
-        public GameContext(SaveData saveData, List<DungeonData> dungeonData, AnimationPlayer animationPlayer)
 
         public void ResetBattleMonsters()
         {
             currentBattleMonsters.Clear();
         }
-        public GameContext(SaveData saveData, List<DungeonData> dungeonData, List<MonsterData> monsters)
+        public GameContext(SaveData saveData, List<DungeonData> dungeonData, List<MonsterData> monsters, AnimationPlayer animationPlayer)
         {
             ch = new(saveData);
             shop = new(new List<Item>(saveData.shopItems));

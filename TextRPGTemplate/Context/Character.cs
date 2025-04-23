@@ -7,16 +7,6 @@ using System.Threading.Tasks;
 namespace TextRPG.Context
 {
     [Serializable]
-    internal class Character
-    {
-        public string? name { get; set; }
-        public string? job { get; set; }
-        public float critical {  get; set; }
-        public float defaultAttack { get; set; } // 현재 레벨 기본 공격력
-        public float defaultGuard { get; set; } // 현재 레벨 기본 방어력
-        public int hp { get; set; }
-        public int gold { get; set; }
-        public int clearCount {  get; set; }
     public class Character
     {
         public int Level { get; set; }
@@ -91,25 +81,7 @@ namespace TextRPG.Context
         }
 
         public int getLevel()
-        {
-            if(clearCount >= 10)
-            {
-                return 5;
-            }else if(clearCount >= 6)
-            {
-                return 4;
-            }else if(clearCount >= 3)
-            {
-                return 3;
-            }else if(clearCount >= 1)
-            {
-                return 2;
-            }else
-            {
-                return 1;
-            }
-        }
-
+        {  
             while (CurrentExp >= MaxExp)
             {
                 CurrentExp -= MaxExp;
@@ -119,7 +91,6 @@ namespace TextRPG.Context
                 Console.WriteLine($"레벨업! 현재 레벨: {Level}, 포인트: {Point}");
                 Console.WriteLine($"현재 EXP: {CurrentExp} / {MaxExp}");
             }
-
             return Level;
         }
 
@@ -137,7 +108,6 @@ namespace TextRPG.Context
         public int getPlusAttack()
         {
             int plusAttack = 0;
-            foreach(var item in inventory.items!)
             foreach (var item in inventory.items!)
             {
                 if (item.equiped == true)

@@ -8,7 +8,7 @@ using TextRPG.View;
 
 namespace TextRPG.Scene
 {
-    internal class StatusScene : AScene
+    public class StatusScene : AScene
     {
         public StatusScene(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext) : base(gameContext, viewMap, sceneText, sceneNext)
         {

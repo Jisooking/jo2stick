@@ -9,7 +9,7 @@ using TextRPG.View;
 // 새 Scene을 만들때 복붙
 namespace TextRPG.Scene
 {
-    internal class StatUpScene : AScene
+    public class StatUpScene : AScene
     {
         public StatUpScene(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext) : base(gameContext, viewMap, sceneText, sceneNext)
         {

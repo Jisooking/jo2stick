@@ -10,7 +10,7 @@ using TextRPGTemplate.Managers;
 
 namespace TextRPG
 {
-    internal class MainCtrl
+    public class MainCtrl
     {
         static void Main(string[] args)
         {
@@ -98,12 +98,11 @@ namespace TextRPG
             var dungeonData = JsonSerializer.Deserialize<List<DungeonData>>(dungeonDataJson);
 
             AnimationPlayer animationPlayer = new AnimationPlayer();
-            GameContext gameContext = new(saveData!, dungeonData!, animationPlayer);
             // 몬스터 데이터 로드 추가
             var monsterDataJson = File.ReadAllText(JsonPath.monsterDataJsonPath);
             var monsterList = JsonSerializer.Deserialize<List<MonsterData>>(monsterDataJson);
 
-            GameContext gameContext = new(saveData!, dungeonData!, monsterList!);
+            GameContext gameContext = new(saveData!, dungeonData!, monsterList!,animationPlayer!);
 
             AScene startScene = sceneFactoryMap[SceneID.Main](gameContext, 
                 viewMap, 

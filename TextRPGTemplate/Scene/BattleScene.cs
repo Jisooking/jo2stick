@@ -6,7 +6,7 @@ using TextRPG.View;
 
 namespace TextRPG.Scene
 {
-    internal class BattleScene : AScene
+    public class BattleScene : AScene
     {
         private Random rnd = new Random();
         private Character player;

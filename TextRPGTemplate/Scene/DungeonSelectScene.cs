@@ -6,7 +6,7 @@ using TextRPG.View;
 
 namespace TextRPG.Scene
 {
-    internal class DungeonSelectScene : AScene
+    public class DungeonSelectScene : AScene
     {
         private Random rnd = new Random();
 
