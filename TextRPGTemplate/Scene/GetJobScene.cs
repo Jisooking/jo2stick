@@ -34,7 +34,7 @@ namespace TextRPG.Scene
             dynamicText.Add("원하는 직업을 선택해 주세요.");
             List<JobRequirement> jobRequirements = new()
             {
-                new JobRequirement { JobName = "파이터", MinLevel = 15, MinStr = 100 },
+                new JobRequirement { JobName = "파이터", MinLevel = 0, MinStr = 0 },
                 new JobRequirement { JobName = "위자드", MinLevel = 15, MinInt = 100 },
                 new JobRequirement { JobName = "레인저", MinLevel = 15, MinDex = 100 },
                 new JobRequirement { JobName = "시프", MinLevel = 15, MinLuk = 100 },
@@ -62,6 +62,18 @@ namespace TextRPG.Scene
                 var selectedJob = eligibleJobs[i - 1];
                 gameContext.ch.job = selectedJob.JobName;   // 클래스 직업변경
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{selectedJob.JobName}로 전직했습니다.");
+                gameContext.ch.Str += (int)gameContext.afterJobStat[i-1].addStr;
+                gameContext.ch.Int += (int)gameContext.afterJobStat[i - 1].addInt;
+                gameContext.ch.Dex += (int)gameContext.afterJobStat[i - 1].addDex;
+                gameContext.ch.Luk += (int)gameContext.afterJobStat[i - 1].addLuk;
+                gameContext.ch.hp += (int)gameContext.afterJobStat[i - 1].addHp;
+                gameContext.ch.MaxHp += (int)gameContext.afterJobStat[i - 1].addHp;
+                gameContext.ch.Mp += (int)gameContext.afterJobStat[i - 1].addMp;
+                gameContext.ch.MaxMp += (int)gameContext.afterJobStat[i - 1].addMp;
+                gameContext.ch.attack += (int)gameContext.afterJobStat[i - 1].addattack;
+                gameContext.ch.guard += (int)gameContext.afterJobStat[i - 1].addguard;
+                gameContext.ch.critical += (int)gameContext.afterJobStat[i - 1].addcritical;
+                gameContext.ch.Point += (int)gameContext.afterJobStat[i - 1].addPoint;
             }
             convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
