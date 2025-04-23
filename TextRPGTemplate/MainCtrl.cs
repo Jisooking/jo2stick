@@ -5,18 +5,17 @@ using TextRPG.View;
 using TextRPG.Scene;
 using static System.Formats.Asn1.AsnWriter;
 using TextRPG.Context;
+using TextRPGTemplate.Animation;
 using TextRPGTemplate.Managers;
-
 
 namespace TextRPG
 {
-    internal class MainCtrl
+    public class MainCtrl
     {
         static void Main(string[] args)
         {
-            // 화면 크기 조정
-            Console.SetWindowSize(113, 52);
-            Console.SetBufferSize(113, 52);
+            Console.SetWindowSize(193, 52);
+            Console.SetBufferSize(193, 52);
             int width = Console.WindowWidth;
             int height = Console.WindowHeight;
 
@@ -63,16 +62,14 @@ namespace TextRPG
                 Console.Clear();
                 Console.Write("사용할 이름을 입력하세요 : ");
                 name = Console.ReadLine();
+                Console.Clear();
                 var statCreater = new FirstStatsCreater(autoGenerate: true);
                 statCreater.GenerateStats();
-                Console.Clear();
+
+                statCreater.name = name;
+                statCreater.SaveAsDefault();
                 saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
-                SaveData defaultData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
-
-                saveData = statCreater.ToSaveData();
-
-                saveData.shopItems = defaultData.shopItems;
-                saveData.name = name;
+                saveData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
             }
 
             //정적 데이터 불러오기
@@ -95,17 +92,23 @@ namespace TextRPG
             var dungeonDataJson = File.ReadAllText(JsonPath.dungeonDataJsonPath);
             var dungeonData = JsonSerializer.Deserialize<List<DungeonData>>(dungeonDataJson);
 
+            AnimationPlayer animationPlayer = new AnimationPlayer();
             // 몬스터 데이터 로드 추가
             var monsterDataJson = File.ReadAllText(JsonPath.monsterDataJsonPath);
             var monsterList = JsonSerializer.Deserialize<List<MonsterData>>(monsterDataJson);
 
-            GameContext gameContext = new(saveData!, dungeonData!, monsterList!);
+            GameContext gameContext = new(saveData!, dungeonData!, monsterList!,animationPlayer!);
 
             AScene startScene = sceneFactoryMap[SceneID.Main](gameContext, 
                 viewMap, 
                 sceneTextMap,
                 sceneMap, 
                 sceneNextMap);
+
+            Dictionary<string, string> animationPathMap = new();
+            initanimationPathMap(animationPathMap);
+            Dictionary<string, Animation> animationMap = new();
+            initanimationMap(animationPathMap, animationMap);
 
             //실행
             run(gameContext,
@@ -115,6 +118,25 @@ namespace TextRPG
                 sceneMap, 
                 sceneFactoryMap,
                 sceneNextMap);
+        }
+
+        static void initanimationPathMap(Dictionary<string, string> animationPathMap)
+        {
+            var animationPathJson = File.ReadAllText(JsonPath.animationPathJsonPath);
+            var animationPaths = JsonSerializer.Deserialize<List<AnimationPath>>(animationPathJson);
+            foreach (var animationPath in animationPaths!)
+            {
+                animationPathMap[animationPath.key] = animationPath.animationPath;
+            }
+        }
+        static void initanimationMap(Dictionary<string, string> animationPathMap, Dictionary<string, Animation> animationMap)
+        {
+            string animationJson;
+            foreach(var pair in animationPathMap)
+            {
+                animationJson = File.ReadAllText(animationPathMap[pair.Key]);
+                animationMap[pair.Key] = JsonSerializer.Deserialize<Animation>(animationJson)!;
+            }
         }
 
         static void run(GameContext gameContext,

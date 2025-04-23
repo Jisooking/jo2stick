@@ -9,7 +9,7 @@ using TextRPG.View;
 
 namespace TextRPG.Scene
 {
-    internal class BuyScene : AScene
+    public class BuyScene : AScene
     {
         public BuyScene(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext) : base(gameContext, viewMap, sceneText, sceneNext)
         {

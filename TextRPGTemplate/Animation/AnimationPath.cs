@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace TextRPG.Scene
+namespace TextRPGTemplate.Animation
 {
-    [Serializable]
-    public class SceneNext
+    public class AnimationPath
     {
         public string key { get; set; } = "";
-        public string[]? next { get; set; }
+        public string animationPath { get; set; } = "";
     }
 }

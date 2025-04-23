@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPGTemplate.Animation;
 
 namespace TextRPG.Context
 {
@@ -20,16 +21,18 @@ namespace TextRPG.Context
         public int curHp {  get; set; }
         public int prevGold { get; set; }
         public int curGold {  get; set; }
+        public AnimationPlayer animationPlayer { get; set; }
 
         public void ResetBattleMonsters()
         {
             currentBattleMonsters.Clear();
         }
-        public GameContext(SaveData saveData, List<DungeonData> dungeonData, List<MonsterData> monsters)
+        public GameContext(SaveData saveData, List<DungeonData> dungeonData, List<MonsterData> monsters, AnimationPlayer animationPlayer)
         {
             ch = new(saveData);
             shop = new(new List<Item>(saveData.shopItems));
             this.dungeonList = new List<DungeonData>(dungeonData);
+            this.animationPlayer = animationPlayer;
             this.monsterList = new List<MonsterData>(monsters);
             currentBattleMonsters = new List<MonsterData>();
 

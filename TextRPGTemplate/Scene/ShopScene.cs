@@ -9,7 +9,7 @@ using TextRPG.View;
 
 namespace TextRPG.Scene
 {
-    internal class ShopScene : AScene
+    public class ShopScene : AScene
     {
         public ShopScene(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext) : base(gameContext, viewMap, sceneText, sceneNext)
         {
@@ -31,8 +31,7 @@ namespace TextRPG.Scene
                 dynamicText.Add($"\t {tmp.description}");
             }
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
-
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
             Render();
         }
         public override string respond(int i)

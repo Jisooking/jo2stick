@@ -9,7 +9,7 @@ using TextRPG.View;
 // 새 Scene을 만들때 복붙
 namespace TextRPG.Scene
 {
-    internal class StatUpScene : AScene
+    public class StatUpScene : AScene
     {
         public StatUpScene(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext) : base(gameContext, viewMap, sceneText, sceneNext)
         {
@@ -25,7 +25,7 @@ namespace TextRPG.Scene
             dynamicText.Add($"1. 공격력 : {gameContext.ch.defaultAttack}");
             dynamicText.Add($"2. 방어력 : {gameContext.ch.defaultGuard}");
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
 
             Render();
         }

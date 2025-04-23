@@ -6,7 +6,7 @@ using TextRPG.View;
 
 namespace TextRPG.Scene
 {
-    internal class DungeonSelectScene : AScene
+    public class DungeonSelectScene : AScene
     {
         private Random rnd = new Random();
 
@@ -18,7 +18,6 @@ namespace TextRPG.Scene
         {
             ClearScene();
             List<string> dynamicText = new();
-
             for (int i = 0; i < gameContext.dungeonList.Count; i++)
             {
                 var dungeon = gameContext.dungeonList[i];

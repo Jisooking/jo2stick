@@ -38,6 +38,12 @@ namespace TextRPG.Context
 
         public Character(SaveData saveData)
         {
+            this.name = saveData.name;
+            this.job = saveData.job;
+            this.defaultAttack = saveData.attack;
+            this.defaultGuard = saveData.guard;
+            this.hp = saveData.hp;
+            this.gold = saveData.gold;
             this.Level = saveData.Level;
             this.name = saveData.name;
             this.job = saveData.job;
@@ -75,7 +81,7 @@ namespace TextRPG.Context
         }
 
         public int getLevel()
-        {
+        {  
             while (CurrentExp >= MaxExp)
             {
                 CurrentExp -= MaxExp;
@@ -85,10 +91,8 @@ namespace TextRPG.Context
                 Console.WriteLine($"레벨업! 현재 레벨: {Level}, 포인트: {Point}");
                 Console.WriteLine($"현재 EXP: {CurrentExp} / {MaxExp}");
             }
-
             return Level;
         }
-
 
 
         public float getNoWeaponAttack()

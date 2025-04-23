@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextRPGTemplate.Manager
 {
-    internal class StartBattle
+    public class StartBattle
     {
 
     }

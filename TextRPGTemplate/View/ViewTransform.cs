@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace TextRPG.View
 {
     [Serializable]
-    internal class ViewTransform
+    public class ViewTransform
     {
         public ViewTransform(string key, int x, int y, int width, int height, int border)
         {
