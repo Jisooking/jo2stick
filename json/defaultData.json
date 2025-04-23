@@ -5,9 +5,9 @@
     "guard": 5,
     "hp": 100,
     "gold": 1500,
-    "clearCount": 0,
+    "clearCount" : 0,
     "items": [],
-    "critical": 15,
+    "critical" :  15,
     "shopItems": [
         {
             "key": "noviceArmor",
@@ -93,23 +93,5 @@
             "armor": false,
             "weapon": true
         }
-    ],
-    "skill": [
-        "fireball",
-        "false",
-        "true",
-        "ad"
-    ],
-    "skill": [
-        "fireball"
-    ],
-    "skill": [
-        "fireball"
-    ],
-    "skill": [
-        "fireball"
-    ],
-    "skill": [
-        "fireball"
     ]
 }

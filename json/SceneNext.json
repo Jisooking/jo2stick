@@ -33,7 +33,22 @@
         "key": "DungeonSelect",
         "next": [
             "Main",
+            "BattleScene",
             "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None"
+        ]
+    },
+    {
+        "key": "BattleScene",
+        "next": [
+            "DungeonFail",
+            "DungeonClear",
             "None",
             "None",
             "None",
