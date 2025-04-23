@@ -57,7 +57,7 @@ namespace TextRPG.Scene
             {
                 return "None";
             }
-            else if (i > 0 && i <= eligibleJobs.Count)
+            else if (i > 0 && i <= eligibleJobs.Count && gameContext.ch.job == "")
             {
                 var selectedJob = eligibleJobs[i - 1];
                 gameContext.ch.job = selectedJob.JobName;   // 클래스 직업변경
