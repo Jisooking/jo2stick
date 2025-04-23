@@ -21,6 +21,7 @@ namespace TextRPG.Scene
         public const string Rest = "Rest";
         public const string Sell = "Sell";
         public const string DungeonSelect = "DungeonSelect";
+        public const string BattleScene = "BattleScene";
         public const string DungeonClear = "DungeonClear";
         public const string DungeonFail = "DungeonFail";
         public const string StatUp = "StatUp";
