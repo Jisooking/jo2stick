@@ -19,12 +19,18 @@ namespace TextRPG.Context
         public int prevGold { get; set; }
         public int curGold {  get; set; }
         public AnimationPlayer animationPlayer { get; set; }
-        public GameContext(SaveData saveData, List<DungeonData> dungeonData, AnimationPlayer animationPlayer)
+
+        public Dictionary<string, Animation?> animationMap = new();
+        public GameContext(SaveData saveData, 
+            List<DungeonData> dungeonData, 
+            AnimationPlayer animationPlayer, 
+            Dictionary<string, Animation?> animationMap)
         {
             ch = new(saveData);
             shop = new(new List<Item>(saveData.shopItems));
             this.dungeonList = new List<DungeonData>(dungeonData);
             this.animationPlayer = animationPlayer;
+            this.animationMap = animationMap;
         }
     }
 }

@@ -45,10 +45,12 @@ namespace TextRPG.Scene
                     gameContext.curGold = gameContext.prevGold + calculReward(i - 1);
                     if (gameContext.curHp > 0)
                     {
+                        convertSceneAnimationPlay(SceneID.DungeonClear);
                         return SceneID.DungeonClear;
                     }
                     else
                     {
+                        convertSceneAnimationPlay(SceneID.DungeonFail);
                         return SceneID.DungeonFail;
                     }
                 }
@@ -56,9 +58,11 @@ namespace TextRPG.Scene
                 {
                     gameContext.curHp = (int)(gameContext.prevHp * 0.5f);
                     gameContext.curGold = gameContext.prevGold;
+                    convertSceneAnimationPlay(SceneID.DungeonFail);
                     return SceneID.DungeonFail;
                 }
             }
+            convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
 

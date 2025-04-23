@@ -66,6 +66,7 @@ namespace TextRPG.Scene
             {
                 //((LogView)viewMap[ViewID.Log]).AddLog("메인 화면으로 돌아갑니다!");
             }
+            convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
     }

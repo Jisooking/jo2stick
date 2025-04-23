@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TextRPG.Context;
 using TextRPG.View;
+using TextRPGTemplate.Animation;
 
 namespace TextRPG.Scene
 {
@@ -73,6 +74,23 @@ namespace TextRPG.Scene
                 pair.Value.Render();
             }
             ((InputView)viewMap[ViewID.Input]).SetCursor();
+        }
+        public void convertSceneAnimationPlay(int i)
+        {
+            if (gameContext.animationMap.ContainsKey(sceneNext.next![i]))
+            {
+                Animation?[] animations = { gameContext.animationMap[sceneNext.next![i]] };
+                gameContext.animationPlayer.play(animations, (SpriteView)viewMap[ViewID.Sprite]);
+            }
+        }
+
+        public void convertSceneAnimationPlay(string s)
+        {
+            if (gameContext.animationMap.ContainsKey(s))
+            {
+                Animation?[] animations = { gameContext.animationMap[s] };
+                gameContext.animationPlayer.play(animations, (SpriteView)viewMap[ViewID.Sprite]);
+            }
         }
     }
 }
