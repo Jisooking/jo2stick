@@ -14,8 +14,9 @@ namespace TextRPG
     {
         static void Main(string[] args)
         {
-            Console.SetWindowSize(193, 52);
-            Console.SetBufferSize(193, 52);
+            // 화면 크기 조정
+            Console.SetWindowSize(183, 56);
+            Console.SetBufferSize(183, 56);
             int width = Console.WindowWidth;
             int height = Console.WindowHeight;
 
@@ -97,12 +98,18 @@ namespace TextRPG
             var dungeonDataJson = File.ReadAllText(JsonPath.dungeonDataJsonPath);
             var dungeonData = JsonSerializer.Deserialize<List<DungeonData>>(dungeonDataJson);
 
+            Dictionary<string, string?> animationPathMap = new();
+            initanimationPathMap(animationPathMap);
+            Dictionary<string, Animation?> animationMap = new();
+            initanimationMap(animationPathMap, animationMap);
+
             AnimationPlayer animationPlayer = new AnimationPlayer();
             // 몬스터 데이터 로드 추가
             var monsterDataJson = File.ReadAllText(JsonPath.monsterDataJsonPath);
             var monsterList = JsonSerializer.Deserialize<List<MonsterData>>(monsterDataJson);
 
-            GameContext gameContext = new(saveData!, dungeonData!, monsterList!,animationPlayer!);
+            GameContext gameContext = new(saveData!, dungeonData!, monsterList!,animationPlayer!, animationMap);
+
 
             AScene startScene = sceneFactoryMap[SceneID.Main](gameContext, 
                 viewMap, 
@@ -110,11 +117,7 @@ namespace TextRPG
                 sceneMap, 
                 sceneNextMap);
 
-            Dictionary<string, string> animationPathMap = new();
-            initanimationPathMap(animationPathMap);
-            Dictionary<string, Animation> animationMap = new();
-            initanimationMap(animationPathMap, animationMap);
-
+            Console.Clear();
             //실행
             run(gameContext,
                 startScene, 
@@ -134,12 +137,17 @@ namespace TextRPG
                 animationPathMap[animationPath.key] = animationPath.animationPath;
             }
         }
-        static void initanimationMap(Dictionary<string, string> animationPathMap, Dictionary<string, Animation> animationMap)
+        static void initanimationMap(Dictionary<string, string?> animationPathMap, Dictionary<string, Animation?> animationMap)
         {
             string animationJson;
             foreach(var pair in animationPathMap)
             {
-                animationJson = File.ReadAllText(animationPathMap[pair.Key]);
+                if (animationPathMap[pair.Key] == null)
+                {
+                    animationMap[pair.Key] = null;
+                    continue;
+                }
+                animationJson = File.ReadAllText(animationPathMap[pair.Key]!);
                 animationMap[pair.Key] = JsonSerializer.Deserialize<Animation>(animationJson)!;
             }
         }
@@ -154,6 +162,10 @@ namespace TextRPG
             AScene curScene = startScene;
             string response = "";
             curScene.DrawScene();
+
+            Animation[] animations = { gameContext.animationMap[SceneID.Main] };
+            gameContext.animationPlayer.play(animations, (SpriteView)viewMap[ViewID.Sprite]);
+
             ((InputView)viewMap[ViewID.Input]).SetCursor();
             string? str = "";
             while (true)
