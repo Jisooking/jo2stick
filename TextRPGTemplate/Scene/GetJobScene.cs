@@ -53,13 +53,16 @@ namespace TextRPG.Scene
 
         public override string respond(int i)
         {
-            if (i <= 0 || i > eligibleJobs.Count)
+            if (i < 0 || i > eligibleJobs.Count)
             {
                 return "None";
             }
-            var selectedJob = eligibleJobs[i - 1];
-            gameContext.ch.job = selectedJob.JobName;   // 클래스 직업변경
-            ((LogView)viewMap[ViewID.Log]).AddLog($"{selectedJob.JobName}로 전직했습니다.");
+            else if (i > 0 && i <= eligibleJobs.Count)
+            {
+                var selectedJob = eligibleJobs[i - 1];
+                gameContext.ch.job = selectedJob.JobName;   // 클래스 직업변경
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{selectedJob.JobName}로 전직했습니다.");
+            }
             convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }

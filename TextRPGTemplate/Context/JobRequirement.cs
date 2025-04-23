@@ -45,4 +45,9 @@ namespace TextRPG.Context
         public List<string>? skillList { get; set; }
 
     }
-}
+
+    //public int AddJobStat()
+    //    {
+
+    //    }
+    } 
