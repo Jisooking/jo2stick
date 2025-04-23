@@ -264,6 +264,7 @@ namespace TextRPG
             RegisterScene<DungeonClearScene>(sceneFactoryMap, SceneID.DungeonClear);
             RegisterScene<DungeonFailScene>(sceneFactoryMap, SceneID.DungeonFail);
             RegisterScene<StatUpScene>(sceneFactoryMap, SceneID.StatUp);
+            RegisterScene<QuestScene>(sceneFactoryMap, SceneID.QuestScene);
         }
     }
 }
