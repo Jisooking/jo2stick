@@ -6,7 +6,7 @@ using TextRPG.Scene;
 using static System.Formats.Asn1.AsnWriter;
 using TextRPG.Context;
 using TextRPGTemplate.Animation;
-using TextRPGTemplate.Managers;
+using TextRPGTemplate.Manager;
 
 namespace TextRPG
 {
