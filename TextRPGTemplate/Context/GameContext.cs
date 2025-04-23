@@ -23,19 +23,21 @@ namespace TextRPG.Context
         public int curGold {  get; set; }
         public AnimationPlayer animationPlayer { get; set; }
 
+        public Dictionary<string, Animation?> animationMap = new();
         public void ResetBattleMonsters()
         {
             currentBattleMonsters.Clear();
         }
-        public GameContext(SaveData saveData, List<DungeonData> dungeonData, List<MonsterData> monsters, AnimationPlayer animationPlayer)
+        public GameContext(SaveData saveData, List<DungeonData> dungeonData, List<MonsterData> monsters, AnimationPlayer animationPlayer, Dictionary<string, Animation?> animationMap)
         {
             ch = new(saveData);
             shop = new(new List<Item>(saveData.shopItems));
             this.dungeonList = new List<DungeonData>(dungeonData);
             this.animationPlayer = animationPlayer;
+            this.animationMap = animationMap;
             this.monsterList = new List<MonsterData>(monsters);
             currentBattleMonsters = new List<MonsterData>();
-
+            this.animationMap = animationMap;
         }
     }
 }

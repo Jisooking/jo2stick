@@ -27,11 +27,11 @@ namespace TextRPG.Scene
             for (int i = 0; i < gameContext.shop?.items?.Count; i++)
             {
                 Item tmp = gameContext.shop.items[i];
-                dynamicText.Add($"- {i + 1} {tmp.name} \t | {(tmp.attack > 0 ? "공격력" : "방어력")} + {(tmp.attack > 0 ? tmp.attack : tmp.guard)}\t | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
-                dynamicText.Add($"\t {tmp.description}");
+                dynamicText.Add($"- {i + 1} {tmp.name} | {(tmp.attack > 0 ? "공격력" : "방어력")} + {(tmp.attack > 0 ? tmp.attack : tmp.guard)} | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
+                dynamicText.Add($" {tmp.description}");
             }
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
 
             Render();
         }
@@ -64,9 +64,9 @@ namespace TextRPG.Scene
             }
             else if (i == 0)
             {
-                //((LogView)viewMap[ViewID.Log]).AddLog("메인 화면으로 돌아갑니다!");
                 ((LogView)viewMap[ViewID.Log]).ClearText();
             }
+            convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
     }

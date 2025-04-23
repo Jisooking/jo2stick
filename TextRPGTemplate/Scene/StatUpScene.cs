@@ -37,6 +37,7 @@ namespace TextRPG.Scene
                 case 1: gameContext.ch.defaultAttack++; break;
                 case 2: gameContext.ch.defaultGuard++; break;
             }
+            convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
     }
