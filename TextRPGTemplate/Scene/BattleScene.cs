@@ -194,15 +194,17 @@ namespace TextRPG.Scene
 
             if (aliveMonsters.Count == 0)
             {
-                Console.WriteLine("공격할 수 있는 몬스터가 없습니다.");
+
+                ((LogView)viewMap[ViewID.Log]).AddLog("공격할 수 있는 몬스터가 없습니다.");
                 return null;
             }
-
-            Console.WriteLine("\n어떤 몬스터를 공격하시겠습니까?");
+            ((LogView)viewMap[ViewID.Log]).AddLog("어떤 몬스터를 공격하시겠습니까?");
             for (int i = 0; i < aliveMonsters.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {aliveMonsters[i].Name} (HP: {aliveMonsters[i].HP}/{aliveMonsters[i].MaxHP})");
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{i + 1}. {aliveMonsters[i].Name} (HP: {aliveMonsters[i].HP}/{aliveMonsters[i].MaxHP})");
             }
+            ((LogView)viewMap[ViewID.Log]).Update();
+            ((LogView)viewMap[ViewID.Log]).Render();
 
             int choice;
             while (true)
@@ -213,9 +215,13 @@ namespace TextRPG.Scene
                     return aliveMonsters[choice - 1];
                 }
 
+                ((InputView)viewMap[ViewID.Input]).SetCursor();
                 Console.WriteLine("잘못된 선택입니다. 다시 입력하세요.");
                 Console.ReadLine(); // 잘못된 입력 소비
+                ((InputView)viewMap[ViewID.Input]).SetCursor();
             }
+            ((LogView)viewMap[ViewID.Log]).Update();
+            ((LogView)viewMap[ViewID.Log]).Render();
         }
 
 

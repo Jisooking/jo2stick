@@ -15,8 +15,8 @@ namespace TextRPG
         static void Main(string[] args)
         {
             // 화면 크기 조정
-            Console.SetWindowSize(183, 52);
-            Console.SetBufferSize(183, 52);
+            Console.SetWindowSize(183, 56);
+            Console.SetBufferSize(183, 56);
             int width = Console.WindowWidth;
             int height = Console.WindowHeight;
 
@@ -117,6 +117,7 @@ namespace TextRPG
                 sceneMap, 
                 sceneNextMap);
 
+            Console.Clear();
             //실행
             run(gameContext,
                 startScene, 
