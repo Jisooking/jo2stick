@@ -285,6 +285,7 @@ namespace TextRPG
             RegisterScene<BattleScene>(sceneFactoryMap, SceneID.BattleScene);
             RegisterScene<StatUpScene>(sceneFactoryMap, SceneID.StatUp);
             RegisterScene<QuestScene>(sceneFactoryMap, SceneID.QuestScene);
+            RegisterScene<NPCScene>(sceneFactoryMap, SceneID.NPCScene);
         }
     }
 }
