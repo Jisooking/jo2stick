@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TextRPGTemplate.Animation
 {
-    internal class AnimationPath
+    public class AnimationPath
     {
         public string key { get; set; } = "";
         public string? animationPath { get; set; } = "";

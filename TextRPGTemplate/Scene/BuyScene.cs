@@ -9,7 +9,7 @@ using TextRPG.View;
 
 namespace TextRPG.Scene
 {
-    internal class BuyScene : AScene
+    public class BuyScene : AScene
     {
         public BuyScene(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext) : base(gameContext, viewMap, sceneText, sceneNext)
         {
@@ -64,7 +64,7 @@ namespace TextRPG.Scene
             }
             else if (i == 0)
             {
-                //((LogView)viewMap[ViewID.Log]).AddLog("메인 화면으로 돌아갑니다!");
+                ((LogView)viewMap[ViewID.Log]).ClearText();
             }
             convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];

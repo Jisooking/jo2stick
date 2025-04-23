@@ -8,7 +8,7 @@ using TextRPG.View;
 
 namespace TextRPG.Scene
 {
-    internal class SellScene : AScene
+    public class SellScene : AScene
     {
         public SellScene(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext) : base(gameContext, viewMap, sceneText, sceneNext)
         {
@@ -31,7 +31,6 @@ namespace TextRPG.Scene
             }
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
-
             Render();
         }
 

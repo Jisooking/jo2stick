@@ -25,7 +25,7 @@ namespace TextRPG.Scene
         public const string DungeonFail = "DungeonFail";
         public const string StatUp = "StatUp";
     }
-    internal abstract class AScene
+    public abstract class AScene
     {
         protected GameContext gameContext { get; set; }
         protected Dictionary<string, AView> viewMap { get; set; }

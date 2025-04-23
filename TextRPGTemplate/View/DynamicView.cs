@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextRPG.View
 {
-    internal class DynamicView : AView
+    public class DynamicView : AView
     {
         private List<string> lines = new();
 

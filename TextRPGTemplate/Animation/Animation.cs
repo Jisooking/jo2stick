@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextRPGTemplate.Animation
 {
-    internal class Animation
+    public class Animation
     {
         public string[][] frames { get; set; } = Array.Empty<string[]>();
         public int[] x { get; set; } = Array.Empty<int>();
