@@ -8,7 +8,7 @@ using TextRPG.View;
 
 namespace TextRPG.Scene
 {
-    internal class DungeonClearScene : AScene
+    public class DungeonClearScene : AScene
     {
         public DungeonClearScene(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext) : base(gameContext, viewMap, sceneText, sceneNext)
         {
@@ -17,24 +17,41 @@ namespace TextRPG.Scene
         public override void DrawScene()
         {
             ClearScene();
-
             List<string> dynamicText = new();
-            if (gameContext.curHp > 0)
+
+            // 디버그 정보 출력
+            Console.WriteLine($"clearedMonsters 개수: {gameContext.clearedMonsters?.Count}");
+
+            if (gameContext.clearedMonsters != null && gameContext.clearedMonsters.Count > 0)
             {
                 dynamicText.Add("축하합니다!!");
-                dynamicText.Add($"{gameContext.enteredDungeon!.title}을 클리어 하였습니다");
-                dynamicText.Add("\n");
+                dynamicText.Add($"{gameContext.enteredDungeon!.Name}을 클리어 하였습니다");
+                dynamicText.Add("");
+
+                int totalExp = gameContext.clearedMonsters.Sum(m => m.ExpReward);
+                int totalGold = gameContext.clearedMonsters.Sum(m => m.GoldReward);
+
+                // 실제 보상 적용
+                gameContext.ch.Exp += totalExp;            // 총 경험치 누적 (기록용)
+                gameContext.ch.CurrentExp += totalExp;     // 실제 레벨업 계산에 사용됨
+                gameContext.ch.getLevel();                 // 레벨업 처리 (CurrentExp, MaxExp 반영)
+                gameContext.ch.gold += totalGold;
+
+                gameContext.curGold = gameContext.ch.gold;
+                gameContext.curHp = gameContext.ch.hp;
+
+                dynamicText.Add($"획득 경험치: {totalExp} EXP");
+                dynamicText.Add($"획득 골드: {totalGold} G");
+                dynamicText.Add("");
                 dynamicText.Add("[탐험 결과]");
                 dynamicText.Add($"체력 {gameContext.prevHp} -> {gameContext.curHp}");
-                dynamicText.Add($"Gold {gameContext.prevGold}G -> {gameContext.curGold}G");
-                gameContext.ch.hp = gameContext.curHp;
-                gameContext.ch.gold = gameContext.curGold;
+                dynamicText.Add($"골드 {gameContext.prevGold}G -> {gameContext.curGold}G");
+
                 gameContext.ch.clearCount++;
             }
-            //dynamicText.Add($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드:{gameContext.ch.gold})");
-            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
 
+    // 뷰 업데이트
+    ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             Render();
         }
 

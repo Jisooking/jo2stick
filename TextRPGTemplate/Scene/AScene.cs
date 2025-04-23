@@ -20,12 +20,13 @@ namespace TextRPG.Scene
         public const string Rest = "Rest";
         public const string Sell = "Sell";
         public const string DungeonSelect = "DungeonSelect";
+        public const string BattleScene = "BattleScene";
         public const string DungeonClear = "DungeonClear";
         public const string DungeonFail = "DungeonFail";
         public const string StatUp = "StatUp";
         public const string QuestScene = "QuestScene";
     }
-    internal abstract class AScene
+    public abstract class AScene
     {
         protected GameContext gameContext { get; set; }
         protected Dictionary<string, AView> viewMap { get; set; }
@@ -52,7 +53,7 @@ namespace TextRPG.Scene
             ((ScriptView)viewMap[ViewID.Script]).SetText(sceneText.scriptText!);
             ((ChoiceView)viewMap[ViewID.Choice]).SetText(sceneText.choiceText!);
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(System.Array.Empty<string>());
-            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
             foreach (var pair in viewMap)
             {
                 pair.Value.Update();
@@ -66,8 +67,7 @@ namespace TextRPG.Scene
             ((ScriptView)viewMap[ViewID.Script]).SetText(sceneText.scriptText!);
             ((ChoiceView)viewMap[ViewID.Choice]).SetText(sceneText.choiceText!);
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(System.Array.Empty<string>());
-            //((SpriteView)viewMap[ViewID.Sprite]).SetText(System.Array.Empty<string>());
-
+            ((SpriteView)viewMap[ViewID.Sprite]).SetText(System.Array.Empty<string>());
             foreach (var pair in viewMap)
             {
                 pair.Value.Update();
