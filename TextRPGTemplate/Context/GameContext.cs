@@ -11,6 +11,7 @@ namespace TextRPG.Context
     public class GameContext
     {
         public Character ch { get; set; }
+        public List<AfterJobStat>? afterJobStat { get; set; }
         public Shop shop { get; set; }
         public List<DungeonData> dungeonList { get; set; } = new List<DungeonData>();
         public List<MonsterData> currentBattleMonsters { get; set; } = new List<MonsterData>();
@@ -38,6 +39,7 @@ namespace TextRPG.Context
             this.monsterList = new List<MonsterData>(monsters);
             currentBattleMonsters = new List<MonsterData>();
             this.animationMap = animationMap;
+            this.afterJobStat = saveData.afterJobStat;
         }
     }
 }

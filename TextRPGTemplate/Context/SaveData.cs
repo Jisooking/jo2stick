@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace TextRPG.Context
     {
         public string? name { get; set; }
         public string? job { get; set; }
-
+        public List<AfterJobStat>? afterJobStat { get; set; }
         public int Level { get; set; }
         public int Str { get; set; }
         public int Dex { get; set; }
@@ -67,6 +68,7 @@ namespace TextRPG.Context
 
             items = ch.inventory.items!.ToArray();
             shopItems = gameContext.shop.items!.ToArray();
+            afterJobStat = gameContext.afterJobStat;
         }
     }
 }

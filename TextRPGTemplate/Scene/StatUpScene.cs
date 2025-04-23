@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using TextRPG.Context;
 using TextRPG.View;
 
-// 새 Scene을 만들때 복붙
 namespace TextRPG.Scene
 {
     public class StatUpScene : AScene

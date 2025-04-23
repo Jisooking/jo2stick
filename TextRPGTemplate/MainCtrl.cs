@@ -7,6 +7,7 @@ using static System.Formats.Asn1.AsnWriter;
 using TextRPG.Context;
 using TextRPGTemplate.Animation;
 using TextRPGTemplate.Managers;
+using System.Diagnostics;
 
 namespace TextRPG
 {
@@ -77,7 +78,7 @@ namespace TextRPG
                 saveData.shopItems = defaultData.shopItems;
                 saveData.name = name;
             }
-
+            Debug.Write(saveData.afterJobStat.Count);
             //정적 데이터 불러오기
             Dictionary<string, AView> viewMap = new();
             initViewMap(viewMap);
@@ -296,6 +297,7 @@ namespace TextRPG
             RegisterScene<DungeonFailScene>(sceneFactoryMap, SceneID.DungeonFail);
             RegisterScene<BattleScene>(sceneFactoryMap, SceneID.BattleScene);
             RegisterScene<StatUpScene>(sceneFactoryMap, SceneID.StatUp);
+            RegisterScene<GetJobScene>(sceneFactoryMap, SceneID.GetJob);
         }
     }
 }

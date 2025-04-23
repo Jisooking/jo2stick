@@ -75,7 +75,7 @@ namespace TextRPG.Context
         }
 
         public int getLevel()
-        {  
+        {
             while (CurrentExp >= MaxExp)
             {
                 CurrentExp -= MaxExp;
