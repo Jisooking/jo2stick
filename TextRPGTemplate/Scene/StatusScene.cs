@@ -8,7 +8,7 @@ using TextRPG.View;
 
 namespace TextRPG.Scene
 {
-    internal class StatusScene : AScene
+    public class StatusScene : AScene
     {
         public StatusScene(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext) : base(gameContext, viewMap, sceneText, sceneNext)
         {
@@ -22,17 +22,21 @@ namespace TextRPG.Scene
 
             Character ch = gameContext.ch;
 
-            dynamicText.Add($"Lv.{ch.getLevel()}");
-            dynamicText.Add($"{ch.name} ({ch.job})");
-            dynamicText.Add($"공격력 : {ch.getTotalAttack() } {(ch.getPlusAttack() > 0 ? "(+" + ch.getPlusAttack() + ")" : "")}");
-            dynamicText.Add($"방어력 : {ch.getTotalGuard()} {(ch.getPlusGuard() > 0 ? "(+" + ch.getPlusGuard() + ")" : "")}");
-            dynamicText.Add($"체 력 : {ch.hp}");
+            dynamicText.Add($" Lv. {ch.Level}\n");
+            dynamicText.Add($" 이 름 : {ch.name}\n");
+            dynamicText.Add($" 직 업 : {ch.job}\n");
+            dynamicText.Add($" 힘 : {ch.Str}\n");
+            dynamicText.Add($" 지 능 : {ch.Int}\n");
+            dynamicText.Add($" 민 첩 : {ch.Dex}\n");
+            dynamicText.Add($" 운 : {ch.Luk}\n");
+            dynamicText.Add($"체 력 : {ch.hp} / {ch.MaxHp}");
+            dynamicText.Add($"마 나 : {ch.Mp} / {ch.MaxMp}");
+            dynamicText.Add($"경험치 : {ch.CurrentExp} / {ch.MaxExp}");
             dynamicText.Add($"Gold : {ch.gold}G");
             dynamicText.Add($"Critical : {ch.critical}");
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
-
             Render();
         }
 

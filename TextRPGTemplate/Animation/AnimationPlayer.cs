@@ -7,7 +7,7 @@ using TextRPG.View;
 
 namespace TextRPGTemplate.Animation
 {
-    internal class AnimationPlayer
+    public class AnimationPlayer
     {
         public AnimationPlayer()
         {

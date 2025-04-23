@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TextRPG.View
 {
-    internal class ViewPort
+    public class ViewPort
     {
         public const char borderChar = ' ';
         public int x { get; private set; }

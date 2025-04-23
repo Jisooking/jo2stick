@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextRPG
 {
-    internal class JsonPath
+    public class JsonPath
     {
         public const string viewTranJsonPath = "ViewTran.json";
         public const string sceneTextJsonPath = "SceneText.json";
@@ -14,7 +14,8 @@ namespace TextRPG
         public const string saveDataJsonPath = "saveData.json";
         public const string defaultDataJsonPath = "defaultData.json";
         public const string itemCatalogJsonPath = "ItemCatalog.json";
-        public const string dungeonDataJsonPath = "dungeonData.json";
         public const string animationPathJsonPath = "AnimationPath.json";
+        public const string dungeonDataJsonPath = "DungeonData.json";
+        public const string monsterDataJsonPath = "MonsterData.json";
     }
 }
