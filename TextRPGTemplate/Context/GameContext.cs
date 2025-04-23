@@ -8,11 +8,14 @@ using TextRPGTemplate.Animation;
 namespace TextRPG.Context
 {
     [Serializable]
-    internal class GameContext
+    public class GameContext
     {
         public Character ch { get; set; }
         public Shop shop { get; set; }
         public List<DungeonData> dungeonList { get; set; } = new List<DungeonData>();
+        public List<MonsterData> currentBattleMonsters { get; set; } = new List<MonsterData>();
+        public List<MonsterData> monsterList { get; set; } = new List<MonsterData>();
+        public List<MonsterData>? clearedMonsters { get; set; }
         public DungeonData? enteredDungeon { get; set; } = null;
         public int prevHp { get; set; }
         public int curHp {  get; set; }
@@ -20,11 +23,20 @@ namespace TextRPG.Context
         public int curGold {  get; set; }
         public AnimationPlayer animationPlayer { get; set; }
         public GameContext(SaveData saveData, List<DungeonData> dungeonData, AnimationPlayer animationPlayer)
+
+        public void ResetBattleMonsters()
+        {
+            currentBattleMonsters.Clear();
+        }
+        public GameContext(SaveData saveData, List<DungeonData> dungeonData, List<MonsterData> monsters)
         {
             ch = new(saveData);
             shop = new(new List<Item>(saveData.shopItems));
             this.dungeonList = new List<DungeonData>(dungeonData);
             this.animationPlayer = animationPlayer;
+            this.monsterList = new List<MonsterData>(monsters);
+            currentBattleMonsters = new List<MonsterData>();
+
         }
     }
 }

@@ -1,0 +1,225 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using TextRPG.Context;
+using TextRPG.View;
+
+namespace TextRPG.Scene
+{
+    internal class BattleScene : AScene
+    {
+        private Random rnd = new Random();
+        private Character player;
+
+        public BattleScene(GameContext gameContext, Dictionary<string, AView> viewMap,
+                 SceneText sceneText, SceneNext sceneNext)
+    :   base(gameContext, viewMap, sceneText, sceneNext)
+        {
+
+            // 2. 플레이어 참조
+            this.player = gameContext.ch ?? throw new ArgumentNullException(nameof(gameContext.ch));
+
+            // 3. 몬스터 리스트 검증
+            if (this.gameContext.currentBattleMonsters!.Count == 0)
+            {
+                throw new InvalidOperationException(
+                    $"던전 선택 후 몬스터가 생성되지 않았습니다. " +
+                    $"DungeonSelectScene.respond()에서 몬스터를 생성해야 합니다.");
+            }
+        }
+
+        public override void DrawScene()
+        {
+            ClearScene();
+            List<string> dynamicText = new();
+            foreach (var monster in gameContext.currentBattleMonsters!)
+            {
+                dynamicText.Add($"몬스터: {monster.Name} | HP: {monster.HP}/{monster.MaxHP}");
+            }
+
+            dynamicText.Add($"플레이어: {player.name} | HP: {player.hp}/{player.MaxHp} | MP: {player.Mp}/{player.MaxMp}");
+
+            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
+            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            Render();
+        }
+        private string? CheckBattleEnd()
+        {
+            // 모든 몬스터가 죽은 경우
+            if (gameContext.currentBattleMonsters!.All(m => m.HP <= 0))
+            {
+                // 보상 계산 (죽은 몬스터만)
+                var deadMonsters = gameContext.currentBattleMonsters!.Where(m => m.HP <= 0).ToList();
+
+                gameContext.clearedMonsters = deadMonsters
+                    .Select(m => new MonsterData
+                    {
+                        Name = m.Name,
+                        ExpReward = m.ExpReward,
+                        GoldReward = m.GoldReward
+                    })
+                    .ToList();
+
+
+                // 전투 몬스터 리스트 초기화
+
+                ((LogView)viewMap[ViewID.Log]).AddLog("모든 몬스터를 처치했습니다!");
+                ((LogView)viewMap[ViewID.Log]).ClearText();
+
+                return SceneID.DungeonClear;
+            }
+
+            // 플레이어 사망 경우
+            if (player.hp <= 0)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다!");
+                ((LogView)viewMap[ViewID.Log]).ClearText();
+                return SceneID.DungeonFail;
+            }
+
+            return null; // 전투 계속
+        }
+        public override string respond(int input)
+        {
+            // 전투 종료 조건 먼저 확인
+            var battleResult = CheckBattleEnd();
+            if (battleResult != null) return battleResult;
+
+            // 플레이어 행동 처리
+            switch (input)
+            {
+                case 1: PerformPhysicalAttack(); break;
+                case 2: PerformMagicAttack(); break;
+                case 3: if (TryEscape()) return SceneID.DungeonSelect; break;
+                case 4: UsePotion(); break;
+            }
+
+            // 플레이어 행동 후 전투 종료 확인
+            battleResult = CheckBattleEnd();
+            if (battleResult != null) return battleResult;
+
+            // 몬스터 턴 처리
+            foreach (var monster in gameContext.currentBattleMonsters!.Where(m => m.HP > 0).ToList())
+            {
+                MonsterAttack(monster);
+
+                // 몬스터 공격 후 전투 종료 확인
+                battleResult = CheckBattleEnd();
+                if (battleResult != null) return battleResult;
+            }
+
+            return SceneID.BattleScene;
+        }
+
+        
+
+        private void PerformPhysicalAttack()
+        {
+            var target = ChooseTarget();
+            if (target == null) return;
+
+            int damage = (int)(player.getTotalAttack() - target.Power);
+            if (damage < 0) damage = 0;
+
+            target.HP = Math.Max(0, target.HP - damage);
+            ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}가 {target.Name}에게 물리 공격! {damage} 데미지!");
+
+            if (target.HP <= 0)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
+            }
+        }
+
+        private void PerformMagicAttack()
+        {
+            var target = ChooseTarget();
+            if (target == null) return;
+
+            int damage = (int)(player.getTotalAttack() * 1.5 - target.Power); // 마법은 물리 공격보다 강하게 설정
+            if (damage < 0) damage = 0;
+
+            target.HP = Math.Max(0, target.HP - damage);
+            ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}가 {target.Name}에게 마법 공격! {damage} 데미지!");
+
+            if (target.HP <= 0)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
+            }
+        }
+
+        private bool TryEscape()
+        {
+            int escapeChance = rnd.Next(100);
+            if (escapeChance < 50)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog("도망 실패!");
+                return false;
+            }
+            else
+            {
+                // 도망 성공 시 몬스터 리스트 초기화
+                ((LogView)viewMap[ViewID.Log]).AddLog("도망 성공!");
+                return true;
+            }
+        }
+
+        private void UsePotion()
+        {
+            
+        }
+
+        private void MonsterAttack(MonsterData monster)
+        {
+            if (monster.HP <= 0) return;
+
+            int damage = (int)(monster.Power - player.getTotalGuard());
+            if (damage < 0) damage = 0;
+
+            player.hp -= damage;
+
+            if (player.hp < 0) player.hp = 0;
+
+            ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}가 {player.name}에게 공격! {damage} 데미지!");
+
+            if (player.hp <= 0)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다. 게임 오버!");
+            }
+        }
+
+        private MonsterData? ChooseTarget()
+        {
+            var aliveMonsters = gameContext.currentBattleMonsters!
+                .Where(m => m.HP > 0)
+                .ToList();
+
+            if (aliveMonsters.Count == 0)
+            {
+                Console.WriteLine("공격할 수 있는 몬스터가 없습니다.");
+                return null;
+            }
+
+            Console.WriteLine("\n어떤 몬스터를 공격하시겠습니까?");
+            for (int i = 0; i < aliveMonsters.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {aliveMonsters[i].Name} (HP: {aliveMonsters[i].HP}/{aliveMonsters[i].MaxHP})");
+            }
+
+            int choice;
+            while (true)
+            {
+                if (int.TryParse(Console.ReadLine(), out choice) && choice > 0 && choice <= aliveMonsters.Count)
+                {
+                    Console.Clear(); // 추가: 화면 정리
+                    return aliveMonsters[choice - 1];
+                }
+
+                Console.WriteLine("잘못된 선택입니다. 다시 입력하세요.");
+                Console.ReadLine(); // 잘못된 입력 소비
+            }
+        }
+
+
+
+    }
+}

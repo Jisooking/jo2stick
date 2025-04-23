@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using TextRPG.Context;
 using TextRPG.View;
 using TextRPGTemplate.Animation;
-
 namespace TextRPG.Scene
 {
     internal class MainScene : AScene

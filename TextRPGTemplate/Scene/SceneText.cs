@@ -12,5 +12,6 @@ namespace TextRPG.Scene
         public string key { get; set; } = "";
         public string[]? scriptText { get; set; }
         public string[]? choiceText { get; set; }
+        public string[]? spriteText { get; set; }
     }
 }
