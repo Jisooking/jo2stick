@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TextRPG;
 using TextRPG.Context;
 
 namespace TextRPGTemplate.Managers
@@ -31,8 +33,23 @@ namespace TextRPGTemplate.Managers
         public int CurrentExp;
         public int MaxExp;
         public int Gold;
+        public int Critical;
         public int BaseExpIncrement;
         public int statLimit = 200;
+
+        public void SaveToDefaultJson()
+        {
+            SaveData saveData = ToSaveData();
+
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+
+            string json = JsonSerializer.Serialize(saveData, options);
+
+            File.WriteAllText(JsonPath.defaultDataJsonPath, json);
+        }
 
         public void ShuffleStats()
         {
@@ -101,33 +118,50 @@ namespace TextRPGTemplate.Managers
 
         public SaveData ToSaveData()
         {
-            SaveData saveData = new SaveData
-            {
-                Level = Level,
-                name = name,
-                job = job,
-                Str = Str,
-                Dex = Dex,
-                Int = Int,
-                Luk = Luk,
-                attack = attack,
-                guard = guard,
-                hp = Hp,
-                MaxHp = MaxHp,
-                Mp = Mp,
-                MaxMp = MaxMp,
-                Exp = Exp,
-                Point = 0,
-                CurrentExp = 0,
-                MaxExp = 100,
-                gold = Gold,
-                critical = 10, // 예시로 크리티컬 확률 설정
-                clearCount = 0,
-                items = new Item[0],
-                shopItems = new Item[0]
-            };
 
-            return saveData;
+            string defaultJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
+            SaveData defaultData = JsonSerializer.Deserialize<SaveData>(defaultJson)!;
+
+            return new SaveData
+            {
+                // 기본 정보
+                name = this.name,
+                job = this.job,
+
+                // 스탯 정보
+                Level = this.Level,
+                Str = this.Str,
+                Int = this.Int,
+                Dex = this.Dex,
+                Luk = this.Luk,
+                attack = this.attack,
+                guard = this.guard,
+                hp = this.Hp,
+                MaxHp = this.MaxHp,
+                Mp = this.Mp,
+                MaxMp = this.MaxMp,
+                Exp = this.Exp,
+                Point = this.Point,
+                CurrentExp = this.CurrentExp,
+                MaxExp = this.MaxExp,
+                gold = this.Gold,
+                critical = this.Critical,
+                clearCount = 0, // 새 캐릭터는 0으로 초기화
+
+                // 아이템 정보는 기존 defaultData 유지
+                items = defaultData.items,
+                shopItems = defaultData.shopItems
+            };
+        }
+
+        public void SaveAsDefault()
+        {
+            SaveData newDefault = this.ToSaveData();
+            string json = JsonSerializer.Serialize(newDefault, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+            File.WriteAllText(JsonPath.defaultDataJsonPath, json);
         }
         public void FirstStats()
         {
@@ -156,6 +190,7 @@ namespace TextRPGTemplate.Managers
             {
                 RandomStats();
                 Calculate();
+                SaveToDefaultJson();
 
                 if (showWindow)
                 {

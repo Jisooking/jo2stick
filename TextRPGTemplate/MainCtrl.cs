@@ -63,18 +63,13 @@ namespace TextRPG
                 Console.Write("사용할 이름을 입력하세요 : ");
                 name = Console.ReadLine();
                 Console.Clear();
-                saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
-                saveData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
                 var statCreater = new FirstStatsCreater(autoGenerate: true);
                 statCreater.GenerateStats();
-                Console.Clear();
+
+                statCreater.name = name;
+                statCreater.SaveAsDefault();
                 saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
-                SaveData defaultData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
-
-                saveData = statCreater.ToSaveData();
-
-                saveData.shopItems = defaultData.shopItems;
-                saveData.name = name;
+                saveData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
             }
 
             //정적 데이터 불러오기
