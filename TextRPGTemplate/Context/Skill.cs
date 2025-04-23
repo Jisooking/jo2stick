@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace TextRPGTemplate.Context
 {
     [Serializable]
-    internal class Skill
+    public class Skill
     {
         public string key { get; set; }
         public string? skillName { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPGTemplate.Context;
 
 namespace TextRPG.Context
 {
@@ -33,8 +34,8 @@ namespace TextRPG.Context
         public float defaultAttack { get; set; } // 현재 레벨 기본 공격력
         public float defaultGuard { get; set; } // 현재 레벨 기본 방어력
         public int clearCount { get; set; }
-        public Inventory inventory
-        { get; set; }
+        public Inventory inventory { get; set; }
+        public List<Skill>? learnSkillList { get; set; }
 
         public Character(SaveData saveData)
         {
@@ -65,6 +66,14 @@ namespace TextRPG.Context
             this.clearCount = saveData.clearCount;
             this.inventory = new Inventory(new List<Item>(saveData.items));
             this.critical = saveData.critical;
+            try
+            {
+                learnSkillList = new List<Skill>(saveData.learnSkill);
+            }
+            catch
+            {
+                learnSkillList = new List<Skill>();
+            }
         }
 
         public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, float critical)
@@ -138,6 +147,25 @@ namespace TextRPG.Context
         public float getTotalGuard()
         {
             return getNoArmorGuard() + getPlusGuard();
+        }
+
+        public int getStat(StatType stat)
+        {
+            switch (stat)
+            {
+                case StatType.None:
+                    return 1;
+                case StatType.Str:
+                    return Str;
+                case StatType.Dex:
+                    return Dex;
+                case StatType.Int:
+                    return Int;
+                case StatType.Luk:
+                    return Luk;
+            }
+
+            return 0;
         }
     }
 }

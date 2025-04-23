@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TextRPG.Context;
 using TextRPG.View;
+using TextRPGTemplate.Context;
 
 namespace TextRPG.Scene
 {
@@ -90,8 +91,9 @@ namespace TextRPG.Scene
             {
                 case 1: PerformPhysicalAttack(); break;
                 case 2: PerformMagicAttack(); break;
-                case 3: if (TryEscape()) return SceneID.DungeonSelect; break;
-                case 4: UsePotion(); break;
+                case 3: UseSkill(); break;
+                case 4: if (TryEscape()) return SceneID.DungeonSelect; break;
+                case 5: UsePotion(); break;
             }
 
             // 플레이어 행동 후 전투 종료 확인
@@ -219,7 +221,51 @@ namespace TextRPG.Scene
             }
         }
 
+        public void UseSkill()
+        {
+            Skill selectSkil = SelectSkill();
 
+            if(selectSkil.targetType == TargetType.Enemy)
+            {
+                MonsterData target = ChooseTarget();
 
+                if (target == null) return;
+
+                int skillDamage = (int)(selectSkil.effectAmount + (gameContext.ch.getStat(selectSkil.statType) * selectSkil.skillFactor));
+
+                int damage = (skillDamage - target.Power);
+                if (damage < 0) damage = 0;
+
+                target.HP = Math.Max(0, target.HP - damage);
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}가 {target.Name}에게 {selectSkil.skillName}! {damage} 데미지!");
+
+                if (target.HP <= 0)
+                {
+                    ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
+                }
+            }
+        }
+
+        public Skill SelectSkill()
+        {
+            Console.WriteLine("사용할 스킬을 선택해 주세요");
+            for (int i = 0; i < gameContext.ch.learnSkillList.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {gameContext.ch.learnSkillList[0]}");
+            }
+
+            int select;
+            while (true)
+            {
+                if (int.TryParse(Console.ReadLine(), out select) && select > 0 && select <= gameContext.ch.learnSkillList.Count)
+                {
+                    Console.Clear(); // 추가: 화면 정리
+                    return gameContext.ch.learnSkillList[select - 1];
+                }
+
+                Console.WriteLine("잘못된 선택입니다. 다시 입력하세요.");
+                Console.ReadLine();
+            }
+        }
     }
 }

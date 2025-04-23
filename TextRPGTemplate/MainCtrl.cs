@@ -6,7 +6,8 @@ using TextRPG.Scene;
 using static System.Formats.Asn1.AsnWriter;
 using TextRPG.Context;
 using TextRPGTemplate.Animation;
-using TextRPGTemplate.Manager;
+using TextRPGTemplate.Managers;
+using TextRPGTemplate.Scene;
 
 namespace TextRPG
 {
@@ -284,6 +285,7 @@ namespace TextRPG
             RegisterScene<DungeonFailScene>(sceneFactoryMap, SceneID.DungeonFail);
             RegisterScene<BattleScene>(sceneFactoryMap, SceneID.BattleScene);
             RegisterScene<StatUpScene>(sceneFactoryMap, SceneID.StatUp);
+            RegisterScene<SkillScene>(sceneFactoryMap, SceneID.Skill);
         }
     }
 }

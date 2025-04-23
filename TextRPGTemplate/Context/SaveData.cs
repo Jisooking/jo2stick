@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPGTemplate.Context;
 namespace TextRPG.Context
 {
     [Serializable]
@@ -34,6 +35,8 @@ namespace TextRPG.Context
 
         public Item[] items { get; set; } = Array.Empty<Item>();
         public Item[] shopItems { get; set; } = Array.Empty<Item>();
+        public List<Skill> learnSkill { get; set; }
+        public Skill[] skillList { get; set; }
 
         public SaveData() { }
 
@@ -67,6 +70,9 @@ namespace TextRPG.Context
 
             items = ch.inventory.items!.ToArray();
             shopItems = gameContext.shop.items!.ToArray();
+
+            skillList = gameContext.skillList.ToArray();
+            learnSkill = gameContext.ch.learnSkillList.ToList();
         }
     }
 }
