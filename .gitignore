@@ -400,4 +400,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 !bin/
-!bin/**/*.json
+!bin/Debug/**/*.json
