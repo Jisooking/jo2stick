@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using TextRPG.Context;
 using TextRPG.View;
 
-// 새 Scene을 만들때 복붙
 namespace TextRPG.Scene
 {
     public class StatUpScene : AScene
@@ -22,8 +21,11 @@ namespace TextRPG.Scene
 
             List<string> dynamicText = new();
             dynamicText.Add("어떤 스텟을 올릴까요?");
-            dynamicText.Add($"1. 공격력 : {gameContext.ch.defaultAttack}");
-            dynamicText.Add($"2. 방어력 : {gameContext.ch.defaultGuard}");
+            dynamicText.Add($"레벨업 포인트 : {gameContext.ch.Point}");
+            dynamicText.Add($"1. Str : {gameContext.ch.Str}");
+            dynamicText.Add($"2. Dex : {gameContext.ch.Dex}");
+            dynamicText.Add($"3. Int : {gameContext.ch.Int}");
+            dynamicText.Add($"4. Luk : {gameContext.ch.Luk}");
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
 
@@ -32,12 +34,34 @@ namespace TextRPG.Scene
 
         public override string respond(int i)
         {
-            switch (i)
+            if (gameContext.ch.Point > 0)
             {
-                case 1: gameContext.ch.defaultAttack++; break;
-                case 2: gameContext.ch.defaultGuard++; break;
+                switch (i)
+                {
+                    case 1: gameContext.ch.Str++; break;
+                    case 2: gameContext.ch.Dex++; break;
+                    case 3: gameContext.ch.Int++; break;
+                    case 4: gameContext.ch.Luk++; break;
+                }
+                gameContext.ch.Point--;  // 포인트 차감
             }
-            convertSceneAnimationPlay(sceneNext.next![i]);
+            else
+            {
+                // 포인트 부족 메시지 출력
+                ((DynamicView)viewMap[ViewID.Dynamic]).SetText(new string[]
+                {
+            "스탯 포인트가 부족합니다!",
+            "",
+            $"Str : {gameContext.ch.Str}",
+            $"Dex : {gameContext.ch.Dex}",
+            $"Int : {gameContext.ch.Int}",
+            $"Luk : {gameContext.ch.Luk}",
+                });
+
+                Render();
+                Thread.Sleep(1500); // 잠깐 보여주고 다시 DrawScene 호출
+            }
+
             return sceneNext.next![i];
         }
     }

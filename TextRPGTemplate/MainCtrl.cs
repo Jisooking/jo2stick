@@ -7,6 +7,9 @@ using static System.Formats.Asn1.AsnWriter;
 using TextRPG.Context;
 using TextRPGTemplate.Animation;
 using TextRPGTemplate.Managers;
+using TextRPGTemplate.Scene;
+
+//
 
 namespace TextRPG
 {
@@ -14,7 +17,6 @@ namespace TextRPG
     {
         static void Main(string[] args)
         {
-
             Console.SetWindowSize(183, 56);
             Console.SetBufferSize(183, 56);
             int width = Console.WindowWidth;
@@ -63,19 +65,23 @@ namespace TextRPG
                 Console.Clear();
                 Console.Write("사용할 이름을 입력하세요 : ");
                 name = Console.ReadLine();
-                Console.Clear();
-                saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
-                saveData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
-                var statCreater = new FirstStatsCreater(autoGenerate: true);
+                var statCreater = new FirstStatsCreater(name, autoGenerate: false); // 자동 생성 X
                 statCreater.GenerateStats();
                 Console.Clear();
                 saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
-                SaveData defaultData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
 
-                //saveData = statCreater.ToSaveData();
+                saveData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
 
-                saveData.shopItems = defaultData.shopItems;
                 saveData.name = name;
+                saveData.Str = statCreater.Str;
+                saveData.Int = statCreater.Int;
+                saveData.Dex = statCreater.Dex;
+                saveData.Luk = statCreater.Luk;
+                saveData.hp = statCreater.hp;
+                saveData.MaxHp = statCreater.MaxHp;
+                saveData.Mp = statCreater.Mp;
+                saveData.MaxMp = statCreater.MaxMp;
+                saveData.gold = statCreater.Gold;
             }
 
             //정적 데이터 불러오기
@@ -108,7 +114,7 @@ namespace TextRPG
             var monsterDataJson = File.ReadAllText(JsonPath.monsterDataJsonPath);
             var monsterList = JsonSerializer.Deserialize<List<MonsterData>>(monsterDataJson);
 
-            
+
             GameContext gameContext = new(saveData!, dungeonData!, monsterList!, animationPlayer!, animationMap);
 
 
@@ -296,10 +302,15 @@ namespace TextRPG
             RegisterScene<DungeonClearScene>(sceneFactoryMap, SceneID.DungeonClear);
             RegisterScene<DungeonFailScene>(sceneFactoryMap, SceneID.DungeonFail);
             RegisterScene<BattleScene>(sceneFactoryMap, SceneID.BattleScene);
+            RegisterScene<BattleScene_SkillSelect>(sceneFactoryMap, SceneID.BattleScene_Skill);
             RegisterScene<StatUpScene>(sceneFactoryMap, SceneID.StatUp);
             RegisterScene<QuestScene>(sceneFactoryMap, SceneID.QuestScene);
             RegisterScene<NPCScene>(sceneFactoryMap, SceneID.NPCScene);
             RegisterScene<QuestClearScene>(sceneFactoryMap,SceneID.QuestClearScene);
+            RegisterScene<GetJobScene>(sceneFactoryMap, SceneID.GetJob);
+            RegisterScene<SkillManagerScene>(sceneFactoryMap, SceneID.SkillManager);
+            RegisterScene<SkillLearnScene>(sceneFactoryMap, SceneID.SkillLearn);
+            RegisterScene<SkillEquipScene>(sceneFactoryMap, SceneID.SkillEquip);
         }
     }
 }

@@ -20,7 +20,13 @@ namespace TextRPG.Context
 
         public bool armor {  get; set; }
         public bool weapon {  get; set; }
-        public Item(string key, bool equiped, string? name, string? description, int price, int attack, int guard, bool bought, bool armor, bool weapon)
+
+        public int quantity { get; set; }
+        public bool isPotion { get; set; } // 포션 여부
+        public int healAmount { get; set; } // 회복량
+        public int manaAmount { get; set; }
+
+        public Item(string key, bool equiped, int quantity, string? name, string? description, int price, int attack, int guard, bool bought, bool armor, bool weapon)
         {
             this.key = key;
             this.equiped = equiped;
@@ -32,6 +38,10 @@ namespace TextRPG.Context
             this.bought = bought;
             this.armor = armor;
             this.weapon = weapon;
+            this.quantity = quantity;
+            this.isPotion = isPotion;
+            this.healAmount = healAmount;
+            this.manaAmount = manaAmount;
         }
     }
 }
