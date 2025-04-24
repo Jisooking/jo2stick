@@ -225,50 +225,5 @@ namespace TextRPG.Scene
             ((LogView)viewMap[ViewID.Log]).Update();
             ((LogView)viewMap[ViewID.Log]).Render();
         }
-
-        public void UseSkill()
-        {
-            Skill selectSkil = SelectSkill();
-
-            if(selectSkil.targetType == TargetType.Enemy)
-            {
-                MonsterData target = ChooseTarget();
-
-                if (target == null) return;
-
-                int skillDamage = (int)((player.getTotalAttack() + selectSkil.effectAmount) + (gameContext.ch.getStat(selectSkil.statType) * selectSkil.skillFactor));
-
-                int damage = (skillDamage - target.Power);
-                if (damage < 0) damage = 0;
-
-                target.HP = Math.Max(0, target.HP - damage);
-                ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}가 {target.Name}에게 {selectSkil.skillName}! {damage} 데미지!");
-
-                if (target.HP <= 0)
-                {
-                    ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
-                }
-            }
-        }
-
-        public Skill SelectSkill()
-        {
-            ((LogView)viewMap[ViewID.Log]).AddLog("사용할 스킬을 선택해 주세요.");
-            for (int i = 0; i < gameContext.ch.learnSkillList.Count; i++)
-            {
-                ((LogView)viewMap[ViewID.Log]).AddLog($"{i + 1}. {gameContext.ch.learnSkillList[i].skillName}");
-            }
-
-            int select;
-            while (true)
-            {
-                if (int.TryParse(Console.ReadLine(), out select) && select > 0 && select <= gameContext.ch.learnSkillList.Count)
-                {
-                    return gameContext.ch.learnSkillList[select - 1];
-                }
-                ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 선택입니다. 다시 입력하세요.");
-                Console.ReadLine();
-            }
-        }
     }
 }
