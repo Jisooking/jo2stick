@@ -1,26 +1,38 @@
 {
-  "name": "asmkdnjr",
-  "job": "Warrior",
-  "Level": 1,
-  "Str": 66,
-  "Dex": 1,
-  "Int": 29,
-  "Luk": 95,
-  "attack": 99,
-  "guard": 1.2,
-  "hp": 182,
-  "MaxHp": 182,
-  "Mp": 79,
-  "MaxMp": 79,
-  "Exp": 0,
-  "Point": 0,
-  "CurrentExp": 0,
-  "MaxExp": 100,
-  "gold": 20000,
-  "critical": 0,
-  "clearCount": 0,
   "items": [],
   "shopItems": [
+    {
+      "key": "bighealPotion",
+      "equiped": false,
+      "name": "\uB300\uD615 \uCCB4\uB825 \uD3EC\uC158",
+      "description": "\uCCB4\uB825\uC744 50 \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4",
+      "price": 50,
+      "attack": 0,
+      "guard": 0,
+      "bought": false,
+      "armor": false,
+      "weapon": false,
+      "quantity": 0,
+      "isPotion": true,
+      "healAmount": 50,
+      "manaAmount": 0
+    },
+    {
+      "key": "healPotion",
+      "equiped": false,
+      "name": "\uCCB4\uB825 \uD3EC\uC158",
+      "description": "\uCCB4\uB825\uC744 20 \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4",
+      "price": 20,
+      "attack": 0,
+      "guard": 0,
+      "bought": false,
+      "armor": false,
+      "weapon": false,
+      "quantity": 0,
+      "isPotion": true,
+      "healAmount": 20,
+      "manaAmount": 0
+    },
     {
       "key": "noviceArmor",
       "equiped": false,
@@ -31,7 +43,11 @@
       "guard": 5,
       "bought": false,
       "armor": true,
-      "weapon": false
+      "weapon": false,
+      "quantity": 0,
+      "isPotion": false,
+      "healAmount": 0,
+      "manaAmount": 0
     },
     {
       "key": "steelarmor",
@@ -43,7 +59,11 @@
       "guard": 9,
       "bought": false,
       "armor": true,
-      "weapon": false
+      "weapon": false,
+      "quantity": 0,
+      "isPotion": false,
+      "healAmount": 0,
+      "manaAmount": 0
     },
     {
       "key": "spartaArmor",
@@ -55,7 +75,11 @@
       "guard": 15,
       "bought": false,
       "armor": true,
-      "weapon": false
+      "weapon": false,
+      "quantity": 0,
+      "isPotion": false,
+      "healAmount": 0,
+      "manaAmount": 0
     },
     {
       "key": "oldSword",
@@ -67,7 +91,11 @@
       "guard": 0,
       "bought": false,
       "armor": false,
-      "weapon": true
+      "weapon": true,
+      "quantity": 0,
+      "isPotion": false,
+      "healAmount": 0,
+      "manaAmount": 0
     },
     {
       "key": "bronzeAxe",
@@ -79,7 +107,11 @@
       "guard": 0,
       "bought": false,
       "armor": false,
-      "weapon": true
+      "weapon": true,
+      "quantity": 0,
+      "isPotion": false,
+      "healAmount": 0,
+      "manaAmount": 0
     },
     {
       "key": "spartaLance",
@@ -91,7 +123,11 @@
       "guard": 0,
       "bought": false,
       "armor": false,
-      "weapon": true
+      "weapon": true,
+      "quantity": 0,
+      "isPotion": false,
+      "healAmount": 0,
+      "manaAmount": 0
     },
     {
       "key": "customItem",
@@ -103,7 +139,34 @@
       "guard": 0,
       "bought": false,
       "armor": false,
-      "weapon": true
+      "weapon": true,
+      "quantity": 0,
+      "isPotion": false,
+      "healAmount": 0,
+      "manaAmount": 0
     }
-  ]
+  ],
+  "name": "aklsmdjknr",
+  "job": "\uCD08\uBCF4\uC790",
+  "Level": 1,
+  "gold": 20000,
+  "clearCount": 0,
+  "Stats": null,
+  "attack": 82.5,
+  "guard": 82.8,
+  "hp": 160,
+  "Str": 55,
+  "Int": 35,
+  "Dex": 69,
+  "Luk": 4,
+  "MaxHp": 160,
+  "Mp": 85,
+  "MaxMp": 85,
+  "Exp": 0,
+  "CurrentExp": 0,
+  "MaxExp": 100,
+  "Point": 0,
+  "critical": 0,
+  "defaultAttack": 0,
+  "defaultGuard": 0
 }
