@@ -61,10 +61,9 @@ namespace TextRPG.Context
             this.learnSkillList = new List<Skill>(learnSkillList);
         }
 
-
-        public List<string> LevelUp()
+        public List<string> Levelup()
         {
-            List<string> ret = new();
+            List<string> ret = new() ;
             while (CurrentExp >= MaxExp)
             {
                 CurrentExp -= MaxExp;
