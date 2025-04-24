@@ -18,7 +18,6 @@ namespace TextRPG.Scene
         {
             ClearScene();
             List<string> dynamicText = new();
-
             for (int i = 0; i < gameContext.dungeonList.Count; i++)
             {
                 var dungeon = gameContext.dungeonList[i];
@@ -45,7 +44,11 @@ namespace TextRPG.Scene
                 ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 번호입니다.");
                 return SceneID.DungeonSelect;
             }
-
+            if (gameContext.ch.hp <= 0)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog("HP가 0입니다. 휴식 후 다시 도전하세요!");
+                return SceneID.DungeonSelect;
+            }
             var selectedDungeon = gameContext.dungeonList[i - 1]; 
             gameContext.currentBattleMonsters = new List<MonsterData>();
             gameContext.currentBattleMonsters = GenerateMonstersForDungeon(selectedDungeon);
