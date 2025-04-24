@@ -100,7 +100,7 @@
             "Rest",
             "StatUp",
             "None",
-            "NPCScene",
+            "None",
             "None"
         ]
     },
@@ -183,51 +183,6 @@
         "key": "Buy",
         "next": [
             "Shop",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
-        ]
-    },
-    {
-        "key": "NPCScene",
-        "next": [
-            "Main",
-            "QuestScene",
-            "QuestScene",
-            "QuestScene",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
-        ]
-    },
-    {
-        "key": "QuestScene",
-        "next": [
-            "NPCScene",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
-        ]
-    },
-    {
-        "key": "QuestClearScene",
-        "next": [
-            "NPCScene",
             "None",
             "None",
             "None",

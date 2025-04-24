@@ -7,7 +7,6 @@ using static System.Formats.Asn1.AsnWriter;
 using TextRPG.Context;
 using TextRPGTemplate.Animation;
 using TextRPGTemplate.Managers;
-using TextRPGTemplate.Scene;
 
 namespace TextRPG
 {
@@ -15,7 +14,6 @@ namespace TextRPG
     {
         static void Main(string[] args)
         {
-            // 화면 크기 조정
             Console.SetWindowSize(183, 56);
             Console.SetBufferSize(183, 56);
             int width = Console.WindowWidth;
@@ -73,7 +71,7 @@ namespace TextRPG
                 saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
                 SaveData defaultData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
 
-                //saveData = statCreater.ToSaveData();
+                saveData = statCreater.ToSaveData();
 
                 saveData.shopItems = defaultData.shopItems;
                 saveData.name = name;
@@ -109,22 +107,22 @@ namespace TextRPG
             var monsterDataJson = File.ReadAllText(JsonPath.monsterDataJsonPath);
             var monsterList = JsonSerializer.Deserialize<List<MonsterData>>(monsterDataJson);
 
-            GameContext gameContext = new(saveData!, dungeonData!, monsterList!, animationPlayer!, animationMap);
+            GameContext gameContext = new(saveData!, dungeonData!, monsterList!,animationPlayer!, animationMap);
 
 
-            AScene startScene = sceneFactoryMap[SceneID.Main](gameContext,
-                viewMap,
+            AScene startScene = sceneFactoryMap[SceneID.Main](gameContext, 
+                viewMap, 
                 sceneTextMap,
-                sceneMap,
+                sceneMap, 
                 sceneNextMap);
 
             Console.Clear();
             //실행
             run(gameContext,
-                startScene,
-                viewMap,
+                startScene, 
+                viewMap, 
                 sceneTextMap,
-                sceneMap,
+                sceneMap, 
                 sceneFactoryMap,
                 sceneNextMap);
         }
@@ -141,7 +139,7 @@ namespace TextRPG
         static void initanimationMap(Dictionary<string, string?> animationPathMap, Dictionary<string, Animation?> animationMap)
         {
             string animationJson;
-            foreach (var pair in animationPathMap)
+            foreach(var pair in animationPathMap)
             {
                 if (animationPathMap[pair.Key] == null)
                 {
@@ -172,7 +170,7 @@ namespace TextRPG
             while (true)
             {
                 str = Console.ReadLine();
-                if (str?.Length <= 0)
+                if(str?.Length <= 0)
                 {
                     curScene.DrawScene();
                 }
@@ -205,10 +203,10 @@ namespace TextRPG
                     }
                     else
                     {
-                        curScene = sceneFactoryMap[response](gameContext,
+                        curScene = sceneFactoryMap[response](gameContext, 
                             viewMap,
                             sceneTextMap,
-                            sceneMap,
+                            sceneMap, 
                             sceneNextMap);
                         curScene.DrawScene();
                     }
@@ -296,12 +294,7 @@ namespace TextRPG
             RegisterScene<DungeonClearScene>(sceneFactoryMap, SceneID.DungeonClear);
             RegisterScene<DungeonFailScene>(sceneFactoryMap, SceneID.DungeonFail);
             RegisterScene<BattleScene>(sceneFactoryMap, SceneID.BattleScene);
-            RegisterScene<BattleScene_SkillSelect>(sceneFactoryMap, SceneID.BattleScene_Skill);
             RegisterScene<StatUpScene>(sceneFactoryMap, SceneID.StatUp);
-            RegisterScene<GetJobScene>(sceneFactoryMap, SceneID.GetJob);
-            RegisterScene<SkillManagerScene>(sceneFactoryMap, SceneID.SkillManager);
-            RegisterScene<SkillLearnScene>(sceneFactoryMap, SceneID.SkillLearn);
-            RegisterScene<SkillEquipScene>(sceneFactoryMap, SceneID.SkillEquip);
         }
     }
 }

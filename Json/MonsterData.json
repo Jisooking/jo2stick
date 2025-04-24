@@ -7,8 +7,7 @@
         "GoldReward": 200,
         "HP": 100,
         "MaxHP": 100,
-        "Power": 6,
-        "Dropitem": ""
+        "Power": 6
     },
     {
         "Name": "고블린",
@@ -18,8 +17,7 @@
         "GoldReward": 400,
         "HP": 200,
         "MaxHP": 200,
-        "Power": 12,
-        "Dropitem": "고블린의 이빨"
+        "Power": 12
     },
     {
         "Name": "늑대",
@@ -29,8 +27,7 @@
         "GoldReward": 400,
         "HP": 200,
         "MaxHP": 200,
-        "Power": 12,
-        "Dropitem": ""
+        "Power": 12
     },
     {
         "Name": "좀비",
@@ -40,8 +37,7 @@
         "GoldReward": 600,
         "HP": 300,
         "MaxHP": 300,
-        "Power": 18,
-        "Dropitem": ""
+        "Power": 18
     },
     {
         "Name": "오크",
@@ -51,30 +47,27 @@
         "GoldReward": 400,
         "HP": 200,
         "MaxHP": 200,
-        "Power": 12,
-        "Dropitem": "오크의 가죽"
+        "Power": 12
     },
     {
         "Name": "스켈레톤",
         "Level": 8,
-        "Type": [ "스켈레톤", "망자의 묘지" ],
+        "Type": [ "스켈레톤" , "망자의 묘지"],
         "ExpReward": 80,
         "GoldReward": 800,
         "HP": 400,
         "MaxHP": 400,
-        "Power": 24,
-        "Dropitem": ""
+        "Power": 24
     },
     {
         "Name": "미믹",
         "Level": 10,
-        "Type": [ "미믹", "악마의 던전" ],
+        "Type": [ "미믹" , "악마의 던전"],
         "ExpReward": 100,
         "GoldReward": 1000,
         "HP": 500,
         "MaxHP": 500,
-        "Power": 30,
-        "Dropitem": ""
+        "Power": 30
     },
     {
         "Name": "데빌",
@@ -84,8 +77,7 @@
         "GoldReward": 1500,
         "HP": 750,
         "MaxHP": 750,
-        "Power": 45,
-        "Dropitem": ""
+        "Power": 45
     },
     {
         "Name": "서큐버스",
@@ -95,8 +87,7 @@
         "GoldReward": 2500,
         "HP": 750,
         "MaxHP": 750,
-        "Power": 45,
-        "Dropitem": ""
+        "Power": 45
     },
     {
         "Name": "도플갱어",
@@ -106,8 +97,7 @@
         "GoldReward": 4000,
         "HP": 2000,
         "MaxHP": 2000,
-        "Power": 120,
-        "Dropitem": ""
+        "Power": 120
     },
     {
         "Name": "골렘",
@@ -117,8 +107,7 @@
         "GoldReward": 2000,
         "HP": 1000,
         "MaxHP": 1000,
-        "Power": 60,
-        "Dropitem": "골렘의 눈"
+        "Power": 60
     },
     {
         "Name": "키메라",
@@ -128,8 +117,7 @@
         "GoldReward": 3000,
         "HP": 1500,
         "MaxHP": 1500,
-        "Power": 90,
-        "Dropitem": ""
+        "Power": 90
     },
     {
         "Name": "드레이크",
@@ -139,8 +127,7 @@
         "GoldReward": 3000,
         "HP": 1500,
         "MaxHP": 1500,
-        "Power": 90,
-        "Dropitem": ""
+        "Power": 90
     },
     {
         "Name": "용",
@@ -150,8 +137,7 @@
         "GoldReward": 5000,
         "HP": 2500,
         "MaxHP": 2500,
-        "Power": 150,
-        "Dropitem": ""
+        "Power": 150
     },
     {
         "Name": "마왕",
@@ -161,7 +147,6 @@
         "GoldReward": 10000,
         "HP": 5000,
         "MaxHP": 5000,
-        "Power": 300,
-        "Dropitem": ""
+        "Power": 300
     }
 ]

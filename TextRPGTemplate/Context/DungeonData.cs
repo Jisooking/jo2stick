@@ -12,6 +12,7 @@ namespace TextRPG.Context
         public int Id { get; set; }  // JSON과 정확히 일치하도록 수정
         public string Name { get; set; } = "";
         public float RecommendedDefense { get; set; }  // 철자 수정
+
         public List<string> MonsterTypes { get; set; } = new();
         public int reward { get; set; }
         public int MonsterCountMin { get; set; }

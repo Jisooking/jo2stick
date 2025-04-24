@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TextRPGTemplate.Animation;
-using TextRPGTemplate.Context;
 
 namespace TextRPG.Context
 {
@@ -12,7 +11,6 @@ namespace TextRPG.Context
     public class GameContext
     {
         public Character ch { get; set; }
-        public List<AfterJobStat>? afterJobStat { get; set; }
         public Shop shop { get; set; }
         public List<DungeonData> dungeonList { get; set; } = new List<DungeonData>();
         public List<MonsterData> currentBattleMonsters { get; set; } = new List<MonsterData>();
@@ -24,7 +22,6 @@ namespace TextRPG.Context
         public int prevGold { get; set; }
         public int curGold {  get; set; }
         public AnimationPlayer animationPlayer { get; set; }
-        public Skill[] skillList { get; set; }
 
         public Dictionary<string, Animation?> animationMap = new();
         public void ResetBattleMonsters()
@@ -40,9 +37,7 @@ namespace TextRPG.Context
             this.animationMap = animationMap;
             this.monsterList = new List<MonsterData>(monsters);
             currentBattleMonsters = new List<MonsterData>();
-            skillList = saveData.skillList.ToArray();
             this.animationMap = animationMap;
-            this.afterJobStat = saveData.afterJobStat;
         }
     }
 }

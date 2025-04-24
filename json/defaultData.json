@@ -5,9 +5,9 @@
     "guard": 5,
     "hp": 100,
     "gold": 1500,
-    "clearCount": 0,
+    "clearCount" : 0,
     "items": [],
-    "critical": 15,
+    "critical" :  15,
     "shopItems": [
         {
             "key": "noviceArmor",
@@ -92,38 +92,6 @@
             "bought": false,
             "armor": false,
             "weapon": true
-        }
-    ],
-    "questData": [
-        {
-            "key": "Quest1",
-            "questitem": "고블린의 이빨",
-            "questfigure": 10,
-            "npc": "상점 주인",
-            "text": "이런, 재료가 다 떨어졌잖아. 용사님 혹시 재료를 좀 가져다 주실 수 있으세요?",
-            "acceptquest": false,
-            "clearquest": false,
-            "dropitemcount": 0
-        },
-        {
-            "key": "Quest2",
-            "questitem": "오크의 가죽",
-            "questfigure": 5,
-            "npc": "대장장이 아저씨",
-            "text": "거기 자네! 바쁘지 않으면 혹시 질긴 가죽을 좀 가져다 주지 않겠나? 만들 게 있어서 말이지...",
-            "acceptquest": false,
-            "clearquest": false,
-            "dropitemcount": 0
-        },
-        {
-            "key": "Quest3",
-            "questitem": "골렘의 눈",
-            "questfigure": 2,
-            "npc": "꽃을 파는 꼬마",
-            "text": "요즘 골렘이 자꾸 제가 좋아하는 꽃밭을 망쳐요! 물리쳐 주실 수 있으세요?",
-            "acceptquest": false,
-            "clearquest": false,
-            "dropitemcount": 0
         }
     ]
 }
