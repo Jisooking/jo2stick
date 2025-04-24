@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,60 +8,42 @@ using TextRPGTemplate.Context;
 namespace TextRPG.Context
 {
     [Serializable]
-    public class Character
+    public class Character : CharacterBase
     {
-        public int Level { get; set; }
-        public string? name { get; set; }
-        public string? job { get; set; }
-        public int Str { get; set; }
-        public int Dex { get; set; }
-        public int Int { get; set; }
-        public int Luk { get; set; }
-        public float attack { get; set; }
-        public float guard { get; set; }
-        public int hp { get; set; }
-        public int MaxHp { get; set; }
-        public int Mp { get; set; }
-        public int MaxMp { get; set; }
-        public int Exp { get; set; }
-        public int Point { get; set; }
-        public int CurrentExp { get; set; }
-        public int MaxExp => (int)(100 * Math.Pow(1.2, Level - 1));
-        public int gold { get; set; }
-
-        public float critical { get; set; }
-
-        public float defaultAttack { get; set; } // 현재 레벨 기본 공격력
-        public float defaultGuard { get; set; } // 현재 레벨 기본 방어력
-        public int clearCount { get; set; }
         public Inventory inventory { get; set; }
         public List<Skill> characterSkillList { get; set; } = new List<Skill>();
         public List<Skill>? learnSkillList { get; set; }
+
         public int useableSlot = 5;
 
-        public Character(SaveData saveData)
+        public Character(SaveData saveData) : base()
         {
-            this.Level = saveData.Level;
-            this.name = saveData.name;
-            this.job = saveData.job;
-            this.Str = saveData.Str;
-            this.Int = saveData.Int;
-            this.Dex = saveData.Dex;
-            this.Luk = saveData.Luk;
-            this.defaultAttack = saveData.attack;
-            this.defaultGuard = saveData.guard;
-            this.hp = saveData.hp;
-            this.MaxHp = saveData.MaxHp;
-            this.Mp = saveData.Mp;
-            this.MaxMp = saveData.MaxMp;
-            this.Exp = saveData.Exp;
-            this.Point = saveData.Point;
-            this.gold = saveData.gold;
-            this.CurrentExp = saveData.CurrentExp;
-            this.MaxMp = saveData.MaxMp;
-            this.clearCount = saveData.clearCount;
-            this.inventory = new Inventory(new List<Item>(saveData.items));
-            this.critical = saveData.critical;
+            // 기본 정보 설정
+            name = saveData.name;
+            job = saveData.job;
+            Level = saveData.Level;
+            gold = saveData.gold;
+            clearCount = saveData.clearCount;
+
+            Str = saveData.Str;
+            Dex = saveData.Dex;
+            Int = saveData.Int;
+            Luk = saveData.Luk;
+            // 스탯 설정
+
+            // 전투 속성 설정
+            defaultAttack = saveData.attack;
+            defaultGuard = saveData.guard;
+            hp = saveData.hp;
+            MaxHp = saveData.MaxHp;
+            Mp = saveData.Mp;
+            MaxMp = saveData.MaxMp;
+            Exp = saveData.Exp;
+            Point = saveData.Point;
+            CurrentExp = saveData.CurrentExp;
+            critical = saveData.critical;
+
+            inventory = new Inventory(new List<Item>(saveData.items));
             this.learnSkillList = new List<Skill>(saveData.learnSkillList ?? new List<Skill>());
         }
 
@@ -79,17 +61,23 @@ namespace TextRPG.Context
             this.learnSkillList = new List<Skill>(learnSkillList);
         }
 
-        public int getLevel()
+        public List<string> Levelup()
         {
+            List<string> ret = new() ;
             while (CurrentExp >= MaxExp)
             {
                 CurrentExp -= MaxExp;
                 Level++;
                 Point += 3;
 
-                Console.WriteLine($"레벨업! 현재 레벨: {Level}, 포인트: {Point}");
-                Console.WriteLine($"현재 EXP: {CurrentExp} / {MaxExp}");
+                ret.Add($"레벨업! 현재 레벨: {Level}, 포인트: {Point}");
+                ret.Add($"현재 EXP: {CurrentExp} / {MaxExp}");
             }
+            return ret;
+        }
+
+        public int getLevel()
+        {
             return Level;
         }
 
@@ -140,18 +128,18 @@ namespace TextRPG.Context
 
         public void AddJobStat(AfterJobStat afterjobstat)
         {
-            Str += (int)afterjobstat.addStr!;
-            Int += (int)afterjobstat.addInt!;
-            Dex += (int)afterjobstat.addDex!;
-            Luk += (int)afterjobstat.addLuk!;
-            attack += (int)afterjobstat.addattack!;
-            guard += (int)afterjobstat.addguard!;
-            hp += (int)afterjobstat.addHp!;
-            MaxHp += (int)afterjobstat.addHp!;
-            Mp += (int)afterjobstat.addMp!;
-            MaxMp += (int)afterjobstat.addMp!;
-            Point += (int)afterjobstat.addPoint!;
-            critical += (int)afterjobstat.addcritical!;
+            Str += (int)(afterjobstat.addStr??0);
+            Int += (int)(afterjobstat.addInt??0);
+            Dex += (int)(afterjobstat.addDex ?? 0);
+            Luk += (int)(afterjobstat.addLuk ?? 0);
+            attack += (int)(afterjobstat.addattack ?? 0);
+            guard += (int)(afterjobstat.addguard ?? 0);
+            hp += (int)(afterjobstat.addHp ?? 0);
+            MaxHp += (int)(afterjobstat.addHp ?? 0);
+            Mp += (int)(afterjobstat.addMp ?? 0);
+            MaxMp += (int)(afterjobstat.addMp ?? 0);
+            Point += (int)(afterjobstat.addPoint ?? 0);
+            critical += (int)(afterjobstat.addcritical ?? 0);
         }
 
         public int getStat(StatType stat)

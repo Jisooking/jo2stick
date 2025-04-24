@@ -9,13 +9,14 @@ using TextRPGTemplate.Animation;
 using TextRPGTemplate.Managers;
 using TextRPGTemplate.Scene;
 
+//
+
 namespace TextRPG
 {
     public class MainCtrl
     {
         static void Main(string[] args)
         {
-            // 화면 크기 조정
             Console.SetWindowSize(183, 56);
             Console.SetBufferSize(183, 56);
             int width = Console.WindowWidth;
@@ -64,19 +65,21 @@ namespace TextRPG
                 Console.Clear();
                 Console.Write("사용할 이름을 입력하세요 : ");
                 name = Console.ReadLine();
-                Console.Clear();
-                saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
-                saveData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
-                var statCreater = new FirstStatsCreater(autoGenerate: true);
+                var statCreater = new FirstStatsCreater(name, autoGenerate: false); // 자동 생성 X
                 statCreater.GenerateStats();
                 Console.Clear();
                 saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
-                SaveData defaultData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
-
-                //saveData = statCreater.ToSaveData();
-
-                saveData.shopItems = defaultData.shopItems;
+                saveData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
                 saveData.name = name;
+                saveData.Str = statCreater.Str;
+                saveData.Int = statCreater.Int;
+                saveData.Dex = statCreater.Dex;
+                saveData.Luk = statCreater.Luk;
+                saveData.hp = statCreater.hp;
+                saveData.MaxHp = statCreater.MaxHp;
+                saveData.Mp = statCreater.Mp;
+                saveData.MaxMp = statCreater.MaxMp;
+                saveData.gold = statCreater.Gold;
             }
 
             //정적 데이터 불러오기

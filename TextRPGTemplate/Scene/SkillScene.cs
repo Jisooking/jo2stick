@@ -44,6 +44,7 @@ namespace TextRPG.Scene
         //기능
         public override string respond(int i)
         {
+            convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
     }
