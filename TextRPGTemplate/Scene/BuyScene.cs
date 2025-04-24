@@ -44,9 +44,31 @@ namespace TextRPG.Scene
                     if (gameContext.ch.gold >= gameContext.shop!.items![i - 1].price)
                     {
                         gameContext.ch.gold -= gameContext.shop!.items![i - 1].price;
-                        gameContext.shop!.items![i - 1].bought = true;
-                        gameContext.ch.inventory.items!.Add(gameContext.shop!.items![i - 1]);
-                        ((LogView)viewMap[ViewID.Log]).AddLog($"{gameContext.shop!.items![i - 1].name} 을 구매했습니다!");
+
+                        // 포션인 경우 quantity 증가, 아닌 경우 bought 설정
+                        if (gameContext.shop.items[i - 1].isPotion)
+                        {
+                            var existing = gameContext.ch.inventory.items
+                                .FirstOrDefault(item => item.key == gameContext.shop.items[i - 1].key);
+
+                            if (existing != null)
+                            {
+                                existing.quantity++;
+                            }
+                            else
+                            {
+                                var newPotion = gameContext.shop.items[i - 1];
+                                newPotion.quantity = 1;
+                                gameContext.ch.inventory.items.Add(newPotion);
+                            }
+                        }
+                        else
+                        {
+                            gameContext.shop!.items![i - 1].bought = true;
+                            gameContext.ch.inventory.items.Add(gameContext.shop!.items![i - 1]);
+                        }
+
+    ((LogView)viewMap[ViewID.Log]).AddLog($"{gameContext.shop!.items![i - 1].name} 을 구매했습니다!");
                     }
                     else
                     {
