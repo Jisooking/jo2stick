@@ -1,5 +1,69 @@
 {
-  "afterJobStat": null,
+    "afterJobStat": [
+        {
+            "afterJobStat": {
+                "job": "파이터",
+                "addStr": 100,
+                "addDex": 50,
+                "addInt": 0,
+                "addLuk": 0,
+                "addattack": 30,
+                "addguard": 30,
+                "addHp": 200,
+                "addMp": 0,
+                "addPoint": 10,
+                "addcritical": 0,
+                "skillList": [],
+                "GetFighter": true
+            }
+
+        },
+        {
+            "job": "레인저",
+            "addStr": 100,
+            "addDex": 50,
+            "addInt": 0,
+            "addLuk": 0,
+            "addattack": 30,
+            "addguard": 30,
+            "addHp": 200,
+            "addMp": 0,
+            "addPoint": 10,
+            "addcritical": 0,
+            "skillList": [],
+            "GetRanger": true
+        },
+        {
+            "job": "위자드",
+            "addStr": 100,
+            "addDex": 50,
+            "addInt": 0,
+            "addLuk": 0,
+            "addattack": 30,
+            "addguard": 30,
+            "addHp": 200,
+            "addMp": 0,
+            "addPoint": 10,
+            "addcritical": 0,
+            "skillList": [],
+            "GetWizard": true
+        },
+        {
+            "job": "시프",
+            "addStr": 100,
+            "addDex": 50,
+            "addInt": 0,
+            "addLuk": 0,
+            "addattack": 30,
+            "addguard": 30,
+            "addHp": 200,
+            "addMp": 0,
+            "addPoint": 10,
+            "addcritical": 0,
+            "skillList": [],
+            "GetThief": true
+        }
+    ],
   "items": [],
   "shopItems": [
     {
