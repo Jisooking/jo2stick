@@ -25,7 +25,6 @@ namespace TextRPG.Scene
                 Item tmp = gameContext.ch.inventory.items[i];
                 if (tmp.isPotion)
                 {
-                    // 포션인 경우: 체력/마나 회복량 표시
                     continue;
                 }
                 else
@@ -45,7 +44,7 @@ namespace TextRPG.Scene
             Character ch = gameContext.ch;
             if (i > 0 && i < gameContext.ch.inventory?.items?.Count + 1)
             {
-                foreach(var item in ch.inventory.items!)
+                foreach (var item in ch.inventory.items!)
                 {
                     if (item.weapon && item.equiped)
                     {
@@ -58,7 +57,7 @@ namespace TextRPG.Scene
                 }
                 if (gameContext.ch.inventory!.items![i - 1].weapon && gameContext.ch.inventory!.items![i - 1].equiped == false && weaponEquiped)
                 {
-                    for(int j = 0; j < ch.inventory.items.Count; j++)
+                    for (int j = 0; j < ch.inventory.items.Count; j++)
                     {
                         if (ch.inventory.items[j].weapon && ch.inventory.items[j].equiped)
                         {

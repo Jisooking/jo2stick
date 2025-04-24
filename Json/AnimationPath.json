@@ -13,18 +13,18 @@
     },
     {
         "key": "Inventory",
-        "animationPath": "InventorySceneAnimation.json"
+        "animationPath": null
     },
     {
         "key": "Shop",
-        "animationPath": "ShopSceneAnimation.json"
+        "animationPath": null
     },
     {
         "key": "DungeonSelect",
-        "animationPath": "DungeonSelectSceneAnimation.json"
+        "animationPath": null
     },
     {
         "key": "Rest",
-        "animationPath": "RestSceneAnimation.json"
+        "animationPath": null
     }
 ]

@@ -29,7 +29,11 @@ namespace TextRPG.Scene
                 if (tmp.isPotion)
                 {
                     // 포션인 경우: 체력/마나 회복량 표시
-                    continue;
+                    string effectText = "";
+                    if (tmp.healAmount > 0) effectText += $"체력 +{tmp.healAmount} ";
+                    if (tmp.manaAmount > 0) effectText += $"마나 +{tmp.manaAmount}";
+
+                    dynamicText.Add($"- {tmp.name} \t | {effectText} \t | {(tmp.bought ? "구매완료" : tmp.quantity + "개")}");
                 }
                 else
                 {
