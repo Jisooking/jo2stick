@@ -45,7 +45,6 @@ namespace TextRPG.Scene
                 }
                 gameContext.ch.Point--;  // 포인트 차감
             }
-            convertSceneAnimationPlay(sceneNext.next![i]);
             else
             {
                 // 포인트 부족 메시지 출력

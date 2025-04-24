@@ -26,11 +26,6 @@ namespace TextRPG.Scene
             for (int i = 0; i < gameContext.ch.inventory.items.Count; i++)
             {
                 Item tmp = gameContext.ch.inventory.items[i];
-                dynamicText.Add($"- {i + 1} {tmp.name}  | {(tmp.attack > 0 ? "공격력" : "방어력")} + {(tmp.attack > 0 ? tmp.attack : tmp.guard)} | {tmp.price + "G"}");
-                dynamicText.Add($" {tmp.description}");
-            }
-            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
                 if (tmp.isPotion)
                 {
                     // 포션인 경우: 체력/마나 회복량 표시

@@ -12,6 +12,9 @@ namespace TextRPG.Context
     {
         public Inventory inventory { get; set; }
 
+        public List<Skill>? learnSkillList { get; set; }
+
+        public int useableSlot = 5;
 
         public Character(SaveData saveData) : base()
         {

@@ -63,7 +63,7 @@ namespace TextRPGTemplate.Managers
             Gold = 20000;
             BaseExpIncrement = 10;
             this.name = name; // 기본 이름 설정
-            this.job = "초보자";  // 기본 직업 설정
+            this.job = "";  // 기본 직업 설정
 
             if (autoGenerate)
             {

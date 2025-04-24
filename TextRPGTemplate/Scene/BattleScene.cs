@@ -89,8 +89,9 @@ namespace TextRPG.Scene
             {
                 case 1: actionPerformed = PerformPhysicalAttack(); break;
                 case 2: actionPerformed = PerformMagicAttack(); break;
-                case 3: if (TryEscape()) return SceneID.DungeonSelect; break;
-                case 4: actionPerformed = UsePotion(); break;
+                case 3: return sceneNext.next![input];
+                case 4: if (TryEscape()) return SceneID.DungeonSelect; break;
+                case 5: actionPerformed = UsePotion(); break;
                 default:
                     Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
                     Thread.Sleep(1000);

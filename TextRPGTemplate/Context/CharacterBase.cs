@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TextRPGTemplate.Context;
 
 namespace TextRPG.Context
 {
@@ -36,6 +37,7 @@ namespace TextRPG.Context
         // 기본 공격력/방어력
         public float defaultAttack { get; set; }
         public float defaultGuard { get; set; }
+
 
 
         // 스탯 접근을 위한 인덱서

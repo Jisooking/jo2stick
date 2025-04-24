@@ -11,6 +11,7 @@ namespace TextRPG.Context
     public class SaveData : CharacterBase
     {
 
+        public List<AfterJobStat>? afterJobStat {  get; set; }
         public Item[] items { get; set; } = Array.Empty<Item>();
         public Item[] shopItems { get; set; } = Array.Empty<Item>();
         public List<Skill> learnSkillList { get; set; }
