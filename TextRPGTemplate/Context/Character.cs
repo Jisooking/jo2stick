@@ -40,12 +40,6 @@ namespace TextRPG.Context
 
         public Character(SaveData saveData)
         {
-            this.name = saveData.name;
-            this.job = saveData.job;
-            this.defaultAttack = saveData.attack;
-            this.defaultGuard = saveData.guard;
-            this.hp = saveData.hp;
-            this.gold = saveData.gold;
             this.Level = saveData.Level;
             this.name = saveData.name;
             this.job = saveData.job;
@@ -97,7 +91,6 @@ namespace TextRPG.Context
             }
             return Level;
         }
-
 
         public float getNoWeaponAttack()
         {

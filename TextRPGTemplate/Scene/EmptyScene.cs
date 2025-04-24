@@ -22,12 +22,13 @@ namespace TextRPG.Scene
 
             List<string> dynamicText = new();
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
             Render();
         }
 
         public override string respond(int i)
         {
+            convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
     }

@@ -41,7 +41,7 @@ namespace TextRPG.Scene
             dynamicText.Add($"플레이어: {player.name} | HP: {player.hp}/{player.MaxHp} | MP: {player.Mp}/{player.MaxMp}");
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
             Render();
         }
         private string? CheckBattleEnd()
@@ -109,7 +109,6 @@ namespace TextRPG.Scene
                 battleResult = CheckBattleEnd();
                 if (battleResult != null) return battleResult;
             }
-
             return SceneID.BattleScene;
         }
 
@@ -197,15 +196,17 @@ namespace TextRPG.Scene
 
             if (aliveMonsters.Count == 0)
             {
-                Console.WriteLine("공격할 수 있는 몬스터가 없습니다.");
+
+                ((LogView)viewMap[ViewID.Log]).AddLog("공격할 수 있는 몬스터가 없습니다.");
                 return null;
             }
-
-            Console.WriteLine("\n어떤 몬스터를 공격하시겠습니까?");
+            ((LogView)viewMap[ViewID.Log]).AddLog("어떤 몬스터를 공격하시겠습니까?");
             for (int i = 0; i < aliveMonsters.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {aliveMonsters[i].Name} (HP: {aliveMonsters[i].HP}/{aliveMonsters[i].MaxHP})");
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{i + 1}. {aliveMonsters[i].Name} (HP: {aliveMonsters[i].HP}/{aliveMonsters[i].MaxHP})");
             }
+            ((LogView)viewMap[ViewID.Log]).Update();
+            ((LogView)viewMap[ViewID.Log]).Render();
 
             int choice;
             while (true)
@@ -216,9 +217,13 @@ namespace TextRPG.Scene
                     return aliveMonsters[choice - 1];
                 }
 
+                ((InputView)viewMap[ViewID.Input]).SetCursor();
                 Console.WriteLine("잘못된 선택입니다. 다시 입력하세요.");
                 Console.ReadLine(); // 잘못된 입력 소비
+                ((InputView)viewMap[ViewID.Input]).SetCursor();
             }
+            ((LogView)viewMap[ViewID.Log]).Update();
+            ((LogView)viewMap[ViewID.Log]).Render();
         }
 
         public void UseSkill()
