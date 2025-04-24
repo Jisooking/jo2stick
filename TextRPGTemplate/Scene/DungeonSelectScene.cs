@@ -22,7 +22,8 @@ namespace TextRPG.Scene
             for (int i = 0; i < gameContext.dungeonList.Count; i++)
             {
                 var dungeon = gameContext.dungeonList[i];
-                dynamicText.Add($"{i + 1}. {dungeon.Name} \t| 방어력 {dungeon.RecommendedDefense} 이상 권장");
+                dynamicText.Add($"{i + 1}. {dungeon.Name}");
+                dynamicText.Add($"\t방어력 {dungeon.RecommendedDefense} 이상 권장");
             }
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
@@ -33,7 +34,11 @@ namespace TextRPG.Scene
 
         public override string respond(int i)
         {
-            if (i == 0) return SceneID.Main;
+            if (i == 0)
+            {
+                convertSceneAnimationPlay(SceneID.Main);
+                return SceneID.Main;
+            }
 
             if (i < 1 || i > gameContext.dungeonList.Count)
             {
@@ -44,11 +49,11 @@ namespace TextRPG.Scene
             var selectedDungeon = gameContext.dungeonList[i - 1]; 
             gameContext.currentBattleMonsters = new List<MonsterData>();
             gameContext.currentBattleMonsters = GenerateMonstersForDungeon(selectedDungeon);
-            Console.WriteLine($"생성된 몬스터 수: {gameContext.currentBattleMonsters.Count}");
+            ((LogView)viewMap[ViewID.Log]).AddLog($"생성된 몬스터 수: {gameContext.currentBattleMonsters.Count}");
 
             foreach (var m in gameContext.currentBattleMonsters)
             {
-                Console.WriteLine($"- {m.Name} (HP: {m.HP}/{m.MaxHP})");
+                ((LogView)viewMap[ViewID.Log]).AddLog($"- {m.Name} (HP: {m.HP}/{m.MaxHP})");
             }
             if (gameContext.currentBattleMonsters == null || gameContext.currentBattleMonsters.Count == 0)
             {

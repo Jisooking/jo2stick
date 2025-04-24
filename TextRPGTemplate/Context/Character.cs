@@ -74,17 +74,23 @@ namespace TextRPG.Context
             this.critical = critical;
         }
 
-        public int getLevel()
-        {  
+        public List<string> LevelUp()
+        {
+            List<string> ret = new();
             while (CurrentExp >= MaxExp)
             {
                 CurrentExp -= MaxExp;
                 Level++;
                 Point += 3;
 
-                Console.WriteLine($"레벨업! 현재 레벨: {Level}, 포인트: {Point}");
-                Console.WriteLine($"현재 EXP: {CurrentExp} / {MaxExp}");
+                ret.Add($"레벨업! 현재 레벨: {Level}, 포인트: {Point}");
+                ret.Add($"현재 EXP: {CurrentExp} / {MaxExp}");
             }
+            return ret;
+        }
+
+        public int getLevel()
+        {
             return Level;
         }
 
