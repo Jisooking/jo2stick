@@ -47,7 +47,7 @@ namespace TextRPG.Scene
                 case 3:
                     {
                         gameContext.ch.Point += 3;
-                        dynamicText.Add($"꼬마가 감사하다며 신비한 약초를 내밉니다.");
+                        dynamicText.Add($"꼬마가 감사하다며 신비한 약초를 건네줍니다.");
                         dynamicText.Add("포인트를 얻었습니다. ( +3 )");
                         break;
                     }

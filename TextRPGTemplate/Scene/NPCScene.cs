@@ -29,49 +29,43 @@ namespace TextRPG.Scene
             dynamicText.Add("> 2. 대장장이 아저씨");
             dynamicText.Add("> 3. 꽃을 파는 꼬마");
 
-            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
+            if (gameContext.isaccept == true)
+            {
+                dynamicText.Add("이미 퀘스트를 진행 중입니다.");
+                dynamicText.Add($"{gameContext.dropitemcount}/{gameContext.questData[gameContext.questinput].questfigure}\n");
+            }
+                ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
             Render();
         }
 
         public override string respond(int i)
         {
+            var quest = gameContext.questData[gameContext.questinput];
+            quest.clearquest = false;
 
-            if (gameContext.isaccept == true)
+            if (i == 0)
             {
-                if(i == 0)
-                {
-                    return sceneNext.next![i];
-                }
-
-                ((LogView)viewMap[ViewID.Log]).AddLog("진행 중인 퀘스트입니다.");
-
+                return sceneNext.next![i];
             }
-            if (gameContext.isaccept == false)
+            else if (i < gameContext.questData.Length + 1)
             {
-                if (i == 0)
+                gameContext.questinput = i - 1; //번호에 맞는 npc
+                if (quest.clearquest == false)
                 {
-                    return sceneNext.next![i];
+                    return SceneID.QuestScene;
                 }
-                else if (i < gameContext.questData.Length + 1)
+                else if (quest.clearquest == true)
                 {
-                    gameContext.questinput = i - 1; //번호에 맞는 npc
-                    if (!gameContext.questData[gameContext.questinput].clearquest)
-                    {
-                        return SceneID.QuestScene;
-                    }
-                    else if (gameContext.questData[gameContext.questinput].clearquest)
-                    {
-                        return SceneID.QuestClearScene;
-                    }
-                }
-                else
-                {
-                    ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다.");
-                    return sceneNext.next![i];
+                    return SceneID.QuestClearScene;
                 }
             }
-            
+            else
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다.");
+                return sceneNext.next![i];
+            }
+
             convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
