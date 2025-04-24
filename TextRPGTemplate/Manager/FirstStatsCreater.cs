@@ -102,7 +102,7 @@ namespace TextRPGTemplate.Managers
         public void modifySaveData(SaveData saveData)
         {
             saveData.Level = Level;
-            saveData.name = name;
+            //saveData.name = name;
             saveData.job = job;
             saveData.Str = Str;
             saveData.Dex = Dex;

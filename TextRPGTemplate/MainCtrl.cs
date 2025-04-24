@@ -75,6 +75,7 @@ namespace TextRPG
                 SaveData defaultData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
 
                 statCreater.modifySaveData(saveData);
+                saveData.name = name;
             }
 
             //정적 데이터 불러오기
