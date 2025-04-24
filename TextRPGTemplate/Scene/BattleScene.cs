@@ -134,18 +134,6 @@ namespace TextRPG.Scene
             if (target.HP <= 0)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
-                var quest = gameContext.questData[gameContext.questinput];
-                if (quest.questitem == target.Dropitem)
-                {
-                    gameContext.dropitemList.Add(target.Dropitem);
-                    quest.dropitemcount += gameContext.dropitemList.Count;
-                    ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Dropitem} 을 얻었습니다.");
-                    if (quest.dropitemcount >= quest.questfigure)
-                    {
-                        quest.clearquest = true;
-                        gameContext.isaccept = false;
-                    }
-                }
             }
 
             return true;
@@ -166,18 +154,6 @@ namespace TextRPG.Scene
             if (target.HP <= 0)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
-                var quest = gameContext.questData[gameContext.questinput];
-                if (quest.questitem == target.Dropitem)
-                {
-                    gameContext.dropitemList.Add(target.Dropitem);
-                    quest.dropitemcount += gameContext.dropitemList.Count;
-                    ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Dropitem}을 얻었습니다.");
-                    if (quest.dropitemcount >= quest.questfigure)
-                    {
-                        quest.clearquest = true;
-                        gameContext.isaccept = false;
-                    }
-                }
             }
             return true;
         }
