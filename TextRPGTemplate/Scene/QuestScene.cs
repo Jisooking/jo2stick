@@ -52,13 +52,14 @@ namespace TextRPG.Scene
                     ((LogView)viewMap[ViewID.Log]).AddLog($"구해야 할 아이템 : {quest.questitem}");
                     ((LogView)viewMap[ViewID.Log]).AddLog($"{quest.dropitemcount}/{quest.questfigure}");
                     quest.acceptquest = true;
+                    return SceneID.NPCScene;
                 }
                 else if (i == 0)
                 {
                     return sceneNext.next![i];
                 }
             }
-            while (!quest.acceptquest)
+            while (quest.acceptquest)
             {
                 if (i == 1)
                 {
