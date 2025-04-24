@@ -9,6 +9,8 @@ using TextRPGTemplate.Animation;
 using TextRPGTemplate.Managers;
 using TextRPGTemplate.Scene;
 
+//
+
 namespace TextRPG
 {
     public class MainCtrl
