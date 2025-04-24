@@ -34,8 +34,7 @@ namespace TextRPG.Scene
                 // 실제 보상 적용
                 gameContext.ch.Exp += totalExp;            // 총 경험치 누적 (기록용)
                 gameContext.ch.CurrentExp += totalExp;     // 실제 레벨업 계산에 사용됨
-                gameContext.ch.getLevel();                 // 레벨업 처리 (CurrentExp, MaxExp 반영)
-                List<string> levelUpText = gameContext.ch.LevelUp();              // 레벨업 처리 (CurrentExp, MaxExp 반영)
+                List<string> levelUpText = gameContext.ch.Levelup();              // 레벨업 처리 (CurrentExp, MaxExp 반영)
                 foreach (string levelUp in levelUpText)
                 {
                     ((LogView)viewMap[ViewID.Log]).AddLog(levelUp);
