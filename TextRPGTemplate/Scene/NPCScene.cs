@@ -43,7 +43,7 @@ namespace TextRPG.Scene
             }
             else if (i < gameContext.questData.Length + 1)
             {
-                gameContext.questinput = i;
+                gameContext.questinput = i - 1; //번호에 맞는 npc
                 if (!gameContext.questData[gameContext.questinput].clearquest)
                 {
                     return SceneID.QuestScene;
