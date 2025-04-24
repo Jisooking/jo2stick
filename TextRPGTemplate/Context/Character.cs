@@ -78,24 +78,17 @@ namespace TextRPG.Context
             this.learnSkillList = new List<Skill>(learnSkillList);
         }
 
-
-        public List<string> LevelUp()
+        public int getLevel()
         {
-            List<string> ret = new();
             while (CurrentExp >= MaxExp)
             {
                 CurrentExp -= MaxExp;
                 Level++;
                 Point += 3;
 
-                ret.Add($"레벨업! 현재 레벨: {Level}, 포인트: {Point}");
-                ret.Add($"현재 EXP: {CurrentExp} / {MaxExp}");
+                Console.WriteLine($"레벨업! 현재 레벨: {Level}, 포인트: {Point}");
+                Console.WriteLine($"현재 EXP: {CurrentExp} / {MaxExp}");
             }
-            return ret;
-        }
-
-        public int getLevel()
-        {
             return Level;
         }
 
