@@ -72,8 +72,6 @@ namespace TextRPG.Scene
             // 플레이어 사망 경우
             if (player.hp <= 0)
             {
-                ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다!");
-                ((LogView)viewMap[ViewID.Log]).ClearText();
                 return SceneID.DungeonFail;
             }
 

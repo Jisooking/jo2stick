@@ -63,11 +63,10 @@ namespace TextRPG
                 Console.Write("사용할 이름을 입력하세요 : ");
                 name = Console.ReadLine();
                 Console.Clear();
-                var statCreater = new FirstStatsCreater(autoGenerate: true);
+                var statCreater = new FirstStatsCreater(name,autoGenerate: true);
                 statCreater.GenerateStats();
-
                 statCreater.name = name;
-                statCreater.SaveAsDefault();
+                statCreater.GenerateSaveData();
                 saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
                 saveData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
             }

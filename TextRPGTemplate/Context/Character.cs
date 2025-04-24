@@ -7,77 +7,39 @@ using System.Threading.Tasks;
 namespace TextRPG.Context
 {
     [Serializable]
-    public class Character
+    public class Character : CharacterBase
     {
-        public int Level { get; set; }
-        public string? name { get; set; }
-        public string? job { get; set; }
-        public int Str { get; set; }
-        public int Dex { get; set; }
-        public int Int { get; set; }
-        public int Luk { get; set; }
-        public float attack { get; set; }
-        public float guard { get; set; }
-        public int hp { get; set; }
-        public int MaxHp { get; set; }
-        public int Mp { get; set; }
-        public int MaxMp { get; set; }
-        public int Exp { get; set; }
-        public int Point { get; set; }
-        public int CurrentExp { get; set; }
-        public int MaxExp => (int)(100 * Math.Pow(1.2, Level - 1));
-        public int gold { get; set; }
+        public Inventory inventory { get; set; }
 
-        public float critical { get; set; }
 
-        public float defaultAttack { get; set; } // 현재 레벨 기본 공격력
-        public float defaultGuard { get; set; } // 현재 레벨 기본 방어력
-        public int clearCount { get; set; }
-        public Inventory inventory
-        { get; set; }
-
-        public Character(SaveData saveData)
+        public Character(SaveData saveData) : base()
         {
-            this.name = saveData.name;
-            this.job = saveData.job;
-            this.defaultAttack = saveData.attack;
-            this.defaultGuard = saveData.guard;
-            this.hp = saveData.hp;
-            this.gold = saveData.gold;
-            this.Level = saveData.Level;
-            this.name = saveData.name;
-            this.job = saveData.job;
-            this.Str = saveData.Str;
-            this.Int = saveData.Int;
-            this.Dex = saveData.Dex;
-            this.Luk = saveData.Luk;
-            this.defaultAttack = saveData.attack;
-            this.defaultGuard = saveData.guard;
-            this.hp = saveData.hp;
-            this.MaxHp = saveData.MaxHp;
-            this.Mp = saveData.Mp;
-            this.MaxMp = saveData.MaxMp;
-            this.Exp = saveData.Exp;
-            this.Point = saveData.Point;
-            this.gold = saveData.gold;
-            this.CurrentExp = saveData.CurrentExp;
-            this.MaxMp = saveData.MaxMp;
-            this.clearCount = saveData.clearCount;
-            this.inventory = new Inventory(new List<Item>(saveData.items));
-            this.critical = saveData.critical;
-        }
+            // 기본 정보 설정
+            name = saveData.name;
+            job = saveData.job;
+            Level = saveData.Level;
+            gold = saveData.gold;
+            clearCount = saveData.clearCount;
 
-        public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, float critical)
-        {
-            this.name = name;
-            this.job = job;
-            this.defaultAttack = attack;
-            this.defaultGuard = guard;
-            this.hp = hp;
-            this.gold = gold;
-            this.clearCount = clearCount;
-            this.inventory = inventory;
-            this.critical = critical;
+            Str = saveData.Str;
+            Dex = saveData.Dex;
+            Int = saveData.Int;
+            Luk = saveData.Luk;
+            // 스탯 설정
+
+            // 전투 속성 설정
+            defaultAttack = saveData.attack;
+            defaultGuard = saveData.guard;
+            hp = saveData.hp;
+            MaxHp = saveData.MaxHp;
+            Mp = saveData.Mp;
+            MaxMp = saveData.MaxMp;
+            Exp = saveData.Exp;
+            Point = saveData.Point;
+            CurrentExp = saveData.CurrentExp;
+            critical = saveData.critical;
+
+            inventory = new Inventory(new List<Item>(saveData.items));
         }
 
         public int getLevel()

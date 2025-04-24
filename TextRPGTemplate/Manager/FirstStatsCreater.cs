@@ -12,44 +12,15 @@ using TextRPG.Context;
 
 namespace TextRPGTemplate.Managers
 {
-    public class FirstStatsCreater
+    public class FirstStatsCreater : CharacterBase
     {
         public Random rnd = new Random();
-        public int Level = 1;
-        public int Str;
-        public int Int;
-        public int Dex;
-        public int Luk;
-        public float attack;
-        public float guard;
-        public string name;
-        public string job;
-        public int Hp;
-        public int MaxHp;
-        public int Mp;
-        public int MaxMp;
-        public int Exp;
-        public int Point;
-        public int CurrentExp;
-        public int MaxExp;
         public int Gold;
+        public int MaxExp;
         public int Critical;
         public int BaseExpIncrement;
         public int statLimit = 200;
 
-        public void SaveToDefaultJson()
-        {
-            SaveData saveData = ToSaveData();
-
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true
-            };
-
-            string json = JsonSerializer.Serialize(saveData, options);
-
-            File.WriteAllText(JsonPath.defaultDataJsonPath, json);
-        }
 
         public void ShuffleStats()
         {
@@ -83,7 +54,7 @@ namespace TextRPGTemplate.Managers
             ShuffleStats();
         }
 
-        public FirstStatsCreater(bool autoGenerate = true)
+        public FirstStatsCreater(string name,bool autoGenerate = true)
         {
             Level = 1;
             CurrentExp = 0;
@@ -91,8 +62,8 @@ namespace TextRPGTemplate.Managers
             Point = 0;
             Gold = 20000;
             BaseExpIncrement = 10;
-            name = "Hero";  // 기본 이름 설정
-            job = "Warrior";  // 기본 직업 설정
+            this.name = name; // 기본 이름 설정
+            this.job = "초보자";  // 기본 직업 설정
 
             if (autoGenerate)
             {
@@ -106,15 +77,53 @@ namespace TextRPGTemplate.Managers
             MaxHp = 50 + (Str * 2);
             MaxMp = 50 + (Int * 1);
 
-            if (Hp > MaxHp) Hp = MaxHp;
-            if (Mp > MaxMp) Mp = MaxMp;
-
-            if (Hp == 0) Hp = MaxHp;
-            if (Mp == 0) Mp = MaxMp;
+            hp = MaxHp;
+            Mp = MaxMp;
 
             attack = Str * 1.5f;  // 공격력 계산
             guard = Dex * 1.2f;   // 방어력 계산
         }
+        public void GenerateSaveData()
+        {
+            string defaultJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
+            SaveData defaultData = JsonSerializer.Deserialize<SaveData>(defaultJson)!;
+
+            // 2. FirstStatsCreater에서 생성한 값으로 SaveData 채우기
+            var saveData = new SaveData
+            {
+                name = this.name,
+                job = this.job,
+                Level = 1,
+                gold = 20000,
+                clearCount = this.clearCount,
+
+                Str = this.Str,
+                Dex = this.Dex,
+                Int = this.Int,
+                Luk = this.Luk,
+                // 스탯 설정
+
+                // 전투 속성 설정
+                defaultAttack = this.attack,
+                defaultGuard = this.guard,
+                hp = this.hp,
+                MaxHp = this.MaxHp,
+                Mp = this.Mp,
+                MaxMp = this.MaxMp,
+                Exp = this.Exp,
+                Point = this.Point,
+                CurrentExp = this.CurrentExp,
+                critical = this.critical,
+                items = Array.Empty<Item>(),  // 새 캐릭터는 빈 인벤토리
+                shopItems = defaultData.shopItems  // 기존 상점 아이템 유지
+            };
+
+            // 3. SaveData.json에 직렬화
+           File.WriteAllText(JsonPath.saveDataJsonPath,
+        JsonSerializer.Serialize(saveData, new JsonSerializerOptions { WriteIndented = true }));
+        }
+
+
 
         public SaveData ToSaveData()
         {
@@ -136,14 +145,13 @@ namespace TextRPGTemplate.Managers
                 Luk = this.Luk,
                 attack = this.attack,
                 guard = this.guard,
-                hp = this.Hp,
+                hp = this.hp,
                 MaxHp = this.MaxHp,
                 Mp = this.Mp,
                 MaxMp = this.MaxMp,
                 Exp = this.Exp,
                 Point = this.Point,
                 CurrentExp = this.CurrentExp,
-                MaxExp = this.MaxExp,
                 gold = this.Gold,
                 critical = this.Critical,
                 clearCount = 0, // 새 캐릭터는 0으로 초기화
@@ -170,7 +178,7 @@ namespace TextRPGTemplate.Managers
             Console.Clear();
 
             Calculate();
-            Hp = MaxHp;
+            hp = MaxHp;
             Mp = MaxMp;
 
             Console.WriteLine("=== 랜덤 캐릭터 스탯 생성 ===");
@@ -180,7 +188,7 @@ namespace TextRPGTemplate.Managers
             Console.WriteLine($"민첩(Dex): {Dex}");
             Console.WriteLine($"운(Luk): {Luk}");
             Console.WriteLine($"총합: {Str + Int + Dex}/{statLimit}");
-            Console.WriteLine($"체력(Hp): {Hp}/{MaxHp}");
+            Console.WriteLine($"체력(Hp): {hp}/{MaxHp}");
             Console.WriteLine($"마나(Mp): {Mp}/{MaxMp}");
             Console.WriteLine($"골드(Gold): {Gold}");
         }
@@ -190,7 +198,7 @@ namespace TextRPGTemplate.Managers
             {
                 RandomStats();
                 Calculate();
-                SaveToDefaultJson();
+                SaveAsDefault();
 
                 if (showWindow)
                 {
