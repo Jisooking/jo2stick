@@ -32,9 +32,9 @@ namespace TextRPG.Scene
             {
                 case 1:
                     {
-                        gameContext.ch.inventory?.items?.Add(gameContext.shop.items[6]);
-                        dynamicText.Add($"상점 주인에게 아이템을 받았습니다!");
-                        dynamicText.Add($"받은 아이템 : {gameContext.shop.items[6]}");
+                        gameContext.ch.hp += 10;
+                        dynamicText.Add($"상점 주인이 치유 물약을 내밉니다.");
+                        dynamicText.Add($"HP가 증가했습니다! ( +10 )");
                         break;
                     }
                 case 2:
