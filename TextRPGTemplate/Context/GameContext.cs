@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TextRPGTemplate.Animation;
+using TextRPGTemplate.Context;
 
 namespace TextRPG.Context
 {
@@ -22,6 +23,9 @@ namespace TextRPG.Context
         public int prevGold { get; set; }
         public int curGold {  get; set; }
         public AnimationPlayer animationPlayer { get; set; }
+        public QuestData[] questData { get; set; }
+        public int questinput { get; set; }
+        public List<string> dropitemcount { get; set; } = new List<string>();
 
         public Dictionary<string, Animation?> animationMap = new();
         public void ResetBattleMonsters()
@@ -38,6 +42,7 @@ namespace TextRPG.Context
             this.monsterList = new List<MonsterData>(monsters);
             currentBattleMonsters = new List<MonsterData>();
             this.animationMap = animationMap;
+            this.questData = saveData.questData;
         }
     }
 }

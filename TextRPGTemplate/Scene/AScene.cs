@@ -27,6 +27,7 @@ namespace TextRPG.Scene
         public const string StatUp = "StatUp";
         public const string NPCScene = "NPCScene";
         public const string QuestScene = "QuestScene";
+        public const string QuestClearScene = "QuestClearScene";
     }
     public abstract class AScene
     {
