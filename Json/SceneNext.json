@@ -50,7 +50,7 @@
             "DungeonFail",
             "DungeonClear",
             "None",
-            "BattleScene_Skill",
+            "None",
             "None",
             "None",
             "None",
@@ -99,8 +99,8 @@
             "DungeonSelect",
             "Rest",
             "StatUp",
-            "SkillManager",
             "None",
+            "NPCScene",
             "None"
         ]
     },
@@ -123,21 +123,6 @@
         "key": "Status",
         "next": [
             "Main",
-            "GetJob",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
-        ]
-    },
-    {
-        "key": "GetJob",
-        "next": [
-            "Status",
             "None",
             "None",
             "None",
@@ -210,9 +195,24 @@
         ]
     },
     {
-        "key": "Skill",
+        "key": "NPCScene",
         "next": [
             "Main",
+            "QuestScene",
+            "QuestScene",
+            "QuestScene",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None"
+        ]
+    },
+    {
+        "key": "QuestScene",
+        "next": [
+            "NPCScene",
             "None",
             "None",
             "None",
@@ -225,54 +225,9 @@
         ]
     },
     {
-        "key": "SkillManager",
+        "key": "QuestClearScene",
         "next": [
-            "Main",
-            "SkillLearn",
-            "SkillEquip",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
-        ]
-    },
-    {
-        "key": "SkillLearn",
-        "next": [
-            "SkillManager",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
-        ]
-    },
-    {
-        "key": "SkillEquip",
-        "next": [
-            "SkillManager",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
-        ]
-    },
-    {
-        "key": "BattleScene_Skill",
-        "next": [
-            "BattleScene",
+            "NPCScene",
             "None",
             "None",
             "None",
