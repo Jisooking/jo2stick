@@ -35,6 +35,7 @@ namespace TextRPG.Context
         public float defaultGuard { get; set; } // 현재 레벨 기본 방어력
         public int clearCount { get; set; }
         public Inventory inventory { get; set; }
+        public List<Skill> characterSkillList { get; set; } = new List<Skill>();
         public List<Skill>? learnSkillList { get; set; }
         public int useableSlot = 5;
 
@@ -152,6 +153,7 @@ namespace TextRPG.Context
             Point += (int)afterjobstat.addPoint!;
             critical += (int)afterjobstat.addcritical!;
         }
+
         public int getStat(StatType stat)
         {
             switch (stat)
