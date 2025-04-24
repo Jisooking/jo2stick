@@ -40,7 +40,7 @@ namespace TextRPG.Scene
                 case 2:
                     {
                         gameContext.ch.attack += 2;
-                        dynamicText.Add($"술집 아저씨가 수고했다며 가문의 비기를 전수해 줍니다.");
+                        dynamicText.Add($"대장장이 아저씨가 수고했다며 가문의 비기를 전수해 줍니다.");
                         dynamicText.Add($"힘이 증가했습니다! ( +2 )");
                         break;
                     }

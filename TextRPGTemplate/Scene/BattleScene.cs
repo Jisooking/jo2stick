@@ -137,6 +137,7 @@ namespace TextRPG.Scene
                     if (quest.dropitemcount >= quest.questfigure)
                     {
                         quest.clearquest = true;
+                        gameContext.isaccept = false;
                     }
                 }
             }
@@ -166,6 +167,7 @@ namespace TextRPG.Scene
                     if (quest.dropitemcount >= quest.questfigure)
                     {
                         quest.clearquest = true;
+                        gameContext.isaccept = false;
                     }
                 }
             }

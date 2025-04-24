@@ -26,6 +26,7 @@ namespace TextRPG.Context
         public QuestData[] questData { get; set; }
         public int questinput { get; set; }
         public List<string> dropitemcount { get; set; } = new List<string>();
+        public bool isaccept { get; set; } = false;
 
         public Dictionary<string, Animation?> animationMap = new();
         public void ResetBattleMonsters()

@@ -25,15 +25,12 @@ namespace TextRPG.Scene
 
             List<string> dynamicText = new();
             var quest = gameContext.questData[gameContext.questinput];
-            if (!quest.acceptquest)
+            if (!gameContext.isaccept)
             {
                 dynamicText.Add($"{quest.npc} :");
                 dynamicText.Add($"{quest.text}\n");
-                dynamicText.Add("퀘스트를 수락하시겠습니까?");
-            }
-            else if (quest.acceptquest)
-            {
-                dynamicText.Add("진행중인 퀘스트입니다.");
+                dynamicText.Add("퀘스트를 수락하시겠습니까?\n\n");
+                dynamicText.Add("1. 수락하기");
             }
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
@@ -44,36 +41,22 @@ namespace TextRPG.Scene
         public override string respond(int i)
         {
             var quest = gameContext.questData[gameContext.questinput];
-            while (!quest.acceptquest)
+
+            if (i == 1)
             {
-                if (i == 1)
-                {
-                    ((LogView)viewMap[ViewID.Log]).AddLog("퀘스트가 수락되었습니다.");
-                    ((LogView)viewMap[ViewID.Log]).AddLog($"구해야 할 아이템 : {quest.questitem}");
-                    ((LogView)viewMap[ViewID.Log]).AddLog($"{quest.dropitemcount}/{quest.questfigure}");
-                    quest.acceptquest = true;
-                    ClearScene();
-                    return SceneID.NPCScene;
-                }
-                else if (i == 0)
-                {
-                    return sceneNext.next![i];
-                }
+                ((LogView)viewMap[ViewID.Log]).AddLog("퀘스트가 수락되었습니다.");
+                ((LogView)viewMap[ViewID.Log]).AddLog($"구해야 할 아이템 : {quest.questitem}({quest.dropitemcount}/{quest.questfigure})");
+                gameContext.isaccept = true;
+                return SceneID.NPCScene;
             }
-            while (quest.acceptquest)
+            else if (i == 0)
             {
-                if (i == 1)
-                {
-                    ((LogView)viewMap[ViewID.Log]).AddLog("다시 마을로 돌아가세요.");
-                    return SceneID.NPCScene;
-                }
-                else if (i == 0)
-                {
-                    return sceneNext.next![i];
-                }
+                return sceneNext.next![i];
             }
-            convertSceneAnimationPlay(sceneNext.next![i]);
-            return sceneNext.next![i];
+            else
+            {
+                return SceneID.NPCScene;
+            }
         }
     }
 }
