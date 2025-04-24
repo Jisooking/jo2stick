@@ -42,6 +42,7 @@ namespace TextRPG.Context
         public int? addattack { get; set; }
         public int? addguard { get; set; }
         public int? addcritical { get; set; }
+        public List<string>? jobSkills { get; set; }
 
     }
 

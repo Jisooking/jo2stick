@@ -21,7 +21,8 @@
             "addHp": 200,
             "addMp": 0,
             "addPoint": 10,
-            "addStr": 100
+            "addStr": 100,
+            "jobSkills": ["배쉬","도발","강력한 일격","분노","최후의 저항"]
         },
         {
             "iD": 2,
@@ -35,7 +36,8 @@
             "addHp": 100,
             "addMp": 50,
             "addPoint": 10,
-            "addStr": 50
+            "addStr": 50,
+            "jobSkills": ["멀티 샷","포이즌 에로우","퀵 샷","집중","비상 식량"]
         },
         {
             "iD": 3,
@@ -49,7 +51,8 @@
             "addHp": 0,
             "addMp": 200,
             "addPoint": 10,
-            "addStr": 0
+            "addStr": 0,
+            "jobSkills": ["파이어 볼","라이트닝 볼트","마나 쉴드","아이스 스피어","마나중독"]
         },
         {
             "iD": 4,
@@ -63,7 +66,8 @@
             "addHp": 50,
             "addMp": 50,
             "addPoint": 10,
-            "addStr": 10
+            "addStr": 10,
+            "jobSkills" :["백스탭","급소 찌르기","단검 투척","은신","재빠른 몸놀림"]
         }
     ],
     "shopItems": [
