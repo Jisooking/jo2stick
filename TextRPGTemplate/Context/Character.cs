@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,6 +49,24 @@ namespace TextRPG.Context
 
         public int getLevel()
         {  
+        public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, float critical, Skill[] learnSkillList)
+        {
+            this.name = name;
+            this.job = job;
+            this.defaultAttack = attack;
+            this.defaultGuard = guard;
+            this.hp = hp;
+            this.gold = gold;
+            this.clearCount = clearCount;
+            this.inventory = inventory;
+            this.critical = critical;
+            this.learnSkillList = new List<Skill>(learnSkillList);
+        }
+
+
+        public List<string> LevelUp()
+        {
+            List<string> ret = new();
             while (CurrentExp >= MaxExp)
             {
                 CurrentExp -= MaxExp;
