@@ -12,7 +12,7 @@ namespace TextRPG.View
 
         public override void ClearText()
         {
-            //this.logs.Clear();
+            this.logs.Clear();
         }
         public void AddLog(string line)
         {

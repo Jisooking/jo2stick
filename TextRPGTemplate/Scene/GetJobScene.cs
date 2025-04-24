@@ -63,9 +63,24 @@ namespace TextRPG.Scene
                 gameContext.ch.job = selectedJob.JobName;   // 클래스 직업변경
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{selectedJob.JobName}로 전직했습니다.");
                 gameContext.ch.AddJobStat(gameContext.afterJobStat![i-1]);
+                SetSkillList(gameContext.afterJobStat[i - 1].jobSkills!);
             }
             convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
+        }
+
+        public void SetSkillList(List<string> skillList)
+        {
+            for (int i = 0; i < skillList.Count; i++)
+            {
+                for (int j = 0; j < gameContext.skillList.Length; j++)
+                {
+                    if (skillList[i] == gameContext.skillList[j].key)
+                    {
+                        gameContext.ch.characterSkillList.Add(gameContext.skillList[j]);
+                    }
+                }
+            }
         }
     }    
 }

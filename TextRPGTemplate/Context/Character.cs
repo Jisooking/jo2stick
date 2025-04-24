@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +11,7 @@ namespace TextRPG.Context
     public class Character : CharacterBase
     {
         public Inventory inventory { get; set; }
-
+        public List<Skill> characterSkillList { get; set; } = new List<Skill>();
         public List<Skill>? learnSkillList { get; set; }
 
         public int useableSlot = 5;
@@ -47,37 +47,17 @@ namespace TextRPG.Context
             this.learnSkillList = new List<Skill>(saveData.learnSkillList ?? new List<Skill>());
         }
 
-        public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, float critical, Skill[] learnSkillList)
-        {
-            this.name = name;
-            this.job = job;
-            this.defaultAttack = attack;
-            this.defaultGuard = guard;
-            this.hp = hp;
-            this.gold = gold;
-            this.clearCount = clearCount;
-            this.inventory = inventory;
-            this.critical = critical;
-            this.learnSkillList = new List<Skill>(learnSkillList);
-        }
-
-        public List<string> Levelup()
-        {
-            List<string> ret = new() ;
+        public int getLevel()
+        {  
             while (CurrentExp >= MaxExp)
             {
                 CurrentExp -= MaxExp;
                 Level++;
                 Point += 3;
 
-                ret.Add($"레벨업! 현재 레벨: {Level}, 포인트: {Point}");
-                ret.Add($"현재 EXP: {CurrentExp} / {MaxExp}");
+                Console.WriteLine($"레벨업! 현재 레벨: {Level}, 포인트: {Point}");
+                Console.WriteLine($"현재 EXP: {CurrentExp} / {MaxExp}");
             }
-            return ret;
-        }
-
-        public int getLevel()
-        {
             return Level;
         }
 
@@ -141,6 +121,7 @@ namespace TextRPG.Context
             Point += (int)(afterjobstat.addPoint ?? 0);
             critical += (int)(afterjobstat.addcritical ?? 0);
         }
+
         public int getStat(StatType stat)
         {
             switch (stat)

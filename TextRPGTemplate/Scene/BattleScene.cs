@@ -93,7 +93,7 @@ namespace TextRPG.Scene
                 case 4: if (TryEscape()) return SceneID.DungeonSelect; break;
                 case 5: actionPerformed = UsePotion(); break;
                 default:
-                    ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다. 다시 선택해주세요.");
+                    Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
                     Thread.Sleep(1000);
                     return SceneID.BattleScene;
             }
@@ -177,8 +177,8 @@ namespace TextRPG.Scene
         private bool UsePotion()
         {
             var potions = gameContext.shop.items
-                .Where(i => (i.key.Contains("Potion") || i.name?.Contains("포션") == true) && i.quantity > 0)
-                .ToList();
+        .Where(i => i.isPotion && i.quantity > 0)
+        .ToList();
 
             if (potions.Count == 0)
             {
@@ -186,15 +186,14 @@ namespace TextRPG.Scene
                 return false;
             }
 
-            List<string> dynamicText = new();
-            dynamicText.Add("사용할 포션을 선택하세요:");
+            List<string> potionMenu = new List<string> { "사용할 포션을 선택하세요:" };
             for (int i = 0; i < potions.Count; i++)
             {
-                dynamicText.Add($"{i + 1}. {potions[i].name} ({potions[i].quantity}개) - {potions[i].description}");
+                potionMenu.Add($"{i + 1}. {potions[i].name} (남은 수량: {potions[i].quantity})");
             }
-            dynamicText.Add("0. 돌아가기");
+            potionMenu.Add("0. 취소");
 
-            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
+            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(potionMenu.ToArray());
             Render();
 
             int choice;
@@ -209,21 +208,24 @@ namespace TextRPG.Scene
                     {
                         var selectedPotion = potions[choice - 1];
                         int healAmount = 0;
+                        int manaAmount = 0;
 
-                        if (selectedPotion.key == "healPotion")
+                        if (selectedPotion.key == "HealPotion")
                         {
-                            healAmount = 20;
+                            healAmount = 100;
                         }
-                        else if (selectedPotion.key == "bighealPotion")
+                        else if (selectedPotion.key == "ManaPotion")
                         {
-                            healAmount = 50;
+                            manaAmount = 100;
                         }
 
                         int beforeHp = player.hp;
+                        int beforeMp = player.Mp;
                         player.hp = Math.Min(player.MaxHp, player.hp + healAmount);
+                        player.Mp = Math.Min(player.MaxMp, player.Mp + manaAmount);
 
                         selectedPotion.quantity--;
-                        ((LogView)viewMap[ViewID.Log]).AddLog($"{selectedPotion.name} 사용! HP {player.hp - beforeHp} 회복!");
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"{selectedPotion.name} 사용! {player.hp - beforeHp} 회복!");
 
                         if (selectedPotion.quantity <= 0)
                         {
@@ -271,6 +273,7 @@ namespace TextRPG.Scene
                 return null;
             }
             ((LogView)viewMap[ViewID.Log]).AddLog("어떤 몬스터를 공격하시겠습니까?");
+            ((LogView)viewMap[ViewID.Log]).AddLog("0. 취소");
             for (int i = 0; i < aliveMonsters.Count; i++)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{i + 1}. {aliveMonsters[i].Name} (HP: {aliveMonsters[i].HP}/{aliveMonsters[i].MaxHP})");
@@ -285,7 +288,7 @@ namespace TextRPG.Scene
                 {
                     if (choice == 0)
                     {
-                        Console.Clear(); // 돌아가기 전 화면 정리
+                        ((LogView)viewMap[ViewID.Log]).AddLog("대상 선택이 취소되었습니다.");
                         return null;     // 호출한 쪽에서 판단하게
                     }
                     if (choice > 0 && choice <= aliveMonsters.Count)
@@ -296,12 +299,9 @@ namespace TextRPG.Scene
                 }
 
                 ((InputView)viewMap[ViewID.Input]).SetCursor();
-                ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 선택입니다. 다시 입력하세요.");
-                Console.ReadLine(); // 잘못된 입력 소비
-                ((InputView)viewMap[ViewID.Input]).SetCursor();
+                Console.WriteLine("잘못된 선택입니다. 다시 입력하세요."); 
+                Render();
             }
-            ((LogView)viewMap[ViewID.Log]).Update();
-            ((LogView)viewMap[ViewID.Log]).Render();
         }
     }
 }

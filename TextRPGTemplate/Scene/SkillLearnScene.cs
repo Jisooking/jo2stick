@@ -25,31 +25,42 @@ namespace TextRPG.Scene
             dynamicText.Add("[스킬 목록]");
             dynamicText.Add("");
 
-            for (int i = 0; i < gameContext.skillList.Length; i++)
+            if (gameContext.ch.characterSkillList == null)
             {
-                Skill learnSkill = gameContext.ch.learnSkillList[i];
-                string skillType = "";
-                switch (learnSkill.skillType)
+                dynamicText.Add("배울수 있는 스킬이 없습니다.");
+            }
+            else
+            {
+                for (int i = 0; i < gameContext.ch.characterSkillList.Count; i++)
                 {
-                    case SkillType.Attack: skillType = "공격스킬"; break;
-                    case SkillType.Defence: skillType = "방어스킬"; break;
-                    case SkillType.Utility: skillType = "보조스킬"; break;
-                }
+                    Skill skill = gameContext.ch.characterSkillList[i];
 
-                string statType = "";
-                switch (learnSkill.statType)
-                {
-                    case StatType.None: statType = "없음"; break;
-                    case StatType.Str: statType = "힘"; break;
-                    case StatType.Dex: statType = "민첩"; break;
-                    case StatType.Int: statType = "지능"; break;
-                    case StatType.Luk: statType = "운"; break;
-                }
+                    string skillType = "";
+                    switch (skill.skillType)
+                    {
+                        case SkillType.Attack: skillType = "공격 스킬"; break;
+                        case SkillType.Defence: skillType = "방어 스킬"; break;
+                        case SkillType.Utility: skillType = "보조 스킬"; break;
+                    }
 
-                dynamicText.Add($"{i + 1}.{(learnSkill.isEquip ? "[E]" : "")} {learnSkill.skillName} | {skillType} | {statType} | 마나 : {learnSkill.costMana} | 횟수 : {learnSkill.maxUseCount} |");
-                dynamicText.Add($"\t쿨타임 : {learnSkill.coolTime}턴 | {(learnSkill.duration == 0 ? "즉발" : $"{learnSkill.duration}턴")} | {learnSkill.description} |");
+                    string statType = "";
+                    switch (skill.statType)
+                    {
+                        case StatType.None: statType = "없음"; break;
+                        case StatType.Str: statType = "힘"; break;
+                        case StatType.Dex: statType = "민첩"; break;
+                        case StatType.Int: statType = "지능"; break;
+                        case StatType.Luk: statType = "운"; break;
+                    }
+
+                    dynamicText.Add($"{i + 1}.{(skill.isEquip ? "[E]" : "")} {skill.skillName} [{statType} : {skillType}] {skill.costMana}MP");
+                    dynamicText.Add($"   횟수 : {skill.maxUseCount} | 쿨타임 : {skill.coolTime}턴 | {(skill.duration == 0 ? "즉발" : $"{skill.duration}턴 지속")}");
+                    dynamicText.Add("");
+                }
             }
 
+            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
+            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
             Render();
         }
 
@@ -57,7 +68,6 @@ namespace TextRPG.Scene
         //기능
         public override string respond(int i)
         {
-            convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
     }
