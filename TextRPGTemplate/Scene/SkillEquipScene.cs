@@ -87,7 +87,7 @@ namespace TextRPG.Scene
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"잘못된 입력입니다.");
             }
-
+            convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
 

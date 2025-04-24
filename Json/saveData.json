@@ -1,10 +1,23 @@
 {
   "name": "qwerty",
   "job": "\uC804\uC0AC",
+  "afterJobStat": null,
+  "Level": 0,
+  "Str": 0,
+  "Dex": 0,
+  "Int": 0,
+  "Luk": 0,
   "attack": 10,
   "guard": 5,
-  "hp": 100,
-  "gold": 21419,
+  "hp": 0,
+  "MaxHp": 0,
+  "Mp": 0,
+  "MaxMp": 0,
+  "Exp": 0,
+  "Point": 0,
+  "CurrentExp": 0,
+  "MaxExp": 83,
+  "gold": 20919,
   "critical": 0,
   "clearCount": 16,
   "items": [
@@ -119,31 +132,11 @@
       "weapon": true
     }
   ],
-  "skillList": [
-    {
-      "key": "powerStrike",
-      "skillName": "파워 스트라이크",
-      "description": "적을 강하게 공격합니다.",
-      "skillType": 0,
-      "statType": 1,
-      "targetType": 1,
-      "isLearn": false,
-      "isEquip": false,
-      "maxUseCount": 5,
-      "effectAmount": 15,
-      "skillFactor": 1.2,
-      "coolTime": 2,
-      "costMana": 5,
-      "duration": 0,
-      "skillLevel": 1,
-      "flavorText": [ "asd!", "12ads!" ]
-    }
-  ],
   "learnSkillList": [
     {
       "key": "powerStrike",
-      "skillName": "파워 스트라이크",
-      "description": "적을 강하게 공격합니다.",
+      "skillName": "\uD30C\uC6CC \uC2A4\uD2B8\uB77C\uC774\uD06C",
+      "description": "\uC801\uC744 \uAC15\uD558\uAC8C \uACF5\uACA9\uD569\uB2C8\uB2E4.",
       "skillType": 0,
       "statType": 1,
       "targetType": 1,
@@ -153,10 +146,38 @@
       "effectAmount": 15,
       "skillFactor": 1.2,
       "coolTime": 2,
+      "curCoolTime": 0,
       "costMana": 5,
       "duration": 0,
       "skillLevel": 1,
-      "flavorText": [ "asd!", "12ads!" ]
+      "flavorText": [
+        "asd!",
+        "12ads!"
+      ]
+    }
+  ],
+  "skillList": [
+    {
+      "key": "powerStrike",
+      "skillName": "\uD30C\uC6CC \uC2A4\uD2B8\uB77C\uC774\uD06C",
+      "description": "\uC801\uC744 \uAC15\uD558\uAC8C \uACF5\uACA9\uD569\uB2C8\uB2E4.",
+      "skillType": 0,
+      "statType": 1,
+      "targetType": 1,
+      "isLearn": false,
+      "isEquip": false,
+      "maxUseCount": 5,
+      "effectAmount": 15,
+      "skillFactor": 1.2,
+      "coolTime": 2,
+      "curCoolTime": 0,
+      "costMana": 5,
+      "duration": 0,
+      "skillLevel": 1,
+      "flavorText": [
+        "asd!",
+        "12ads!"
+      ]
     }
   ]
 }

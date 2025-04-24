@@ -1,7 +1,7 @@
 [
     {
         "key": "Script",
-        "x": 0,
+        "x": 113,
         "y": 0,
         "width": 70,
         "height": 6,
@@ -9,40 +9,40 @@
     },
     {
         "key": "Dynamic",
-        "x": 0,
+        "x": 113,
         "y": 6,
         "width": 70,
-        "height": 20,
+        "height": 18,
         "border": 1
     },
     {
         "key": "Log",
-        "x": 0,
-        "y": 26,
+        "x": 113,
+        "y": 24,
         "width": 70,
-        "height": 5,
+        "height": 12,
         "border": 1
     },
     {
         "key": "Sprite",
-        "x": 70,
-        "y": 5,
-        "width": 43,
-        "height": 43,
+        "x": 0,
+        "y": 0,
+        "width": 113,
+        "height": 48,
         "border": 1
     },
     {
         "key": "Choice",
-        "x": 0,
-        "y": 31,
+        "x": 113,
+        "y": 36,
         "width": 70,
-        "height": 10,
+        "height": 9,
         "border": 1
     },
     {
         "key": "Input",
-        "x": 0,
-        "y": 41,
+        "x": 113,
+        "y": 45,
         "width": 70,
         "height": 7,
         "border": 1
