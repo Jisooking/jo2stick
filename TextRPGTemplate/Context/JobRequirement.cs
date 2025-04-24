@@ -46,8 +46,4 @@ namespace TextRPG.Context
 
     }
 
-    //public int AddJobStat()
-    //    {
-
-    //    }
-    } 
+} 

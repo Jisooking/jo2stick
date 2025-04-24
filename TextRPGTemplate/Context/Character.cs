@@ -132,5 +132,21 @@ namespace TextRPG.Context
         {
             return getNoArmorGuard() + getPlusGuard();
         }
+
+        public void AddJobStat(AfterJobStat afterjobstat)
+        {
+            Str += (int)afterjobstat.addStr!;
+            Int += (int)afterjobstat.addInt!;
+            Dex += (int)afterjobstat.addDex!;
+            Luk += (int)afterjobstat.addLuk!;
+            attack += (int)afterjobstat.addattack!;
+            guard += (int)afterjobstat.addguard!;
+            hp += (int)afterjobstat.addHp!;
+            MaxHp += (int)afterjobstat.addHp!;
+            Mp += (int)afterjobstat.addMp!;
+            MaxMp += (int)afterjobstat.addMp!;
+            Point += (int)afterjobstat.addPoint!;
+            critical += (int)afterjobstat.addcritical!;
+        }
     }
 }

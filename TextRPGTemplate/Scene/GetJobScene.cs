@@ -62,21 +62,10 @@ namespace TextRPG.Scene
                 var selectedJob = eligibleJobs[i - 1];
                 gameContext.ch.job = selectedJob.JobName;   // 클래스 직업변경
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{selectedJob.JobName}로 전직했습니다.");
-                gameContext.ch.Str += (int)gameContext.afterJobStat[i-1].addStr;
-                gameContext.ch.Int += (int)gameContext.afterJobStat[i - 1].addInt;
-                gameContext.ch.Dex += (int)gameContext.afterJobStat[i - 1].addDex;
-                gameContext.ch.Luk += (int)gameContext.afterJobStat[i - 1].addLuk;
-                gameContext.ch.hp += (int)gameContext.afterJobStat[i - 1].addHp;
-                gameContext.ch.MaxHp += (int)gameContext.afterJobStat[i - 1].addHp;
-                gameContext.ch.Mp += (int)gameContext.afterJobStat[i - 1].addMp;
-                gameContext.ch.MaxMp += (int)gameContext.afterJobStat[i - 1].addMp;
-                gameContext.ch.attack += (int)gameContext.afterJobStat[i - 1].addattack;
-                gameContext.ch.guard += (int)gameContext.afterJobStat[i - 1].addguard;
-                gameContext.ch.critical += (int)gameContext.afterJobStat[i - 1].addcritical;
-                gameContext.ch.Point += (int)gameContext.afterJobStat[i - 1].addPoint;
+                gameContext.ch.AddJobStat(gameContext.afterJobStat![i-1]);
             }
             convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
-    }
+    }    
 }
