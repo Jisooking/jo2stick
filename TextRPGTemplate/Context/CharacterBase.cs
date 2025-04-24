@@ -34,6 +34,7 @@ namespace TextRPG.Context
         public int Point { get; set; }
         public float critical { get; set; }
 
+
         // 기본 공격력/방어력
         public float defaultAttack { get; set; }
         public float defaultGuard { get; set; }

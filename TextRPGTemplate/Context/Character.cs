@@ -108,18 +108,18 @@ namespace TextRPG.Context
 
         public void AddJobStat(AfterJobStat afterjobstat)
         {
-            Str += (int)afterjobstat.addStr!;
-            Int += (int)afterjobstat.addInt!;
-            Dex += (int)afterjobstat.addDex!;
-            Luk += (int)afterjobstat.addLuk!;
-            attack += (int)afterjobstat.addattack!;
-            guard += (int)afterjobstat.addguard!;
-            hp += (int)afterjobstat.addHp!;
-            MaxHp += (int)afterjobstat.addHp!;
-            Mp += (int)afterjobstat.addMp!;
-            MaxMp += (int)afterjobstat.addMp!;
-            Point += (int)afterjobstat.addPoint!;
-            critical += (int)afterjobstat.addcritical!;
+            Str += (int)(afterjobstat.addStr??0);
+            Int += (int)(afterjobstat.addInt??0);
+            Dex += (int)(afterjobstat.addDex ?? 0);
+            Luk += (int)(afterjobstat.addLuk ?? 0);
+            attack += (int)(afterjobstat.addattack ?? 0);
+            guard += (int)(afterjobstat.addguard ?? 0);
+            hp += (int)(afterjobstat.addHp ?? 0);
+            MaxHp += (int)(afterjobstat.addHp ?? 0);
+            Mp += (int)(afterjobstat.addMp ?? 0);
+            MaxMp += (int)(afterjobstat.addMp ?? 0);
+            Point += (int)(afterjobstat.addPoint ?? 0);
+            critical += (int)(afterjobstat.addcritical ?? 0);
         }
         public int getStat(StatType stat)
         {

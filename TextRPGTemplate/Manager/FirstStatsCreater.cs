@@ -16,9 +16,8 @@ namespace TextRPGTemplate.Managers
     {
         public Random rnd = new Random();
         public int Gold;
-        public int MaxExp;
+        public int MaxExp => 100 * (int)Math.Pow(1.2, Level - 1);
         public int Critical;
-        public int BaseExpIncrement;
         public int statLimit = 200;
 
 
@@ -54,14 +53,29 @@ namespace TextRPGTemplate.Managers
             ShuffleStats();
         }
 
+        public SaveData CreateSaveData()
+        {
+            string defaultJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
+            SaveData saveData = JsonSerializer.Deserialize<SaveData>(defaultJson)!;
+            ToSaveData(saveData, this.name);
+            return saveData;
+        }
+        public void SaveAsDefault()
+        {
+            SaveData newDefault = CreateSaveData();
+            string json = JsonSerializer.Serialize(newDefault, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+            File.WriteAllText(JsonPath.defaultDataJsonPath, json);
+        }
+
         public FirstStatsCreater(string name,bool autoGenerate = true)
         {
             Level = 1;
             CurrentExp = 0;
-            MaxExp = 100;
             Point = 0;
             Gold = 20000;
-            BaseExpIncrement = 10;
             this.name = name; // 기본 이름 설정
             this.job = "";  // 기본 직업 설정
 
@@ -86,91 +100,43 @@ namespace TextRPGTemplate.Managers
         public void GenerateSaveData()
         {
             string defaultJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
-            SaveData defaultData = JsonSerializer.Deserialize<SaveData>(defaultJson)!;
+            SaveData saveData = JsonSerializer.Deserialize<SaveData>(defaultJson)!;
 
-            // 2. FirstStatsCreater에서 생성한 값으로 SaveData 채우기
-            var saveData = new SaveData
-            {
-                name = this.name,
-                job = this.job,
-                Level = 1,
-                gold = 20000,
-                clearCount = this.clearCount,
+            ToSaveData(saveData, this.name); // 핵심 리팩토링 포인트!
 
-                Str = this.Str,
-                Dex = this.Dex,
-                Int = this.Int,
-                Luk = this.Luk,
-                // 스탯 설정
-
-                // 전투 속성 설정
-                defaultAttack = this.attack,
-                defaultGuard = this.guard,
-                hp = this.hp,
-                MaxHp = this.MaxHp,
-                Mp = this.Mp,
-                MaxMp = this.MaxMp,
-                Exp = this.Exp,
-                Point = this.Point,
-                CurrentExp = this.CurrentExp,
-                critical = this.critical,
-                items = Array.Empty<Item>(),  // 새 캐릭터는 빈 인벤토리
-                shopItems = defaultData.shopItems  // 기존 상점 아이템 유지
-            };
-
-            // 3. SaveData.json에 직렬화
-           File.WriteAllText(JsonPath.saveDataJsonPath,
-        JsonSerializer.Serialize(saveData, new JsonSerializerOptions { WriteIndented = true }));
+            File.WriteAllText(JsonPath.saveDataJsonPath,
+                JsonSerializer.Serialize(saveData, new JsonSerializerOptions { WriteIndented = true }));
         }
 
 
 
-        public SaveData ToSaveData()
+        public void ToSaveData(SaveData saveData, string name = "")
         {
 
-            string defaultJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
-            SaveData defaultData = JsonSerializer.Deserialize<SaveData>(defaultJson)!;
+            if (!string.IsNullOrWhiteSpace(name))
+                saveData.name = name;
 
-            return new SaveData
-            {
-                // 기본 정보
-                name = this.name,
-                job = this.job,
+            saveData.Str = this.Str;
+            saveData.Int = this.Int;
+            saveData.Dex = this.Dex;
+            saveData.Luk = this.Luk;
 
-                // 스탯 정보
-                Level = this.Level,
-                Str = this.Str,
-                Int = this.Int,
-                Dex = this.Dex,
-                Luk = this.Luk,
-                attack = this.attack,
-                guard = this.guard,
-                hp = this.hp,
-                MaxHp = this.MaxHp,
-                Mp = this.Mp,
-                MaxMp = this.MaxMp,
-                Exp = this.Exp,
-                Point = this.Point,
-                CurrentExp = this.CurrentExp,
-                gold = this.Gold,
-                critical = this.Critical,
-                clearCount = 0, // 새 캐릭터는 0으로 초기화
+            saveData.hp = this.hp;
+            saveData.MaxHp = this.MaxHp;
+            saveData.Mp = this.Mp;
+            saveData.MaxMp = this.MaxMp;
 
-                // 아이템 정보는 기존 defaultData 유지
-                items = defaultData.items,
-                shopItems = defaultData.shopItems
-            };
+            saveData.gold = this.Gold;
+            saveData.defaultAttack = this.attack;
+            saveData.defaultGuard = this.guard;
+            saveData.Level = this.Level;
+            saveData.CurrentExp = this.CurrentExp;
+            saveData.Exp = this.Exp;
+            saveData.Point = this.Point;
+            saveData.critical = this.Critical;
+            saveData.clearCount = 0; // 기본값 초기화
         }
 
-        public void SaveAsDefault()
-        {
-            SaveData newDefault = this.ToSaveData();
-            string json = JsonSerializer.Serialize(newDefault, new JsonSerializerOptions
-            {
-                WriteIndented = true
-            });
-            File.WriteAllText(JsonPath.defaultDataJsonPath, json);
-        }
         public void FirstStats()
         {
 
@@ -198,7 +164,6 @@ namespace TextRPGTemplate.Managers
             {
                 RandomStats();
                 Calculate();
-                SaveAsDefault();
 
                 if (showWindow)
                 {
