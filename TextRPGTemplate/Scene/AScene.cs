@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TextRPG.Context;
 using TextRPG.View;
+using TextRPGTemplate.Animation;
 
 namespace TextRPG.Scene
 {
@@ -21,9 +22,14 @@ namespace TextRPG.Scene
         public const string Sell = "Sell";
         public const string DungeonSelect = "DungeonSelect";
         public const string BattleScene = "BattleScene";
+        public const string BattleScene_Skill = "BattleScene_Skill";
         public const string DungeonClear = "DungeonClear";
         public const string DungeonFail = "DungeonFail";
         public const string StatUp = "StatUp";
+        public const string GetJob = "GetJob";
+        public const string SkillManager = "SkillManager";
+        public const string SkillLearn = "SkillLearn";
+        public const string SkillEquip = "SkillEquip";
     }
     public abstract class AScene
     {
@@ -52,7 +58,7 @@ namespace TextRPG.Scene
             ((ScriptView)viewMap[ViewID.Script]).SetText(sceneText.scriptText!);
             ((ChoiceView)viewMap[ViewID.Choice]).SetText(sceneText.choiceText!);
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(System.Array.Empty<string>());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
             foreach (var pair in viewMap)
             {
                 pair.Value.Update();
@@ -66,13 +72,31 @@ namespace TextRPG.Scene
             ((ScriptView)viewMap[ViewID.Script]).SetText(sceneText.scriptText!);
             ((ChoiceView)viewMap[ViewID.Choice]).SetText(sceneText.choiceText!);
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(System.Array.Empty<string>());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(System.Array.Empty<string>());
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(System.Array.Empty<string>());
+
             foreach (var pair in viewMap)
             {
                 pair.Value.Update();
                 pair.Value.Render();
             }
             ((InputView)viewMap[ViewID.Input]).SetCursor();
+        }
+        public void convertSceneAnimationPlay(int i)
+        {
+            if (gameContext.animationMap.ContainsKey(sceneNext.next![i]))
+            {
+                Animation?[] animations = { gameContext.animationMap[sceneNext.next![i]] };
+                gameContext.animationPlayer.play(animations, (SpriteView)viewMap[ViewID.Sprite]);
+            }
+        }
+
+        public void convertSceneAnimationPlay(string s)
+        {
+            if (gameContext.animationMap.ContainsKey(s))
+            {
+                Animation?[] animations = { gameContext.animationMap[s] };
+                gameContext.animationPlayer.play(animations, (SpriteView)viewMap[ViewID.Sprite]);
+            }
         }
     }
 }

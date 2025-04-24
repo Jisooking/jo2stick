@@ -10,6 +10,6 @@ namespace TextRPGTemplate.Animation
     public class AnimationPath
     {
         public string key { get; set; } = "";
-        public string animationPath { get; set; } = "";
+        public string? animationPath { get; set; } = "";
     }
 }

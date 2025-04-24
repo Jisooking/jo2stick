@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPGTemplate.Context;
 
 namespace TextRPG.Context
 {
@@ -33,17 +34,12 @@ namespace TextRPG.Context
         public float defaultAttack { get; set; } // 현재 레벨 기본 공격력
         public float defaultGuard { get; set; } // 현재 레벨 기본 방어력
         public int clearCount { get; set; }
-        public Inventory inventory
-        { get; set; }
+        public Inventory inventory { get; set; }
+        public List<Skill>? learnSkillList { get; set; }
+        public int useableSlot = 5;
 
         public Character(SaveData saveData)
         {
-            this.name = saveData.name;
-            this.job = saveData.job;
-            this.defaultAttack = saveData.attack;
-            this.defaultGuard = saveData.guard;
-            this.hp = saveData.hp;
-            this.gold = saveData.gold;
             this.Level = saveData.Level;
             this.name = saveData.name;
             this.job = saveData.job;
@@ -65,9 +61,10 @@ namespace TextRPG.Context
             this.clearCount = saveData.clearCount;
             this.inventory = new Inventory(new List<Item>(saveData.items));
             this.critical = saveData.critical;
+            this.learnSkillList = new List<Skill>(saveData.learnSkillList ?? new List<Skill>());
         }
 
-        public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, float critical)
+        public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, float critical, Skill[] learnSkillList)
         {
             this.name = name;
             this.job = job;
@@ -78,10 +75,11 @@ namespace TextRPG.Context
             this.clearCount = clearCount;
             this.inventory = inventory;
             this.critical = critical;
+            this.learnSkillList = new List<Skill>(learnSkillList);
         }
 
         public int getLevel()
-        {  
+        {
             while (CurrentExp >= MaxExp)
             {
                 CurrentExp -= MaxExp;
@@ -93,7 +91,6 @@ namespace TextRPG.Context
             }
             return Level;
         }
-
 
         public float getNoWeaponAttack()
         {
@@ -138,6 +135,40 @@ namespace TextRPG.Context
         public float getTotalGuard()
         {
             return getNoArmorGuard() + getPlusGuard();
+        }
+
+        public void AddJobStat(AfterJobStat afterjobstat)
+        {
+            Str += (int)afterjobstat.addStr!;
+            Int += (int)afterjobstat.addInt!;
+            Dex += (int)afterjobstat.addDex!;
+            Luk += (int)afterjobstat.addLuk!;
+            attack += (int)afterjobstat.addattack!;
+            guard += (int)afterjobstat.addguard!;
+            hp += (int)afterjobstat.addHp!;
+            MaxHp += (int)afterjobstat.addHp!;
+            Mp += (int)afterjobstat.addMp!;
+            MaxMp += (int)afterjobstat.addMp!;
+            Point += (int)afterjobstat.addPoint!;
+            critical += (int)afterjobstat.addcritical!;
+        }
+        public int getStat(StatType stat)
+        {
+            switch (stat)
+            {
+                case StatType.None:
+                    return 1;
+                case StatType.Str:
+                    return Str;
+                case StatType.Dex:
+                    return Dex;
+                case StatType.Int:
+                    return Int;
+                case StatType.Luk:
+                    return Luk;
+            }
+
+            return 0;
         }
     }
 }

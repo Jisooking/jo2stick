@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TextRPG.Context;
 using TextRPG.View;
+using TextRPGTemplate.Context;
 
 namespace TextRPG.Scene
 {
@@ -40,7 +41,7 @@ namespace TextRPG.Scene
             dynamicText.Add($"플레이어: {player.name} | HP: {player.hp}/{player.MaxHp} | MP: {player.Mp}/{player.MaxMp}");
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
             Render();
         }
         private string? CheckBattleEnd()
@@ -81,52 +82,44 @@ namespace TextRPG.Scene
         }
         public override string respond(int input)
         {
+            // 전투 종료 조건 먼저 확인
             var battleResult = CheckBattleEnd();
             if (battleResult != null) return battleResult;
 
-            bool actionPerformed = true;
-
+            // 플레이어 행동 처리
             switch (input)
             {
-                case 1: actionPerformed = PerformPhysicalAttack(); break;
-                case 2: actionPerformed = PerformMagicAttack(); break;
-                case 3: if (TryEscape()) return SceneID.DungeonSelect; break;
-                case 4: UsePotion(); break;
-                default:
-                    Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
-                    Thread.Sleep(1000);
-                    return SceneID.BattleScene;
+                case 1: PerformPhysicalAttack(); break;
+                case 2: PerformMagicAttack(); break;
+                case 3: return sceneNext.next![input];
+                case 4: if (TryEscape()) return SceneID.DungeonSelect; break;
+                case 5: UsePotion(); break;
             }
 
-            if (!actionPerformed)
-            {
-                // 공격 대상 선택 취소 시 턴 유지
-                return SceneID.BattleScene;
-            }
-
+            // 플레이어 행동 후 전투 종료 확인
             battleResult = CheckBattleEnd();
             if (battleResult != null) return battleResult;
 
+            // 몬스터 턴 처리
             foreach (var monster in gameContext.currentBattleMonsters!.Where(m => m.HP > 0).ToList())
             {
                 MonsterAttack(monster);
 
+                // 몬스터 공격 후 전투 종료 확인
                 battleResult = CheckBattleEnd();
                 if (battleResult != null) return battleResult;
             }
-
             return SceneID.BattleScene;
         }
 
+        
 
-
-
-        private bool PerformPhysicalAttack()
+        private void PerformPhysicalAttack()
         {
             var target = ChooseTarget();
-            if (target == null) return false;
+            if (target == null) return;
 
-            int damage = (int)(player.getTotalAttack() *player.Str - target.Power);
+            int damage = (int)(player.getTotalAttack() - target.Power);
             if (damage < 0) damage = 0;
 
             target.HP = Math.Max(0, target.HP - damage);
@@ -136,17 +129,14 @@ namespace TextRPG.Scene
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
             }
-
-            return true;
         }
 
-
-        private bool PerformMagicAttack()
+        private void PerformMagicAttack()
         {
             var target = ChooseTarget();
-            if (target == null) return false;
+            if (target == null) return;
 
-            int damage = (int)(player.getTotalAttack() * player.Int - target.Power); // 마법은 물리 공격보다 강하게 설정
+            int damage = (int)(player.getTotalAttack() * 1.5 - target.Power); // 마법은 물리 공격보다 강하게 설정
             if (damage < 0) damage = 0;
 
             target.HP = Math.Max(0, target.HP - damage);
@@ -156,7 +146,6 @@ namespace TextRPG.Scene
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
             }
-            return true;
         }
 
         private bool TryEscape()
@@ -207,39 +196,34 @@ namespace TextRPG.Scene
 
             if (aliveMonsters.Count == 0)
             {
-                Console.WriteLine("공격할 수 있는 몬스터가 없습니다.");
+
+                ((LogView)viewMap[ViewID.Log]).AddLog("공격할 수 있는 몬스터가 없습니다.");
                 return null;
             }
-
-            Console.WriteLine("\n어떤 몬스터를 공격하시겠습니까? (0: 돌아가기)");
+            ((LogView)viewMap[ViewID.Log]).AddLog("어떤 몬스터를 공격하시겠습니까?");
             for (int i = 0; i < aliveMonsters.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {aliveMonsters[i].Name} (HP: {aliveMonsters[i].HP}/{aliveMonsters[i].MaxHP})");
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{i + 1}. {aliveMonsters[i].Name} (HP: {aliveMonsters[i].HP}/{aliveMonsters[i].MaxHP})");
             }
+            ((LogView)viewMap[ViewID.Log]).Update();
+            ((LogView)viewMap[ViewID.Log]).Render();
 
             int choice;
             while (true)
             {
-                if (int.TryParse(Console.ReadLine(), out choice))
+                if (int.TryParse(Console.ReadLine(), out choice) && choice > 0 && choice <= aliveMonsters.Count)
                 {
-                    if (choice == 0)
-                    {
-                        Console.Clear(); // 돌아가기 전 화면 정리
-                        return null;     // 호출한 쪽에서 판단하게
-                    }
-                    if (choice > 0 && choice <= aliveMonsters.Count)
-                    {
-                        Console.Clear();
-                        return aliveMonsters[choice - 1];
-                    }
+                    Console.Clear(); // 추가: 화면 정리
+                    return aliveMonsters[choice - 1];
                 }
 
+                ((InputView)viewMap[ViewID.Input]).SetCursor();
                 Console.WriteLine("잘못된 선택입니다. 다시 입력하세요.");
-                Console.ReadLine();
+                Console.ReadLine(); // 잘못된 입력 소비
+                ((InputView)viewMap[ViewID.Input]).SetCursor();
             }
+            ((LogView)viewMap[ViewID.Log]).Update();
+            ((LogView)viewMap[ViewID.Log]).Render();
         }
-
-
-
     }
 }

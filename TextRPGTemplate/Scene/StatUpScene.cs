@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using TextRPG.Context;
 using TextRPG.View;
 
-// 새 Scene을 만들때 복붙
 namespace TextRPG.Scene
 {
     public class StatUpScene : AScene
@@ -37,6 +36,7 @@ namespace TextRPG.Scene
                 case 1: gameContext.ch.defaultAttack++; break;
                 case 2: gameContext.ch.defaultGuard++; break;
             }
+            convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
     }

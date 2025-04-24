@@ -43,6 +43,7 @@ namespace TextRPG.Scene
                     ((LogView)viewMap[ViewID.Log]).AddLog("Gold가 부족합니다.");
                 }
             }
+            convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
     }

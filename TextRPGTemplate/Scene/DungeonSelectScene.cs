@@ -18,6 +18,7 @@ namespace TextRPG.Scene
         {
             ClearScene();
             List<string> dynamicText = new();
+
             for (int i = 0; i < gameContext.dungeonList.Count; i++)
             {
                 var dungeon = gameContext.dungeonList[i];
@@ -25,7 +26,8 @@ namespace TextRPG.Scene
             }
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+
             Render();
         }
 

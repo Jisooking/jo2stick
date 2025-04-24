@@ -50,14 +50,15 @@ namespace TextRPG.Scene
                 gameContext.ch.clearCount++;
             }
 
-    // 뷰 업데이트
-    ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
+            // 뷰 업데이트
+            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             Render();
         }
 
 
         public override string respond(int i)
         {
+            convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
     }
