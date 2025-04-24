@@ -171,7 +171,7 @@ namespace TextRPG.Scene
                 {
                     gameContext.dropitemList.Add(target.Dropitem);
                     quest.dropitemcount += gameContext.dropitemList.Count;
-                    ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Dropitem} 을 얻었습니다.");
+                    ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Dropitem}을 얻었습니다.");
                     if (quest.dropitemcount >= quest.questfigure)
                     {
                         quest.clearquest = true;
