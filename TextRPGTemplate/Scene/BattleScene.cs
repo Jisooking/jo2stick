@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TextRPG.Context;
 using TextRPG.View;
+using TextRPGTemplate.Context;
 
 namespace TextRPG.Scene
 {
@@ -126,6 +127,18 @@ namespace TextRPG.Scene
             if (target.HP <= 0)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
+                var dropitemList = new List<string>();
+                var quest = gameContext.questData[gameContext.questinput];
+                if (quest.questitem == target.Dropitem)
+                {
+                    dropitemList.Add(target.Dropitem);
+                    quest.dropitemcount += dropitemList.Count;
+                    ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Dropitem} 을 얻었습니다.");
+                    if (quest.dropitemcount >= quest.questfigure)
+                    {
+                        quest.clearquest = true;
+                    }
+                }
             }
         }
 
@@ -143,6 +156,18 @@ namespace TextRPG.Scene
             if (target.HP <= 0)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
+                var dropitemList = new List<string>();
+                var quest = gameContext.questData[gameContext.questinput];
+                if (quest.questitem == target.Dropitem)
+                {
+                    dropitemList.Add(target.Dropitem);
+                    quest.dropitemcount += dropitemList.Count;
+                    ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Dropitem} 을 얻었습니다.");
+                    if (quest.dropitemcount >= quest.questfigure)
+                    {
+                        quest.clearquest = true;
+                    }
+                }
             }
         }
 

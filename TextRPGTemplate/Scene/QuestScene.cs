@@ -49,7 +49,7 @@ namespace TextRPG.Scene
                 quest.acceptquest = true;
                 ((LogView)viewMap[ViewID.Log]).AddLog("퀘스트가 수락되었습니다.");
                 ((LogView)viewMap[ViewID.Log]).AddLog($"구해야 할 아이템 : {quest.questitem}");
-                ((LogView)viewMap[ViewID.Log]).AddLog($"[몬스터 드롭 아이템]/{quest.questfigure}");
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{quest.dropitemcount}/{quest.questfigure}");
             }
             else if (i == 0)
             {

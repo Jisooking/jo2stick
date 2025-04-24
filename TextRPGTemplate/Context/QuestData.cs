@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace TextRPGTemplate.Context
 {
+    [Serializable]
+
     public  class QuestData
     {
 
@@ -16,8 +18,10 @@ namespace TextRPGTemplate.Context
         public string npc { get; set; }
         public string text { get; set; }
         public bool acceptquest { get; set; }
+        public bool clearquest { get; set; }
+        public int dropitemcount { get; set; }
 
-        public QuestData(string key, string questitem, int questfigure, string npc, string text, List<string> questList, bool acceptquest)
+        public QuestData(string key, string questitem, int questfigure, string npc, string text, bool acceptquest, bool clearquest, int dropitemcount)
         {
             this.key = key;
             this.questitem = questitem;
@@ -25,6 +29,13 @@ namespace TextRPGTemplate.Context
             this.npc = npc;
             this.text = text;
             this.acceptquest = acceptquest;
+            this.clearquest = clearquest;
+            this.dropitemcount = dropitemcount;
+        }
+
+        public QuestData()
+        {
+
         }
 
     }

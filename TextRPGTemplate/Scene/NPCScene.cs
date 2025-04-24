@@ -36,18 +36,27 @@ namespace TextRPG.Scene
 
         public override string respond(int i)
         {
+
             if (i == 0)
             {
                 return sceneNext.next![i];
             }
-            else if (i <= gameContext.questData.Length)
+            else if (i < gameContext.questData.Length + 1)
             {
                 gameContext.questinput = i;
-                return SceneID.QuestScene;
+                if (!gameContext.questData[gameContext.questinput].clearquest)
+                {
+                    return SceneID.QuestScene;
+                }
+                else if (gameContext.questData[gameContext.questinput].clearquest)
+                {
+                    return SceneID.QuestClearScene;
+                }
             }
             else
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다.");
+                return sceneNext.next![i];
             }
             convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
