@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TextRPG.Context;
 using TextRPG.View;
-using TextRPGTemplate.Context;
 
 namespace TextRPG.Scene
 {
@@ -91,9 +90,8 @@ namespace TextRPG.Scene
             {
                 case 1: PerformPhysicalAttack(); break;
                 case 2: PerformMagicAttack(); break;
-                case 3: return sceneNext.next![input];
-                case 4: if (TryEscape()) return SceneID.DungeonSelect; break;
-                case 5: UsePotion(); break;
+                case 3: if (TryEscape()) return SceneID.DungeonSelect; break;
+                case 4: UsePotion(); break;
             }
 
             // 플레이어 행동 후 전투 종료 확인
@@ -225,5 +223,8 @@ namespace TextRPG.Scene
             ((LogView)viewMap[ViewID.Log]).Update();
             ((LogView)viewMap[ViewID.Log]).Render();
         }
+
+
+
     }
 }

@@ -45,7 +45,7 @@ namespace TextRPG.Scene
                     {
                         gameContext.ch.gold -= gameContext.shop!.items![i - 1].price;
                         gameContext.shop!.items![i - 1].bought = true;
-                        gameContext.ch.inventory.items!.Add(gameContext.shop!.items![i - 1]);
+                        gameContext.ch.inventory.items.Add(gameContext.shop!.items![i - 1]);
                         ((LogView)viewMap[ViewID.Log]).AddLog($"{gameContext.shop!.items![i - 1].name} 을 구매했습니다!");
                     }
                     else

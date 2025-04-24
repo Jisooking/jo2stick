@@ -50,7 +50,7 @@
             "DungeonFail",
             "DungeonClear",
             "None",
-            "BattleScene_Skill",
+            "None",
             "None",
             "None",
             "None",
@@ -99,7 +99,7 @@
             "DungeonSelect",
             "Rest",
             "StatUp",
-            "SkillManager",
+            "None",
             "None",
             "None"
         ]
@@ -123,21 +123,6 @@
         "key": "Status",
         "next": [
             "Main",
-            "GetJob",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
-        ]
-    },
-    {
-        "key": "GetJob",
-        "next": [
-            "Status",
             "None",
             "None",
             "None",
@@ -198,81 +183,6 @@
         "key": "Buy",
         "next": [
             "Shop",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
-        ]
-    },
-    {
-        "key": "Skill",
-        "next": [
-            "Main",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
-        ]
-    },
-    {
-        "key": "SkillManager",
-        "next": [
-            "Main",
-            "SkillLearn",
-            "SkillEquip",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
-        ]
-    },
-    {
-        "key": "SkillLearn",
-        "next": [
-            "SkillManager",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
-        ]
-    },
-    {
-        "key": "SkillEquip",
-        "next": [
-            "SkillManager",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
-        ]
-    },
-    {
-        "key": "BattleScene_Skill",
-        "next": [
-            "BattleScene",
             "None",
             "None",
             "None",

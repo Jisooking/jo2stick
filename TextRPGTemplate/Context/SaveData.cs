@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TextRPGTemplate.Context;
 namespace TextRPG.Context
 {
     [Serializable]
@@ -12,7 +10,7 @@ namespace TextRPG.Context
     {
         public string? name { get; set; }
         public string? job { get; set; }
-        public List<AfterJobStat>? afterJobStat { get; set; }
+
         public int Level { get; set; }
         public int Str { get; set; }
         public int Dex { get; set; }
@@ -36,8 +34,6 @@ namespace TextRPG.Context
 
         public Item[] items { get; set; } = Array.Empty<Item>();
         public Item[] shopItems { get; set; } = Array.Empty<Item>();
-        public List<Skill> learnSkillList { get; set; }
-        public Skill[] skillList { get; set; }
 
         public SaveData() { }
 
@@ -71,10 +67,6 @@ namespace TextRPG.Context
 
             items = ch.inventory.items!.ToArray();
             shopItems = gameContext.shop.items!.ToArray();
-            afterJobStat = gameContext.afterJobStat;
-
-            skillList = gameContext.skillList.ToArray();
-            learnSkillList = ch.learnSkillList.ToList();
         }
     }
 }
