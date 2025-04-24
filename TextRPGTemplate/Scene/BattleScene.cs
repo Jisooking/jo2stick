@@ -136,6 +136,7 @@ namespace TextRPG.Scene
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
                 var dropitemList = new List<string>();
                 var quest = gameContext.questData[gameContext.questinput];
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Dropitem} 을 얻었습니다.");
                 if (quest.questitem == target.Dropitem)
                 {
                     dropitemList.Add(target.Dropitem);

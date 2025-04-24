@@ -8,7 +8,7 @@
         "HP": 100,
         "MaxHP": 100,
         "Power": 6,
-        "Dropitem": ""
+        "Dropitem": "슬라임의 눈물"
     },
     {
         "Name": "고블린",
@@ -30,7 +30,7 @@
         "HP": 200,
         "MaxHP": 200,
         "Power": 12,
-        "Dropitem": ""
+        "Dropitem": "늑대의 발톱"
     },
     {
         "Name": "좀비",
@@ -41,7 +41,7 @@
         "HP": 300,
         "MaxHP": 300,
         "Power": 18,
-        "Dropitem": ""
+        "Dropitem": "좀비 머리"
     },
     {
         "Name": "오크",
@@ -63,7 +63,7 @@
         "HP": 400,
         "MaxHP": 400,
         "Power": 24,
-        "Dropitem": ""
+        "Dropitem": "스켈레톤의 갈비뼈"
     },
     {
         "Name": "미믹",
@@ -74,7 +74,7 @@
         "HP": 500,
         "MaxHP": 500,
         "Power": 30,
-        "Dropitem": ""
+        "Dropitem": "미믹의 이빨"
     },
     {
         "Name": "데빌",
@@ -85,7 +85,7 @@
         "HP": 750,
         "MaxHP": 750,
         "Power": 45,
-        "Dropitem": ""
+        "Dropitem": "악마의 보석"
     },
     {
         "Name": "서큐버스",
@@ -96,7 +96,7 @@
         "HP": 750,
         "MaxHP": 750,
         "Power": 45,
-        "Dropitem": ""
+        "Dropitem": "서큐버스의 반지"
     },
     {
         "Name": "도플갱어",
