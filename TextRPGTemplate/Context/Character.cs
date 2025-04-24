@@ -36,6 +36,7 @@ namespace TextRPG.Context
         public int clearCount { get; set; }
         public Inventory inventory { get; set; }
         public List<Skill>? learnSkillList { get; set; }
+        public int useableSlot = 5;
 
         public Character(SaveData saveData)
         {
@@ -66,17 +67,10 @@ namespace TextRPG.Context
             this.clearCount = saveData.clearCount;
             this.inventory = new Inventory(new List<Item>(saveData.items));
             this.critical = saveData.critical;
-            try
-            {
-                learnSkillList = new List<Skill>(saveData.learnSkill);
-            }
-            catch
-            {
-                learnSkillList = new List<Skill>();
-            }
+            this.learnSkillList = new List<Skill>(saveData.learnSkillList ?? new List<Skill>());
         }
 
-        public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, float critical)
+        public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, float critical, Skill[] learnSkillList)
         {
             this.name = name;
             this.job = job;
@@ -87,6 +81,7 @@ namespace TextRPG.Context
             this.clearCount = clearCount;
             this.inventory = inventory;
             this.critical = critical;
+            this.learnSkillList = new List<Skill>(learnSkillList);
         }
 
         public int getLevel()

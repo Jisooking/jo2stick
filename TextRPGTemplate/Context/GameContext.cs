@@ -38,7 +38,6 @@ namespace TextRPG.Context
             this.monsterList = new List<MonsterData>(monsters);
             currentBattleMonsters = new List<MonsterData>();
             skillList = saveData.skillList.ToArray();
-
         }
     }
 }

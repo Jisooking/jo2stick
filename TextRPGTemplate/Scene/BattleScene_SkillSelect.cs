@@ -8,11 +8,11 @@ using TextRPG.Scene;
 using TextRPG.View;
 using TextRPGTemplate.Context;
 
-namespace TextRPG.Scene
+namespace TextRPGTemplate.Scene
 {
-    public class SkillScene : AScene
+    internal class BattleScene_SkillSelect : AScene
     {
-        public SkillScene(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext) : base(gameContext, viewMap, sceneText, sceneNext)
+        public BattleScene_SkillSelect(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext) : base(gameContext, viewMap, sceneText, sceneNext)
         {
 
         }

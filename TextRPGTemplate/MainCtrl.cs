@@ -284,8 +284,12 @@ namespace TextRPG
             RegisterScene<DungeonClearScene>(sceneFactoryMap, SceneID.DungeonClear);
             RegisterScene<DungeonFailScene>(sceneFactoryMap, SceneID.DungeonFail);
             RegisterScene<BattleScene>(sceneFactoryMap, SceneID.BattleScene);
+            RegisterScene<BattleScene_SkillSelect>(sceneFactoryMap, SceneID.BattleScene_Skill);
             RegisterScene<StatUpScene>(sceneFactoryMap, SceneID.StatUp);
             RegisterScene<SkillScene>(sceneFactoryMap, SceneID.Skill);
+            RegisterScene<SkillManagerScene>(sceneFactoryMap, SceneID.SkillManager);
+            RegisterScene<SkillLearnScene>(sceneFactoryMap, SceneID.SkillLearn);
+            RegisterScene<SkillEquipScene>(sceneFactoryMap, SceneID.SkillEquip);
         }
     }
 }

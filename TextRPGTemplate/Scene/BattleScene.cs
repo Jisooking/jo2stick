@@ -91,7 +91,7 @@ namespace TextRPG.Scene
             {
                 case 1: PerformPhysicalAttack(); break;
                 case 2: PerformMagicAttack(); break;
-                case 3: UseSkill(); break;
+                case 3: return sceneNext.next![input];
                 case 4: if (TryEscape()) return SceneID.DungeonSelect; break;
                 case 5: UsePotion(); break;
             }
@@ -231,7 +231,7 @@ namespace TextRPG.Scene
 
                 if (target == null) return;
 
-                int skillDamage = (int)(selectSkil.effectAmount + (gameContext.ch.getStat(selectSkil.statType) * selectSkil.skillFactor));
+                int skillDamage = (int)((player.getTotalAttack() + selectSkil.effectAmount) + (gameContext.ch.getStat(selectSkil.statType) * selectSkil.skillFactor));
 
                 int damage = (skillDamage - target.Power);
                 if (damage < 0) damage = 0;
@@ -248,10 +248,10 @@ namespace TextRPG.Scene
 
         public Skill SelectSkill()
         {
-            Console.WriteLine("사용할 스킬을 선택해 주세요");
+            ((LogView)viewMap[ViewID.Log]).AddLog("사용할 스킬을 선택해 주세요.");
             for (int i = 0; i < gameContext.ch.learnSkillList.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {gameContext.ch.learnSkillList[0]}");
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{i + 1}. {gameContext.ch.learnSkillList[i].skillName}");
             }
 
             int select;
@@ -259,11 +259,9 @@ namespace TextRPG.Scene
             {
                 if (int.TryParse(Console.ReadLine(), out select) && select > 0 && select <= gameContext.ch.learnSkillList.Count)
                 {
-                    Console.Clear(); // 추가: 화면 정리
                     return gameContext.ch.learnSkillList[select - 1];
                 }
-
-                Console.WriteLine("잘못된 선택입니다. 다시 입력하세요.");
+                ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 선택입니다. 다시 입력하세요.");
                 Console.ReadLine();
             }
         }
