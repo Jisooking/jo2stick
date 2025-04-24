@@ -9,13 +9,14 @@ using TextRPGTemplate.Animation;
 using TextRPGTemplate.Managers;
 using TextRPGTemplate.Scene;
 
+//
+
 namespace TextRPG
 {
     public class MainCtrl
     {
         static void Main(string[] args)
         {
-            // 화면 크기 조정
             Console.SetWindowSize(183, 56);
             Console.SetBufferSize(183, 56);
             int width = Console.WindowWidth;
