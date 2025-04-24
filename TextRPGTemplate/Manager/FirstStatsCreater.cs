@@ -99,35 +99,28 @@ namespace TextRPGTemplate.Managers
             guard = Dex * 1.2f;   // 방어력 계산
         }
 
-        public SaveData ToSaveData()
+        public void modifySaveData(SaveData saveData)
         {
-            SaveData saveData = new SaveData
-            {
-                Level = Level,
-                name = name,
-                job = job,
-                Str = Str,
-                Dex = Dex,
-                Int = Int,
-                Luk = Luk,
-                attack = attack,
-                guard = guard,
-                hp = Hp,
-                MaxHp = MaxHp,
-                Mp = Mp,
-                MaxMp = MaxMp,
-                Exp = Exp,
-                Point = 0,
-                CurrentExp = 0,
-                MaxExp = 100,
-                gold = Gold,
-                critical = 10, // 예시로 크리티컬 확률 설정
-                clearCount = 0,
-                items = new Item[0],
-                shopItems = new Item[0]
-            };
-
-            return saveData;
+            saveData.Level = Level;
+            saveData.name = name;
+            saveData.job = job;
+            saveData.Str = Str;
+            saveData.Dex = Dex;
+            saveData.Int = Int;
+            saveData.Luk = Luk;
+            saveData.attack = attack;
+            saveData.guard = guard;
+            saveData.hp = Hp;
+            saveData.MaxHp = MaxHp;
+            saveData.Mp = Mp;
+            saveData.MaxMp = MaxMp;
+            saveData.Exp = Exp;
+            saveData.Point = 0;
+            saveData.CurrentExp = 0;
+            saveData.MaxExp = 100;
+            saveData.gold = Gold;
+            saveData.critical = 10; // 예시로 크리티컬 확률 설정
+            saveData.clearCount = 0;
         }
         public void FirstStats()
         {

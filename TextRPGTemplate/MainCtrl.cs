@@ -74,10 +74,7 @@ namespace TextRPG
                 saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
                 SaveData defaultData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
 
-                //saveData = statCreater.ToSaveData();
-
-                saveData.shopItems = defaultData.shopItems;
-                saveData.name = name;
+                statCreater.modifySaveData(saveData);
             }
 
             //정적 데이터 불러오기
