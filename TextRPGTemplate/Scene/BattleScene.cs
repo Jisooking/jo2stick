@@ -89,7 +89,7 @@ namespace TextRPG.Scene
                 case 1: actionPerformed = PerformPhysicalAttack(); break;
                 case 2: actionPerformed = PerformMagicAttack(); break;
                 case 3: if (TryEscape()) return SceneID.DungeonSelect; break;
-                case 4: UsePotion(); break;
+                case 4: actionPerformed = UsePotion(); break;
                 default:
                     Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
                     Thread.Sleep(1000);
@@ -173,9 +173,69 @@ namespace TextRPG.Scene
             }
         }
 
-        private void UsePotion()
+        private bool UsePotion()
         {
-            
+            var potions = gameContext.shop.items
+                .Where(i => (i.key.Contains("Potion") || i.name?.Contains("포션") == true) && i.quantity > 0)
+                .ToList();
+
+            if (potions.Count == 0)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog("사용할 수 있는 포션이 없습니다.");
+                return false;
+            }
+
+            List<string> dynamicText = new();
+            dynamicText.Add("사용할 포션을 선택하세요:");
+            for (int i = 0; i < potions.Count; i++)
+            {
+                dynamicText.Add($"{i + 1}. {potions[i].name} ({potions[i].quantity}개) - {potions[i].description}");
+            }
+            dynamicText.Add("0. 돌아가기");
+
+            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
+            Render();
+
+            int choice;
+            while (true)
+            {
+                Console.Write("선택: ");
+                if (int.TryParse(Console.ReadLine(), out choice))
+                {
+                    if (choice == 0) return false;
+
+                    if (choice >= 1 && choice <= potions.Count)
+                    {
+                        var selectedPotion = potions[choice - 1];
+                        int healAmount = 0;
+
+                        if (selectedPotion.key == "healPotion")
+                        {
+                            healAmount = 20;
+                        }
+                        else if (selectedPotion.key == "bighealPotion")
+                        {
+                            healAmount = 50;
+                        }
+
+                        int beforeHp = player.hp;
+                        player.hp = Math.Min(player.MaxHp, player.hp + healAmount);
+
+                        selectedPotion.quantity--;
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"{selectedPotion.name} 사용! HP {player.hp - beforeHp} 회복!");
+
+                        if (selectedPotion.quantity <= 0)
+                        {
+                            gameContext.shop.items.Remove(selectedPotion);
+                        }
+
+                        return true;
+                    }
+                }
+
+    ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다.");
+            }
+
         }
 
         private void MonsterAttack(MonsterData monster)
