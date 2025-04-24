@@ -53,7 +53,23 @@ namespace TextRPGTemplate.Managers
             ShuffleStats();
         }
 
-        
+        public SaveData CreateSaveData()
+        {
+            string defaultJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
+            SaveData saveData = JsonSerializer.Deserialize<SaveData>(defaultJson)!;
+            ToSaveData(saveData, this.name);
+            return saveData;
+        }
+        public void SaveAsDefault()
+        {
+            SaveData newDefault = CreateSaveData();
+            string json = JsonSerializer.Serialize(newDefault, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+            File.WriteAllText(JsonPath.defaultDataJsonPath, json);
+        }
+
         public FirstStatsCreater(string name,bool autoGenerate = true)
         {
             Level = 1;

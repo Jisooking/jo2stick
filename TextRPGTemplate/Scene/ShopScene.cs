@@ -27,26 +27,24 @@ namespace TextRPG.Scene
             for (int i = 0; i < gameContext.shop?.items?.Count; i++)
             {
                 Item tmp = gameContext.shop.items[i];
-
-                // 포션인 경우와 일반 아이템인 경우 구분
                 if (tmp.isPotion)
-                {
-                    // 포션 효과 설명 생성
-                    string effect = "";
-                    if (tmp.healAmount > 0) effect += $"체력 +{tmp.healAmount} ";
-                    if (tmp.manaAmount > 0) effect += $"마나 +{tmp.manaAmount}";
+            {
+                // 포션인 경우: 체력/마나 회복량 표시
+                string effectText = "";
+                if (tmp.healAmount > 0) effectText += $"체력 +{tmp.healAmount} ";
+                if (tmp.manaAmount > 0) effectText += $"마나 +{tmp.manaAmount}";
 
-                    dynamicText.Add($"- {tmp.name} | {effect} | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
-                }
-                else
-                {
-                    // 일반 아이템: 기존 방식 유지
-                    dynamicText.Add($"- {tmp.name} | {(tmp.attack > 0 ? "공격력" : "방어력")} + {(tmp.attack > 0 ? tmp.attack : tmp.guard)} | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
-                }
-
-                dynamicText.Add($" {tmp.description}");
+                dynamicText.Add($"- {tmp.name} \t | {effectText} \t | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
             }
-            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
+            else
+            {
+                // 일반 아이템인 경우: 기존 방식 유지
+                dynamicText.Add($"- {tmp.name} \t | {(tmp.attack > 0 ? "공격력" : "방어력")} + {(tmp.attack > 0 ? tmp.attack : tmp.guard)} \t | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
+            }
+
+            dynamicText.Add($"\t {tmp.description}");
+        }
+        ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
             Render();
         }

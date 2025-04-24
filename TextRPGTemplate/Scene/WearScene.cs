@@ -23,8 +23,16 @@ namespace TextRPG.Scene
             for (int i = 0; i < gameContext.ch.inventory.items.Count; i++)
             {
                 Item tmp = gameContext.ch.inventory.items[i];
-                dynamicText.Add($"- {i + 1} {(tmp.equiped ? "[E]" : "")} {tmp.name} | {(tmp.attack > 0 ? "공격력" : "방어력")} + {(tmp.attack > 0 ? tmp.attack : tmp.guard)}");
-                dynamicText.Add($"{tmp.description}");
+                if (tmp.isPotion)
+                {
+                    // 포션인 경우: 체력/마나 회복량 표시
+                    continue;
+                }
+                else
+                {
+                    // 일반 아이템인 경우: 기존 방식 유지
+                    dynamicText.Add($"- {tmp.name} \t | {(tmp.attack > 0 ? "공격력" : "방어력")} + {(tmp.attack > 0 ? tmp.attack : tmp.guard)} \t | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
+                }
             }
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);

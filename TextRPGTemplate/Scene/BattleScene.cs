@@ -177,8 +177,8 @@ namespace TextRPG.Scene
         private bool UsePotion()
         {
             var potions = gameContext.shop.items
-                .Where(i => (i.key.Contains("Potion") || i.name?.Contains("포션") == true) && i.quantity > 0)
-                .ToList();
+        .Where(i => i.isPotion && i.quantity > 0)
+        .ToList();
 
             if (potions.Count == 0)
             {
@@ -186,15 +186,14 @@ namespace TextRPG.Scene
                 return false;
             }
 
-            List<string> dynamicText = new();
-            dynamicText.Add("사용할 포션을 선택하세요:");
+            List<string> potionMenu = new List<string> { "사용할 포션을 선택하세요:" };
             for (int i = 0; i < potions.Count; i++)
             {
-                dynamicText.Add($"{i + 1}. {potions[i].name} ({potions[i].quantity}개) - {potions[i].description}");
+                potionMenu.Add($"{i + 1}. {potions[i].name} (남은 수량: {potions[i].quantity})");
             }
-            dynamicText.Add("0. 돌아가기");
+            potionMenu.Add("0. 취소");
 
-            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
+            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(potionMenu.ToArray());
             Render();
 
             int choice;
@@ -209,21 +208,24 @@ namespace TextRPG.Scene
                     {
                         var selectedPotion = potions[choice - 1];
                         int healAmount = 0;
+                        int manaAmount = 0;
 
-                        if (selectedPotion.key == "healPotion")
+                        if (selectedPotion.key == "HealPotion")
                         {
-                            healAmount = 20;
+                            healAmount = 100;
                         }
-                        else if (selectedPotion.key == "bighealPotion")
+                        else if (selectedPotion.key == "ManaPotion")
                         {
-                            healAmount = 50;
+                            manaAmount = 100;
                         }
 
                         int beforeHp = player.hp;
+                        int beforeMp = player.Mp;
                         player.hp = Math.Min(player.MaxHp, player.hp + healAmount);
+                        player.Mp = Math.Min(player.MaxMp, player.Mp + manaAmount);
 
                         selectedPotion.quantity--;
-                        ((LogView)viewMap[ViewID.Log]).AddLog($"{selectedPotion.name} 사용! HP {player.hp - beforeHp} 회복!");
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"{selectedPotion.name} 사용! {player.hp - beforeHp} 회복!");
 
                         if (selectedPotion.quantity <= 0)
                         {
