@@ -151,6 +151,7 @@ namespace TextRPG.Context
             MaxMp += (int)afterjobstat.addMp!;
             Point += (int)afterjobstat.addPoint!;
             critical += (int)afterjobstat.addcritical!;
+        }
         public int getStat(StatType stat)
         {
             switch (stat)
