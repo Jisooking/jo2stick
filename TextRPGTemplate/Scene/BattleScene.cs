@@ -93,7 +93,7 @@ namespace TextRPG.Scene
                 case 4: if (TryEscape()) return SceneID.DungeonSelect; break;
                 case 5: actionPerformed = UsePotion(); break;
                 default:
-                    Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
+                    ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다. 다시 선택해주세요.");
                     Thread.Sleep(1000);
                     return SceneID.BattleScene;
             }
@@ -296,7 +296,7 @@ namespace TextRPG.Scene
                 }
 
                 ((InputView)viewMap[ViewID.Input]).SetCursor();
-                Console.WriteLine("잘못된 선택입니다. 다시 입력하세요.");
+                ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 선택입니다. 다시 입력하세요.");
                 Console.ReadLine(); // 잘못된 입력 소비
                 ((InputView)viewMap[ViewID.Input]).SetCursor();
             }

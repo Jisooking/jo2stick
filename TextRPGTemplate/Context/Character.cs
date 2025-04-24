@@ -47,8 +47,9 @@ namespace TextRPG.Context
             this.learnSkillList = new List<Skill>(saveData.learnSkillList ?? new List<Skill>());
         }
 
-        public int getLevel()
-        {  
+        public List<string> Levelup()
+        {
+            List<string> ret = new() ;
             while (CurrentExp >= MaxExp)
             {
                 CurrentExp -= MaxExp;
@@ -59,6 +60,11 @@ namespace TextRPG.Context
                 ret.Add($"현재 EXP: {CurrentExp} / {MaxExp}");
             }
             return ret;
+        }
+
+        public int getLevel()
+        {
+            return Level;
         }
 
         public float getNoWeaponAttack()
