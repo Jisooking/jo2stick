@@ -72,7 +72,7 @@ namespace TextRPG
                 saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
                 SaveData defaultData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
 
-                saveData = statCreater.ToSaveData();
+                //saveData = statCreater.ToSaveData();
 
                 saveData.shopItems = defaultData.shopItems;
                 saveData.name = name;
