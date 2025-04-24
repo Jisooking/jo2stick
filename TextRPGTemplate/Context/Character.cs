@@ -11,7 +11,7 @@ namespace TextRPG.Context
     public class Character : CharacterBase
     {
         public Inventory inventory { get; set; }
-
+        public List<Skill> characterSkillList { get; set; } = new List<Skill>();
         public List<Skill>? learnSkillList { get; set; }
 
         public int useableSlot = 5;
@@ -121,6 +121,7 @@ namespace TextRPG.Context
             Point += (int)(afterjobstat.addPoint ?? 0);
             critical += (int)(afterjobstat.addcritical ?? 0);
         }
+
         public int getStat(StatType stat)
         {
             switch (stat)

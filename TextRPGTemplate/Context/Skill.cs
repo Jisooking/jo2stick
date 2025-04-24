@@ -29,10 +29,9 @@ namespace TextRPGTemplate.Context
         public int costMana { get; set; }
         public int duration { get; set; }               //스킬의 지속시간 : 공격 스킬이면 도트뎀, 버프 스킬이면 버프가 유지되는 시간
 
-        public int skillLevel { get; set; }             //스킬의 레벨 : 현재 방향성 고려중. 플레이어가 스킬 레벨에 도달해야 스킬을 해금할지, 아니면 스킬 레벨에 따라 스킬을 강화할지 고려중
+        public int skillLevel { get; set; }             //해당 스킬을 배우기 위한 레벨
+        public int skillPoint { get; set; }             //해당 스킬을 배우기 위한 포인트
         public string[] flavorText { get; set; }        //스킬 사용시나오는 대사를 출력할 배열.
-
-        //public string useJob { get; set; }              //스킬을 사용가능한 직업 : 이건 클래스에 넣을지 스킬에서 관리할지 팀원들과 상의 필요
 
         [JsonConstructor]
         public Skill
@@ -40,7 +39,8 @@ namespace TextRPGTemplate.Context
             string key, string? skillName, string? description, SkillType skillType, StatType statType, TargetType targetType, 
             bool isLearn, bool isEquip,
             int maxUseCount, int effectAmount, float skillFactor, int coolTime, int curCoolTime, int costMana, int duration,
-            int skillLevel, string[] flavorText
+            int skillLevel, int skillPoint,
+            string[] flavorText
             )
         {
             this.key = key;
@@ -62,6 +62,7 @@ namespace TextRPGTemplate.Context
             this.duration = duration;
 
             this.skillLevel = skillLevel;
+            this.skillPoint = skillPoint;
             this.flavorText = flavorText;
         }
     }
