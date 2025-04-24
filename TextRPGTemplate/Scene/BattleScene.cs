@@ -134,13 +134,11 @@ namespace TextRPG.Scene
             if (target.HP <= 0)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
-                var dropitemList = new List<string>();
                 var quest = gameContext.questData[gameContext.questinput];
-                ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Dropitem} 을 얻었습니다.");
                 if (quest.questitem == target.Dropitem)
                 {
-                    dropitemList.Add(target.Dropitem);
-                    quest.dropitemcount += dropitemList.Count;
+                    gameContext.dropitemList.Add(target.Dropitem);
+                    quest.dropitemcount += gameContext.dropitemList.Count;
                     ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Dropitem} 을 얻었습니다.");
                     if (quest.dropitemcount >= quest.questfigure)
                     {
@@ -168,12 +166,11 @@ namespace TextRPG.Scene
             if (target.HP <= 0)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
-                var dropitemList = new List<string>();
                 var quest = gameContext.questData[gameContext.questinput];
                 if (quest.questitem == target.Dropitem)
                 {
-                    dropitemList.Add(target.Dropitem);
-                    quest.dropitemcount += dropitemList.Count;
+                    gameContext.dropitemList.Add(target.Dropitem);
+                    quest.dropitemcount += gameContext.dropitemList.Count;
                     ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Dropitem} 을 얻었습니다.");
                     if (quest.dropitemcount >= quest.questfigure)
                     {
