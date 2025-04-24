@@ -7,7 +7,7 @@ using static System.Formats.Asn1.AsnWriter;
 using TextRPG.Context;
 using TextRPGTemplate.Animation;
 using TextRPGTemplate.Managers;
-using System.Diagnostics;
+using TextRPGTemplate.Scene;
 
 namespace TextRPG
 {
@@ -296,8 +296,12 @@ namespace TextRPG
             RegisterScene<DungeonClearScene>(sceneFactoryMap, SceneID.DungeonClear);
             RegisterScene<DungeonFailScene>(sceneFactoryMap, SceneID.DungeonFail);
             RegisterScene<BattleScene>(sceneFactoryMap, SceneID.BattleScene);
+            RegisterScene<BattleScene_SkillSelect>(sceneFactoryMap, SceneID.BattleScene_Skill);
             RegisterScene<StatUpScene>(sceneFactoryMap, SceneID.StatUp);
             RegisterScene<GetJobScene>(sceneFactoryMap, SceneID.GetJob);
+            RegisterScene<SkillManagerScene>(sceneFactoryMap, SceneID.SkillManager);
+            RegisterScene<SkillLearnScene>(sceneFactoryMap, SceneID.SkillLearn);
+            RegisterScene<SkillEquipScene>(sceneFactoryMap, SceneID.SkillEquip);
         }
     }
 }
