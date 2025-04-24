@@ -65,6 +65,7 @@ namespace TextRPG.Scene
                 if (i == 1)
                 {
                     ((LogView)viewMap[ViewID.Log]).AddLog("다시 마을로 돌아가세요.");
+                    return SceneID.NPCScene;
                 }
                 else if (i == 0)
                 {
