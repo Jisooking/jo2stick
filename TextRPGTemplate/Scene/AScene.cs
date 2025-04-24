@@ -22,9 +22,14 @@ namespace TextRPG.Scene
         public const string Sell = "Sell";
         public const string DungeonSelect = "DungeonSelect";
         public const string BattleScene = "BattleScene";
+        public const string BattleScene_Skill = "BattleScene_Skill";
         public const string DungeonClear = "DungeonClear";
         public const string DungeonFail = "DungeonFail";
         public const string StatUp = "StatUp";
+        public const string GetJob = "GetJob";
+        public const string SkillManager = "SkillManager";
+        public const string SkillLearn = "SkillLearn";
+        public const string SkillEquip = "SkillEquip";
     }
     public abstract class AScene
     {
