@@ -41,7 +41,7 @@ namespace TextRPGTemplate.Scene
             //dynamicText.Add($"{gameContext.skillList[0].skillName}");
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            
 
             Render();
         }
@@ -62,7 +62,7 @@ namespace TextRPGTemplate.Scene
 
                 if (target == null) return;
 
-                int skillDamage = (int)((gameContext.ch.getTotalAttack() + selectSkill.effectAmount) + (gameContext.ch.getStat(selectSkill.statType) * selectSkill.skillFactor));
+                int skillDamage = (int)((gameContext.ch.getTotalAttack() + selectSkill.effectAmount[0]) + (gameContext.ch.getStat(selectSkill.statType) * selectSkill.skillFactor));
 
                 int damage = (skillDamage - target.Power);
                 if (damage < 0) damage = 0;

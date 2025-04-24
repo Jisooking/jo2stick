@@ -55,13 +55,13 @@ namespace TextRPG.Scene
                     }
 
                     dynamicText.Add($"{i + 1}.{(learnSkill.isEquip ? "[E]" : "")} {learnSkill.skillName} | {skillType} | {statType} | 마나 : {learnSkill.costMana} | 횟수 : {learnSkill.maxUseCount} |");
-                    dynamicText.Add($"\t쿨타임 : {learnSkill.coolTime}턴 | {(learnSkill.duration == 0 ? "즉발" : $"{learnSkill.duration}턴")}");
+                    dynamicText.Add($"\t쿨타임 : {learnSkill.coolTime}턴 | {(learnSkill.duration[0] == 0 ? "즉발" : $"{learnSkill.duration[0]}턴")}");
                     dynamicText.Add("");
                 }
             }
-            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
 
+            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
+            
             Render();
         }
 
@@ -70,26 +70,7 @@ namespace TextRPG.Scene
         {
             if (i > 0 && i <= (gameContext.ch.learnSkillList?.Count ?? 0))
             {
-                if (!UseableSkillSlot())
-                {
-                    ((LogView)viewMap[ViewID.Log]).AddLog($"더 이상 스킬을 장착할 수 없습니다");
-                    ((LogView)viewMap[ViewID.Log]).AddLog($"등록된 스킬을 해제하거나 사용가능 슬롯을 늘려주세요");
-                }
-                else
-                {
-                    Skill selectSkill = gameContext.ch.learnSkillList[i - 1];
-
-                    if (selectSkill.isEquip)
-                    {
-                        selectSkill.isEquip = false;
-                        ((LogView)viewMap[ViewID.Log]).AddLog($"{selectSkill.skillName} 스킬 등록을 해제합니다.");
-                    }
-                    else
-                    {
-                        selectSkill.isEquip = true;
-                        ((LogView)viewMap[ViewID.Log]).AddLog($"{selectSkill.skillName} 스킬을 등록 합니다.");
-                    }
-                }
+                EquipSKill(i);
             }
             else if (i > (gameContext.ch.learnSkillList?.Count ?? 0) || i < 0)
             {
@@ -97,6 +78,30 @@ namespace TextRPG.Scene
             }
             convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
+        }
+
+        public void EquipSKill(int i)
+        {
+            if (!UseableSkillSlot())
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog($"더 이상 스킬을 장착할 수 없습니다");
+                ((LogView)viewMap[ViewID.Log]).AddLog($"등록된 스킬을 해제하거나 사용가능 슬롯을 늘려주세요");
+            }
+            else
+            {
+                Skill selectSkill = gameContext.ch.learnSkillList[i - 1];
+
+                if (selectSkill.isEquip)
+                {
+                    selectSkill.isEquip = false;
+                    ((LogView)viewMap[ViewID.Log]).AddLog($"{selectSkill.skillName} 스킬 등록을 해제합니다.");
+                }
+                else
+                {
+                    selectSkill.isEquip = true;
+                    ((LogView)viewMap[ViewID.Log]).AddLog($"{selectSkill.skillName} 스킬을 등록 합니다.");
+                }
+            }
         }
 
         public bool UseableSkillSlot()
