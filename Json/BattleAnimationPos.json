@@ -1,0 +1,58 @@
+[
+    {
+        "monsterCount": 1,
+        "characterPosX": 3,
+        "characterPosY": 15,
+        "monsterPosX": [
+            60
+        ],
+        "monsterPosY": [
+            0
+        ]
+    },
+    {
+        "monsterCount": 2,
+        "characterPosX": 3,
+        "characterPosY": 15,
+        "monsterPosX": [
+            50,
+            70
+        ],
+        "monsterPosY": [
+            0,
+            2
+        ]
+    },
+    {
+        "monsterCount": 3,
+        "characterPosX": 3,
+        "characterPosY": 15,
+        "monsterPosX": [
+            40,
+            60,
+            80
+        ],
+        "monsterPosY": [
+            0,
+            2,
+            4
+        ]
+    },
+    {
+        "monsterCount": 4,
+        "characterPosX": 3,
+        "characterPosY": 15,
+        "monsterPosX": [
+            30,
+            50,
+            70,
+            90
+        ],
+        "monsterPosY": [
+            0,
+            2,
+            4,
+            6
+        ]
+    }
+]
