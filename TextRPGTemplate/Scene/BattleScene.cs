@@ -251,28 +251,11 @@ namespace TextRPG.Scene
 
         private void MonsterAttack(MonsterData monster)
         {
-            if (monster.HP <= 0) return;
-
+            ApplySecondaryEffect(monster);
             monster.isActionable = true; //턴 시작시 몬스터 상태를 true로 초기화
 
-            for (int i = 0; i < monster.StatusEffects?.Count; i++)
-            {
-                switch (monster.StatusEffects[i].effectType)
-                {
-                    case StatusEffectType.Stun:
-                        monster.isActionable = false;
-                        break;
-                }
-                if (monster.StatusEffects[i].duration == 0)
-                {
-                    monster.StatusEffects.Remove(monster.StatusEffects[i]);
-                    i--;
-                }
-                else
-                {
-                    monster.StatusEffects[i].duration--;
-                }
-            }
+            if (monster.HP <= 0) return;
+
 
             if (!monster.isActionable)
             {
@@ -340,6 +323,36 @@ namespace TextRPG.Scene
             }
             ((LogView)viewMap[ViewID.Log]).Update();
             ((LogView)viewMap[ViewID.Log]).Render();
+        }
+
+        public void ApplySecondaryEffect(MonsterData monster)
+        {
+            for (int i = 0; i < monster.StatusEffects?.Count; i++)
+            {
+                switch (monster.StatusEffects[i].effectType)
+                {
+                    case StatusEffectType.Stun:
+                        monster.isActionable = false;
+                        break;
+                    case StatusEffectType.DoT:
+                        monster.HP = Math.Max(0, monster.HP - (int)(monster.StatusEffects[i].effectAmount));
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}에게 상태 이상 발생! {monster.StatusEffects[i].effectAmount}의 데미지 !");
+                        if (monster.HP <= 0)
+                        {
+                            ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name} 처치!");
+                        }
+                        break;
+                }
+                if (monster.StatusEffects[i].duration == 0)
+                {
+                    monster.StatusEffects.Remove(monster.StatusEffects[i]);
+                    i--;
+                }
+                else
+                {
+                    monster.StatusEffects[i].duration--;
+                }
+            }
         }
     }
 }
