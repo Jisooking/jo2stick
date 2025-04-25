@@ -49,7 +49,7 @@ public class MonsterData
             ExpReward = this.ExpReward,
             GoldReward = this.GoldReward,
             Dropitem = this.Dropitem,
-            Type = new List<string>(this.Type)
+            Type = new List<string>(this.Type),
             StatusEffects = new List<StatusEffect>()
         };
     }
