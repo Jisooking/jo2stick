@@ -12,7 +12,8 @@ namespace TextRPG.Context
     {
         public Inventory inventory { get; set; }
         public List<Skill> characterSkillList { get; set; } = new List<Skill>();
-        public List<Skill>? learnSkillList { get; set; }
+        public List<Skill>? learnSkillList { get; set; } = new List<Skill>();
+        public Skill[] equipSkillList { get; set; }
 
         public int useableSlot = 5;
 
@@ -44,10 +45,24 @@ namespace TextRPG.Context
             critical = saveData.critical;
 
             inventory = new Inventory(new List<Item>(saveData.items));
-            this.learnSkillList = new List<Skill>(saveData.learnSkillList ?? new List<Skill>());
+
+            this.characterSkillList = new List<Skill>(saveData.characterSkillList ?? new List<Skill>());
+            this.equipSkillList = new Skill[useableSlot];
+
+            for (int i = 0; i < characterSkillList.Count; i++)
+            {
+                if (characterSkillList[i].isLearn)
+                {
+                    learnSkillList.Add(characterSkillList[i]);
+                    if (characterSkillList[i].isEquip)
+                    {
+                        equipSkillList[characterSkillList[i].equipSlot] = characterSkillList[i];
+                    }
+                }
+            }
         }
 
-        public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, float critical, Skill[] learnSkillList)
+        public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, float critical, Skill[] learnSkillList , Skill[] characterSkillList)
         {
             this.name = name;
             this.job = job;
@@ -58,6 +73,8 @@ namespace TextRPG.Context
             this.clearCount = clearCount;
             this.inventory = inventory;
             this.critical = critical;
+
+            this.characterSkillList = new List<Skill>(characterSkillList);
             this.learnSkillList = new List<Skill>(learnSkillList);
         }
 

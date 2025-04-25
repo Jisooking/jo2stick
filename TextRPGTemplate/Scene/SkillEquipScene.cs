@@ -94,11 +94,22 @@ namespace TextRPG.Scene
                 if (selectSkill.isEquip)
                 {
                     selectSkill.isEquip = false;
+                    gameContext.ch.equipSkillList[selectSkill.equipSlot] = null;
+                    selectSkill.equipSlot = -1;                 
                     ((LogView)viewMap[ViewID.Log]).AddLog($"{selectSkill.skillName} 스킬 등록을 해제합니다.");
                 }
                 else
                 {
                     selectSkill.isEquip = true;
+                    for (int j = 0; j < gameContext.ch.equipSkillList.Length; j++)
+                    { 
+                        if(gameContext.ch.equipSkillList[j] == null)
+                        {
+                            gameContext.ch.equipSkillList[j] = selectSkill;
+                            selectSkill.equipSlot = j;
+                            break;
+                        }
+                    }
                     ((LogView)viewMap[ViewID.Log]).AddLog($"{selectSkill.skillName} 스킬을 등록 합니다.");
                 }
             }

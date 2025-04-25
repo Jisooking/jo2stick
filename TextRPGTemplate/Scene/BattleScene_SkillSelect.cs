@@ -9,6 +9,7 @@ using TextRPG.Context;
 using TextRPG.Scene;
 using TextRPG.View;
 using TextRPGTemplate.Context;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TextRPGTemplate.Scene
 {
@@ -19,8 +20,7 @@ namespace TextRPGTemplate.Scene
 
         }
 
-        private Skill selectSkill;
-
+       
         public override void DrawScene()
         {
             ClearScene();
@@ -29,20 +29,23 @@ namespace TextRPGTemplate.Scene
             dynamicText.Add("[보유 스킬]");
             dynamicText.Add("");
 
-            for (int i = 0; i < gameContext.ch.learnSkillList.Count; i++)
+            Skill equipSKill;
+            for (int i = 0; i < gameContext.ch.equipSkillList.Length; i++)
             {
-                if (gameContext.ch.learnSkillList[i].isEquip)
+                if (gameContext.ch.equipSkillList[i] != null)
                 {
-                    selectSkill = gameContext.ch.learnSkillList[i];
-                    dynamicText.Add($"- {i + 1} {(selectSkill.isEquip ? "[E]" : "")} {selectSkill.skillName} \t | {(selectSkill.skillType == 0 ? "공격스킬" : "방어스킬")} + {(selectSkill.effectAmount)} 데미지");
-                    dynamicText.Add($"\t {selectSkill.description}");
+                    equipSKill = gameContext.ch.equipSkillList[i];
+                    int skillDamage = (int)((gameContext.ch.getTotalAttack() + equipSKill.effectAmount[0]) + (gameContext.ch.getStat(equipSKill.statType) * equipSKill.skillFactor));
+
+                    dynamicText.Add($"[{i + 1}] {equipSKill.skillName} | {(skillDamage)} 데미지 | 소모 마나 : {equipSKill.costMana}");
+                    dynamicText.Add($"    쿨타임 : {equipSKill.curCoolTime}/{equipSKill.coolTime} | 횟수 : {equipSKill.curUseCount}/{equipSKill.maxUseCount}");
                 }
             }
 
             //dynamicText.Add($"{gameContext.skillList[0].skillName}");
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            
+
 
             Render();
         }
@@ -51,12 +54,41 @@ namespace TextRPGTemplate.Scene
         //기능
         public override string respond(int i)
         {
-            UseSkill();
+            if (i > 0 && i <= gameContext.ch.equipSkillList.Length)
+            {
+                if (gameContext.ch.equipSkillList != null)
+                {
+                    UseSkill(gameContext.ch.equipSkillList[i]);
+                }
+                else
+                {
+                    ((LogView)viewMap[ViewID.Log]).AddLog($"잘못된 입력입니다.");
+                    return SceneID.Nothing;
+                }
+            }
+            else if(i < 0 || i > gameContext.ch.equipSkillList.Length)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog($"잘못된 입력입니다.");
+                return SceneID.Nothing;
+            }
             return SceneID.BattleScene;
         }
-
-        public void UseSkill()
+        
+        public bool IsUseable(Skill selectSkill)
         {
+            if (selectSkill.costMana > gameContext.ch.Mp) return false;
+            else if(selectSkill.curUseCount == 0) return false;
+            else if(selectSkill.curCoolTime < selectSkill.coolTime) return false;
+            else return true;
+        }
+
+        public void UseSkill(Skill selectSkill)
+        {
+            if (!IsUseable(selectSkill))
+            {
+                
+            }
+
             if (selectSkill.targetType == TargetType.Enemy)
             {
                 MonsterData target = ChooseTarget();
@@ -68,26 +100,6 @@ namespace TextRPGTemplate.Scene
                 int damage = (skillDamage - target.Power);
                 if (damage < 0) damage = 0;
 
-                for (int i = 0; i < selectSkill.secondaryEffects.Count; i++)
-                {
-                    switch (selectSkill.secondaryEffects[i])
-                    {
-                        case SecondaryEffect.None:
-                            break;
-                        case SecondaryEffect.Stun:
-                            
-                            break;
-                        case SecondaryEffect.DoT:
-                            break;
-                        case SecondaryEffect.Curse:
-                            break;
-                        case SecondaryEffect.Pierce:
-                            break;
-                        case SecondaryEffect.Overflow:
-                            break;
-                    }
-                }
-
                 target.HP = Math.Max(0, target.HP - damage);
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{gameContext.ch.name}가 {target.Name}에게 {selectSkill.skillName}! {damage} 데미지!");
 
@@ -95,9 +107,47 @@ namespace TextRPGTemplate.Scene
                 {
                     ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
                 }
+                else
+                {
+                    for (int i = 0; i < selectSkill.secondaryEffects.Count; i++)
+                    {
+                        if (selectSkill.secondaryEffects[i] != SecondaryEffect.None)
+                        {
+                            target.StatusEffects.Add(new StatusEffect(ConvertEffect(selectSkill.secondaryEffects[i]), selectSkill.duration[i], selectSkill.effectAmount[i]));
+                        }
+                        else if (selectSkill.secondaryEffects[i] == SecondaryEffect.Pierce)
+                        {
+
+                        }
+                        else if (selectSkill.secondaryEffects[i] == SecondaryEffect.Overflow)
+                        {
+
+                        }
+                    }
+                }
             }
         }
-
+        
+        public StatusEffectType ConvertEffect(SecondaryEffect secondaryEffect)
+        {
+            StatusEffectType type;
+            switch (secondaryEffect)
+            {
+                case SecondaryEffect.Stun:
+                    type = StatusEffectType.Stun;
+                    break;
+                case SecondaryEffect.DoT:
+                    type = StatusEffectType.DoT;
+                    break;
+                case SecondaryEffect.Curse:
+                    type = StatusEffectType.Curse;
+                    break;
+                default:
+                    type = StatusEffectType.None;
+                    break;
+            }
+            return type;
+        }
 
         private MonsterData? ChooseTarget()
         {
