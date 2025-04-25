@@ -8,6 +8,10 @@ using TextRPG.Context;
 using TextRPGTemplate.Animation;
 using TextRPGTemplate.Managers;
 using TextRPGTemplate.Scene;
+using System.Diagnostics;
+using System;
+using System.IO;
+using NAudio.Wave;
 
 namespace TextRPG
 {
@@ -20,7 +24,7 @@ namespace TextRPG
             Console.SetBufferSize(183, 56);
             int width = Console.WindowWidth;
             int height = Console.WindowHeight;
-
+            AudioManager.Instance().InitBgm();
 
             //Save 불러오기
             string? name = "";
@@ -113,8 +117,11 @@ namespace TextRPG
             var monsterDataJson = File.ReadAllText(JsonPath.monsterDataJsonPath);
             var monsterList = JsonSerializer.Deserialize<List<MonsterData>>(monsterDataJson);
 
+            var battleAnimationPosJson = File.ReadAllText(JsonPath.battleAnimationPosJsonPath);
+            var battleAnimationPos = JsonSerializer.Deserialize<List<BattleAnimationPos>>(battleAnimationPosJson);
 
-            GameContext gameContext = new(saveData!, dungeonData!, monsterList!, animationPlayer!, animationMap);
+
+            GameContext gameContext = new(saveData!, dungeonData!, monsterList!, animationPlayer!, animationMap, battleAnimationPos!);
 
 
             AScene startScene = sceneFactoryMap[SceneID.Main](gameContext,
@@ -124,7 +131,7 @@ namespace TextRPG
                 sceneNextMap);
 
             Console.Clear();
-            //실행
+            //실행            
             run(gameContext,
                 startScene,
                 viewMap,
@@ -153,6 +160,7 @@ namespace TextRPG
                     animationMap[pair.Key] = null;
                     continue;
                 }
+                Debug.Write(animationPathMap[pair.Key]);
                 animationJson = File.ReadAllText(animationPathMap[pair.Key]!);
                 animationMap[pair.Key] = JsonSerializer.Deserialize<Animation>(animationJson)!;
             }
@@ -286,8 +294,44 @@ namespace TextRPG
             };
         }
 
-        // 새 Scene을 만들면 이 부분에 추가
-        static void initSceneFactoryMap(Dictionary<string, SceneMaker> sceneFactoryMap)
+        internal class AudioManager
+        {
+            private IWavePlayer waveOut;
+            private AudioFileReader audioFile;
+
+            private static AudioManager instance;
+            public static AudioManager Instance()
+            {
+                if (instance == null)
+                    instance = new AudioManager();
+                return instance;
+            }
+
+            public void InitBgm()
+            {
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "bgm.wav");
+
+                if (File.Exists(filePath))
+                {
+                    waveOut = new WaveOutEvent();
+                    audioFile = new AudioFileReader(filePath);
+
+                    audioFile.Volume = 0.3f;
+                    // 재생이 끝날 때 이벤트를 감지하여 무한 반복
+                    waveOut.PlaybackStopped += (sender, args) =>
+                    {
+                        audioFile.Position = 0; // 파일의 시작 위치로 되돌림
+                        waveOut.Play();
+                    };
+
+                    waveOut.Init(audioFile);
+                    waveOut.Play();
+                }
+            }
+        }
+
+                    // 새 Scene을 만들면 이 부분에 추가
+                    static void initSceneFactoryMap(Dictionary<string, SceneMaker> sceneFactoryMap)
         {
             RegisterScene<MainScene>(sceneFactoryMap, SceneID.Main);
             RegisterScene<WearScene>(sceneFactoryMap, SceneID.Wear);

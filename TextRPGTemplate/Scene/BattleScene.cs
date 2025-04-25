@@ -29,12 +29,6 @@ namespace TextRPG.Scene
                     $"던전 선택 후 몬스터가 생성되지 않았습니다. " +
                     $"DungeonSelectScene.respond()에서 몬스터를 생성해야 합니다.");
             }
-
-            //4. 스킬 정보 초기화
-            for (int i = 0; i < gameContext.ch.equipSkillList.Length; i++) 
-            {
-                gameContext.ch.equipSkillList[i]?.Reset();
-            }
         }
 
         public override void DrawScene()
@@ -49,7 +43,6 @@ namespace TextRPG.Scene
             dynamicText.Add($"플레이어: {player.name} | HP: {player.hp}/{player.MaxHp} | MP: {player.Mp}/{player.MaxMp}");
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //
             Render();
         }
         private string? CheckBattleEnd()
@@ -123,6 +116,14 @@ namespace TextRPG.Scene
                 battleResult = CheckBattleEnd();
                 if (battleResult != null) return battleResult;
             }
+
+            foreach (var skill in gameContext.ch.equipSkillList)
+            {
+                if (skill != null)
+                {
+                    skill.EndTurn();
+                }
+            }  
             return SceneID.BattleScene;
         }
 
@@ -208,7 +209,7 @@ namespace TextRPG.Scene
             int choice;
             while (true)
             {
-                Console.Write("선택: ");
+                ((LogView)viewMap[ViewID.Log]).AddLog("선택: ");
                 if (int.TryParse(Console.ReadLine(), out choice))
                 {
                     if (choice == 0) return false;
@@ -256,19 +257,22 @@ namespace TextRPG.Scene
 
             monster.isActionable = true; //턴 시작시 몬스터 상태를 true로 초기화
 
-            for (int i = 0; i < monster.StatusEffects.Count; i++)
+            for (int i = 0; i < monster.StatusEffects?.Count; i++)
             {
                 switch (monster.StatusEffects[i].effectType)
                 {
                     case StatusEffectType.Stun:
-                        monster.isActionable = false;                       
+                        monster.isActionable = false;
                         break;
                 }
-                monster.StatusEffects[i].duration--;
-                if (monster.StatusEffects[i].duration == 0) 
-                { 
+                if (monster.StatusEffects[i].duration == 0)
+                {
                     monster.StatusEffects.Remove(monster.StatusEffects[i]);
                     i--;
+                }
+                else
+                {
+                    monster.StatusEffects[i].duration--;
                 }
             }
 

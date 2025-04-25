@@ -34,17 +34,15 @@ namespace TextRPG.Scene
                     if (tmp.healAmount > 0) effectText += $"체력 +{tmp.healAmount} ";
                     if (tmp.manaAmount > 0) effectText += $"마나 +{tmp.manaAmount}";
 
-                    dynamicText.Add($"-{i + 1}.{tmp.name} \t | {effectText} \t | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
+                    dynamicText.Add($"-{i + 1}.{tmp.name} | {effectText} | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
                 }
                 else
                 {
                     // 일반 아이템인 경우: 기존 방식 유지
-                    dynamicText.Add($"-{i + 1}.{tmp.name} \t | {(tmp.attack > 0 ? "공격력" : "방어력")} + {(tmp.attack > 0 ? tmp.attack : tmp.guard)} \t | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
+                    dynamicText.Add($"-{i + 1}.{tmp.name} | {(tmp.attack > 0 ? "공격력" : "방어력")} + {(tmp.attack > 0 ? tmp.attack : tmp.guard)} | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
                 }
             }
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //
-
             Render();
         }
         public override string respond(int i)

@@ -17,7 +17,7 @@ public class MonsterData
     public string Dropitem { get; set; }
     public List<StatusEffect> StatusEffects { get; set; }
     public bool isActionable = true;
-
+    public int preHP { get; set; }
 
     public MonsterData(MonsterData other)
     {
@@ -49,7 +49,7 @@ public class MonsterData
             ExpReward = this.ExpReward,
             GoldReward = this.GoldReward,
             Dropitem = this.Dropitem,
-            Type = new List<string>(this.Type)
+            Type = new List<string>(this.Type),
             StatusEffects = new List<StatusEffect>()
         };
     }

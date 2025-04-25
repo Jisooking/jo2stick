@@ -25,8 +25,6 @@ namespace TextRPG.Scene
             }
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //
-
             Render();
         }
 
@@ -75,6 +73,7 @@ namespace TextRPG.Scene
             gameContext.enteredDungeon = selectedDungeon;
             gameContext.prevHp = gameContext.ch.hp;
             gameContext.prevGold = gameContext.ch.gold;
+            battleIdleAnimationPlay();
             return SceneID.BattleScene;
         }
 
@@ -82,6 +81,11 @@ namespace TextRPG.Scene
         {
             var monsters = new List<MonsterData>();
             int monsterCount = rnd.Next(dungeon.MonsterCountMin, dungeon.MonsterCountMax + 1);
+
+            for (int i = 0; i < gameContext.ch.equipSkillList.Length; i++)
+            {
+                gameContext.ch.equipSkillList[i]?.Reset();
+            }
 
             for (int i = 0; i < monsterCount; i++)
             {
