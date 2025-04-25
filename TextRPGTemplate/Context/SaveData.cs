@@ -17,6 +17,7 @@ namespace TextRPG.Context
         public QuestData[] questData { get; set; } = Array.Empty<QuestData>();
         public List<Skill> learnSkillList { get; set; }
         public Skill[] skillList { get; set; }
+        public List<Skill> characterSkillList { get; set; }
 
         public SaveData() { }
 
@@ -53,7 +54,7 @@ namespace TextRPG.Context
             afterJobStat = gameContext.afterJobStat;
 
             skillList = gameContext.skillList.ToArray();
-            learnSkillList = ch.learnSkillList.ToList();
+            characterSkillList = ch.characterSkillList.ToList();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Monster.cs
 using System.Reflection.Emit;
 using System.Xml.Linq;
+using TextRPGTemplate.Context;
 
 [Serializable]
 public class MonsterData
@@ -14,6 +15,8 @@ public class MonsterData
     public int MaxHP { get; set; }
     public int Power { get; set; }
     public string Dropitem { get; set; }
+    public List<StatusEffect> StatusEffects { get; set; }
+    public bool isActionable = true;
 
 
     public MonsterData(MonsterData other)
@@ -27,6 +30,7 @@ public class MonsterData
         this.MaxHP = other.MaxHP;
         this.Power = other.Power;
         this.Dropitem = other.Dropitem;
+        this.StatusEffects = other.StatusEffects;
     }
 
     public MonsterData()
@@ -46,6 +50,8 @@ public class MonsterData
             GoldReward = this.GoldReward,
             Dropitem = this.Dropitem,
             Type = new List<string>(this.Type)
+            StatusEffects = new List<StatusEffect>()
         };
     }
 }
+

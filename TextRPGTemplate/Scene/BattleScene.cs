@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using TextRPG.Context;
 using TextRPG.View;
 using TextRPGTemplate.Context;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TextRPG.Scene
 {
@@ -26,6 +28,12 @@ namespace TextRPG.Scene
                 throw new InvalidOperationException(
                     $"던전 선택 후 몬스터가 생성되지 않았습니다. " +
                     $"DungeonSelectScene.respond()에서 몬스터를 생성해야 합니다.");
+            }
+
+            //4. 스킬 정보 초기화
+            for (int i = 0; i < gameContext.ch.equipSkillList.Length; i++) 
+            {
+                gameContext.ch.equipSkillList[i]?.Reset();
             }
         }
 
@@ -246,18 +254,43 @@ namespace TextRPG.Scene
         {
             if (monster.HP <= 0) return;
 
-            int damage = (int)(monster.Power - player.getTotalGuard());
-            if (damage < 0) damage = 0;
+            monster.isActionable = true; //턴 시작시 몬스터 상태를 true로 초기화
 
-            player.hp -= damage;
-
-            if (player.hp < 0) player.hp = 0;
-
-            ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}가 {player.name}에게 공격! {damage} 데미지!");
-
-            if (player.hp <= 0)
+            for (int i = 0; i < monster.StatusEffects.Count; i++)
             {
-                ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다. 게임 오버!");
+                switch (monster.StatusEffects[i].effectType)
+                {
+                    case StatusEffectType.Stun:
+                        monster.isActionable = false;                       
+                        break;
+                }
+                monster.StatusEffects[i].duration--;
+                if (monster.StatusEffects[i].duration == 0) 
+                { 
+                    monster.StatusEffects.Remove(monster.StatusEffects[i]);
+                    i--;
+                }
+            }
+
+            if (!monster.isActionable)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}은 행동불능 상태!");
+            }
+            else
+            {
+                int damage = (int)(monster.Power - player.getTotalGuard());
+                if (damage < 0) damage = 0;
+
+                player.hp -= damage;
+
+                if (player.hp < 0) player.hp = 0;
+
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}가 {player.name}에게 공격! {damage} 데미지!");
+
+                if (player.hp <= 0)
+                {
+                    ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다. 게임 오버!");
+                }
             }
         }
 
