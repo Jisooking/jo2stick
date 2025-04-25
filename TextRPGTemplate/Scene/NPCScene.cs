@@ -41,31 +41,39 @@ namespace TextRPG.Scene
 
         public override string respond(int i)
         {
-            if (i == 0)
+            if (gameContext.isaccept == false)
             {
-                return sceneNext.next![i];
-            }
-            else if (i < gameContext.questData.Length + 1)
-            {
-                gameContext.questinput = i - 1; //번호에 맞는 npc
-                QuestData quest = gameContext.questData[gameContext.questinput];
-                quest.clearquest = false;
-                if (quest.clearquest == false)
+                if (i == 0)
                 {
-                    return SceneID.QuestScene;
+                    return sceneNext.next![i];
                 }
-                else if (quest.clearquest == true)
+                else if (i < gameContext.questData.Length + 1)
                 {
-                    return SceneID.QuestClearScene;
+                    gameContext.questinput = i - 1; //번호에 맞는 npc
+                    QuestData quest = gameContext.questData[gameContext.questinput];
+                    quest.clearquest = false;
+                    if (quest.clearquest == false)
+                    {
+                        return SceneID.QuestScene;
+                    }
+                    else if (quest.clearquest == true)
+                    {
+                        return SceneID.QuestClearScene;
+                    }
+                }
+                else
+                {
+                    ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다.");
+                    return sceneNext.next![i];
                 }
             }
-            else
+            else if (gameContext.isaccept == true)
             {
-                ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다.");
-                return sceneNext.next![i];
+                Thread.Sleep(1000);
+                return SceneID.Main;
             }
 
-            convertSceneAnimationPlay(sceneNext.next![i]);
+                convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
     }
