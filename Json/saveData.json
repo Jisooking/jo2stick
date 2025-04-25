@@ -1,5 +1,110 @@
 {
-  "afterJobStat": null,
+  "name": "qwerty",
+  "job": "Warrior",
+  "afterJobStat": [
+    {
+      "iD": 1,
+      "job": "\uD30C\uC774\uD130",
+      "addStr": 100,
+      "addDex": 50,
+      "addInt": 0,
+      "addLuk": 0,
+      "addHp": 200,
+      "addMp": 0,
+      "addPoint": 10,
+      "addattack": 30,
+      "addguard": 30,
+      "addcritical": 0,
+      "jobSkills": [
+        "\uBC30\uC26C",
+        "\uB3C4\uBC1C",
+        "\uAC15\uB825\uD55C \uC77C\uACA9",
+        "\uBD84\uB178",
+        "\uCD5C\uD6C4\uC758 \uC800\uD56D"
+      ]
+    },
+    {
+      "iD": 2,
+      "job": "\uB808\uC778\uC800",
+      "addStr": 50,
+      "addDex": 100,
+      "addInt": 0,
+      "addLuk": 0,
+      "addHp": 100,
+      "addMp": 50,
+      "addPoint": 10,
+      "addattack": null,
+      "addguard": 0,
+      "addcritical": null,
+      "jobSkills": [
+        "\uBA40\uD2F0 \uC0F7",
+        "\uD3EC\uC774\uC98C \uC5D0\uB85C\uC6B0",
+        "\uD035 \uC0F7",
+        "\uC9D1\uC911",
+        "\uBE44\uC0C1 \uC2DD\uB7C9"
+      ]
+    },
+    {
+      "iD": 3,
+      "job": "\uC704\uC790\uB4DC",
+      "addStr": 0,
+      "addDex": 0,
+      "addInt": 100,
+      "addLuk": 50,
+      "addHp": 0,
+      "addMp": 200,
+      "addPoint": 10,
+      "addattack": null,
+      "addguard": 0,
+      "addcritical": null,
+      "jobSkills": [
+        "\uD30C\uC774\uC5B4 \uBCFC",
+        "\uB77C\uC774\uD2B8\uB2DD \uBCFC\uD2B8",
+        "\uB9C8\uB098 \uC274\uB4DC",
+        "\uC544\uC774\uC2A4 \uC2A4\uD53C\uC5B4",
+        "\uB9C8\uB098\uC911\uB3C5"
+      ]
+    },
+    {
+      "iD": 4,
+      "job": "\uC2DC\uD504",
+      "addStr": 10,
+      "addDex": 50,
+      "addInt": 0,
+      "addLuk": 100,
+      "addHp": 50,
+      "addMp": 50,
+      "addPoint": 10,
+      "addattack": null,
+      "addguard": 0,
+      "addcritical": null,
+      "jobSkills": [
+        "\uBC31\uC2A4\uD0ED",
+        "\uAE09\uC18C \uCC0C\uB974\uAE30",
+        "\uB2E8\uAC80 \uD22C\uCC99",
+        "\uC740\uC2E0",
+        "\uC7AC\uBE60\uB978 \uBAB8\uB180\uB9BC"
+      ]
+    }
+  ],
+  "Level": 1,
+  "Str": 2,
+  "Dex": 119,
+  "Int": 0,
+  "Luk": 78,
+  "attack": 3,
+  "guard": 142.8,
+  "hp": 54,
+  "MaxHp": 54,
+  "Mp": 50,
+  "MaxMp": 50,
+  "Exp": 0,
+  "Point": 0,
+  "CurrentExp": 0,
+  "MaxExp": 100,
+  "gold": 20000,
+  "critical": 10,
+  "clearCount": 0,
   "items": [],
   "shopItems": [
     {
@@ -12,11 +117,7 @@
       "guard": 5,
       "bought": false,
       "armor": true,
-      "weapon": false,
-      "quantity": 0,
-      "isPotion": false,
-      "healAmount": 0,
-      "manaAmount": 0
+      "weapon": false
     },
     {
       "key": "steelarmor",
@@ -28,11 +129,7 @@
       "guard": 9,
       "bought": false,
       "armor": true,
-      "weapon": false,
-      "quantity": 0,
-      "isPotion": false,
-      "healAmount": 0,
-      "manaAmount": 0
+      "weapon": false
     },
     {
       "key": "spartaArmor",
@@ -44,11 +141,7 @@
       "guard": 15,
       "bought": false,
       "armor": true,
-      "weapon": false,
-      "quantity": 0,
-      "isPotion": false,
-      "healAmount": 0,
-      "manaAmount": 0
+      "weapon": false
     },
     {
       "key": "oldSword",
@@ -60,11 +153,7 @@
       "guard": 0,
       "bought": false,
       "armor": false,
-      "weapon": true,
-      "quantity": 0,
-      "isPotion": false,
-      "healAmount": 0,
-      "manaAmount": 0
+      "weapon": true
     },
     {
       "key": "bronzeAxe",
@@ -76,11 +165,7 @@
       "guard": 0,
       "bought": false,
       "armor": false,
-      "weapon": true,
-      "quantity": 0,
-      "isPotion": false,
-      "healAmount": 0,
-      "manaAmount": 0
+      "weapon": true
     },
     {
       "key": "spartaLance",
@@ -92,11 +177,7 @@
       "guard": 0,
       "bought": false,
       "armor": false,
-      "weapon": true,
-      "quantity": 0,
-      "isPotion": false,
-      "healAmount": 0,
-      "manaAmount": 0
+      "weapon": true
     },
     {
       "key": "customItem",
@@ -108,36 +189,120 @@
       "guard": 0,
       "bought": false,
       "armor": false,
-      "weapon": true,
-      "quantity": 0,
-      "isPotion": false,
-      "healAmount": 0,
-      "manaAmount": 0
+      "weapon": true
     }
   ],
-  "learnSkillList": null,
-  "skillList": null,
-  "name": "askdmnnjr",
-  "job": "",
-  "Level": 1,
-  "gold": 20000,
-  "clearCount": 0,
-  "Stats": null,
-  "attack": 0,
-  "guard": 0,
-  "hp": 150,
-  "Str": 50,
-  "Int": 52,
-  "Dex": 34,
-  "Luk": 3,
-  "MaxHp": 150,
-  "Mp": 102,
-  "MaxMp": 102,
-  "Exp": 0,
-  "CurrentExp": 0,
-  "MaxExp": 100,
-  "Point": 0,
-  "critical": 0,
-  "defaultAttack": 75,
-  "defaultGuard": 40.800003
+  "learnSkillList": [],
+  "skillList": [
+    {
+      "key": "powerStrike",
+      "skillName": "\uD30C\uC6CC \uC2A4\uD2B8\uB77C\uC774\uD06C",
+      "description": "\uC801\uC744 \uAC15\uD558\uAC8C \uACF5\uACA9\uD569\uB2C8\uB2E4.",
+      "skillType": 0,
+      "statType": 1,
+      "targetType": 1,
+      "isLearn": false,
+      "isEquip": false,
+      "maxUseCount": 5,
+      "effectAmount": 15,
+      "skillFactor": 0,
+      "coolTime": 2,
+      "curCoolTime": 0,
+      "costMana": 5,
+      "duration": 0,
+      "skillLevel": 1,
+      "flavorText": [
+        "asd!",
+        "12ads!"
+      ]
+    },
+    {
+      "key": "powerStrike",
+      "skillName": "\uD30C\uC6CC \uC2A4\uD2B8\uB77C\uC774\uD06C",
+      "description": "\uC801\uC744 \uAC15\uD558\uAC8C \uACF5\uACA9\uD569\uB2C8\uB2E4.",
+      "skillType": 0,
+      "statType": 1,
+      "targetType": 1,
+      "isLearn": false,
+      "isEquip": false,
+      "maxUseCount": 5,
+      "effectAmount": 15,
+      "skillFactor": 0,
+      "coolTime": 2,
+      "curCoolTime": 0,
+      "costMana": 5,
+      "duration": 0,
+      "skillLevel": 1,
+      "flavorText": [
+        "asd!",
+        "12ads!"
+      ]
+    },
+    {
+      "key": "powerStrike",
+      "skillName": "\uD30C\uC6CC \uC2A4\uD2B8\uB77C\uC774\uD06C",
+      "description": "\uC801\uC744 \uAC15\uD558\uAC8C \uACF5\uACA9\uD569\uB2C8\uB2E4.",
+      "skillType": 0,
+      "statType": 1,
+      "targetType": 1,
+      "isLearn": false,
+      "isEquip": false,
+      "maxUseCount": 5,
+      "effectAmount": 15,
+      "skillFactor": 0,
+      "coolTime": 2,
+      "curCoolTime": 0,
+      "costMana": 5,
+      "duration": 0,
+      "skillLevel": 1,
+      "flavorText": [
+        "asd!",
+        "12ads!"
+      ]
+    },
+    {
+      "key": "powerStrike",
+      "skillName": "\uD30C\uC6CC \uC2A4\uD2B8\uB77C\uC774\uD06C",
+      "description": "\uC801\uC744 \uAC15\uD558\uAC8C \uACF5\uACA9\uD569\uB2C8\uB2E4.",
+      "skillType": 0,
+      "statType": 1,
+      "targetType": 1,
+      "isLearn": false,
+      "isEquip": false,
+      "maxUseCount": 5,
+      "effectAmount": 15,
+      "skillFactor": 0,
+      "coolTime": 2,
+      "curCoolTime": 0,
+      "costMana": 5,
+      "duration": 0,
+      "skillLevel": 1,
+      "flavorText": [
+        "asd!",
+        "12ads!"
+      ]
+    },
+    {
+      "key": "powerStrike",
+      "skillName": "\uD30C\uC6CC \uC2A4\uD2B8\uB77C\uC774\uD06C",
+      "description": "\uC801\uC744 \uAC15\uD558\uAC8C \uACF5\uACA9\uD569\uB2C8\uB2E4.",
+      "skillType": 0,
+      "statType": 1,
+      "targetType": 1,
+      "isLearn": false,
+      "isEquip": false,
+      "maxUseCount": 5,
+      "effectAmount": 15,
+      "skillFactor": 0,
+      "coolTime": 2,
+      "curCoolTime": 0,
+      "costMana": 5,
+      "duration": 0,
+      "skillLevel": 1,
+      "flavorText": [
+        "asd!",
+        "12ads!"
+      ]
+    }
+  ]
 }
