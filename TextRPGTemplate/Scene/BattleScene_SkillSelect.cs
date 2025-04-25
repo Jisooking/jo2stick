@@ -45,8 +45,6 @@ namespace TextRPGTemplate.Scene
             //dynamicText.Add($"{gameContext.skillList[0].skillName}");
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-
-
             Render();
         }
 

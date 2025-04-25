@@ -32,11 +32,18 @@ namespace TextRPG.Context
         public Skill[] skillList { get; set; }
 
         public Dictionary<string, Animation?> animationMap = new();
+
+        public List<BattleAnimationPos> battleAnimationPos { get; set; }
         public void ResetBattleMonsters()
         {
             currentBattleMonsters.Clear();
         }
-        public GameContext(SaveData saveData, List<DungeonData> dungeonData, List<MonsterData> monsters, AnimationPlayer animationPlayer, Dictionary<string, Animation?> animationMap)
+        public GameContext(SaveData saveData, 
+            List<DungeonData> dungeonData, 
+            List<MonsterData> monsters, 
+            AnimationPlayer animationPlayer, 
+            Dictionary<string, Animation?> animationMap, 
+            List<BattleAnimationPos> battleAnimationPos)
         {
             // Character 생성자는 변경되지 않았으므로 기존 코드 유지
             ch = new Character(saveData);
@@ -53,6 +60,7 @@ namespace TextRPG.Context
             this.animationMap = animationMap;
             this.questData = saveData.questData;
             this.afterJobStat = saveData.afterJobStat;
+            this.battleAnimationPos = battleAnimationPos;
         }
     }
 }

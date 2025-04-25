@@ -26,5 +26,13 @@
     {
         "key": "Rest",
         "animationPath": "RestSceneAnimation.json"
-    }
+    },
+    {
+        "key": "SkillManager",
+        "animationPath": "SkillManagerSceneAnimation.json"
+    },
+    {
+        "key": "FighterIdle",
+        "animationPath": "Fighter/FighterIdleAnimation.json"
+    } 
 ]

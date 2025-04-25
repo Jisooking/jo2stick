@@ -22,7 +22,6 @@ namespace TextRPG.Scene
 
             List<string> dynamicText = new();
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //
             Render();
         }
 

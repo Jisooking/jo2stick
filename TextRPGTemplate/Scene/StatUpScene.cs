@@ -27,8 +27,6 @@ namespace TextRPG.Scene
             dynamicText.Add($"3. Int : {gameContext.ch.Int}");
             dynamicText.Add($"4. Luk : {gameContext.ch.Luk}");
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //
-
             Render();
         }
 

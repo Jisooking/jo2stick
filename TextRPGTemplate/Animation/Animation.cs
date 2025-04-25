@@ -13,5 +13,30 @@ namespace TextRPGTemplate.Animation
         public int[] y { get; set; } = Array.Empty<int>();
         public int frameDurationMs { get; set; } = 100;
         public Action? OnComplete { get; set; } = null;
+
+        public Animation() { }
+
+        public Animation(string[][] frames, int[] x, int[] y, int frameDurationMs, Action? onComplete)
+        {
+            this.frames = frames;
+            this.x = x;
+            this.y = y;
+            this.frameDurationMs = frameDurationMs;
+            OnComplete = onComplete;
+        }
+
+        public Animation DeepCopy()
+        {
+            return new Animation
+            {
+                frames = (string[][])this.frames.Clone(),
+                x = (int[])this.x.Clone(),
+                y = (int[])this.y.Clone(),
+                frameDurationMs = this.frameDurationMs,
+                OnComplete = null
+            };
+
+
+        }
     }
 }

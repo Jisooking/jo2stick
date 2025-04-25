@@ -34,7 +34,6 @@ namespace TextRPG.Scene
                 }
             }
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //
             Render();
         }
         public override string respond(int i)
