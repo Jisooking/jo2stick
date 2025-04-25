@@ -68,7 +68,9 @@ namespace TextRPG
                 statCreater.GenerateStats();
                 Console.Clear();
                 saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
+
                 saveData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
+
                 saveData.name = name;
                 saveData.Str = statCreater.Str;
                 saveData.Int = statCreater.Int;
@@ -110,6 +112,7 @@ namespace TextRPG
             // 몬스터 데이터 로드 추가
             var monsterDataJson = File.ReadAllText(JsonPath.monsterDataJsonPath);
             var monsterList = JsonSerializer.Deserialize<List<MonsterData>>(monsterDataJson);
+
 
             GameContext gameContext = new(saveData!, dungeonData!, monsterList!, animationPlayer!, animationMap);
 
@@ -300,6 +303,9 @@ namespace TextRPG
             RegisterScene<BattleScene>(sceneFactoryMap, SceneID.BattleScene);
             RegisterScene<BattleScene_SkillSelect>(sceneFactoryMap, SceneID.BattleScene_Skill);
             RegisterScene<StatUpScene>(sceneFactoryMap, SceneID.StatUp);
+            RegisterScene<QuestScene>(sceneFactoryMap, SceneID.QuestScene);
+            RegisterScene<NPCScene>(sceneFactoryMap, SceneID.NPCScene);
+            RegisterScene<QuestClearScene>(sceneFactoryMap,SceneID.QuestClearScene);
             RegisterScene<GetJobScene>(sceneFactoryMap, SceneID.GetJob);
             RegisterScene<SkillManagerScene>(sceneFactoryMap, SceneID.SkillManager);
             RegisterScene<SkillLearnScene>(sceneFactoryMap, SceneID.SkillLearn);

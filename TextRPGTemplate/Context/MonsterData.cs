@@ -13,6 +13,7 @@ public class MonsterData
     public int HP { get; set; }
     public int MaxHP { get; set; }
     public int Power { get; set; }
+    public string Dropitem { get; set; }
 
 
     public MonsterData(MonsterData other)
@@ -25,6 +26,7 @@ public class MonsterData
         this.HP = other.HP;
         this.MaxHP = other.MaxHP;
         this.Power = other.Power;
+        this.Dropitem = other.Dropitem;
     }
 
     public MonsterData()
@@ -42,6 +44,7 @@ public class MonsterData
             Power = this.Power,
             ExpReward = this.ExpReward,
             GoldReward = this.GoldReward,
+            Dropitem = this.Dropitem,
             Type = new List<string>(this.Type)
         };
     }

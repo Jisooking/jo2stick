@@ -26,10 +26,14 @@ namespace TextRPG.Scene
         public const string DungeonClear = "DungeonClear";
         public const string DungeonFail = "DungeonFail";
         public const string StatUp = "StatUp";
+        public const string NPCScene = "NPCScene";
+        public const string QuestScene = "QuestScene";
+        public const string QuestClearScene = "QuestClearScene";
         public const string GetJob = "GetJob";
         public const string SkillManager = "SkillManager";
         public const string SkillLearn = "SkillLearn";
         public const string SkillEquip = "SkillEquip";
+
     }
     public abstract class AScene
     {

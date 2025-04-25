@@ -98,9 +98,9 @@
             "Shop",
             "DungeonSelect",
             "Rest",
-            "StatUp",
             "SkillManager",
             "None",
+            "NPCScene",
             "None"
         ]
     },
@@ -273,6 +273,51 @@
         "key": "BattleScene_Skill",
         "next": [
             "BattleScene",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None"
+        ]
+    },
+    {
+        "key": "NPCScene",
+        "next": [
+            "Main",
+            "QuestScene",
+            "QuestScene",
+            "QuestScene",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None"
+        ]
+    },
+    {
+        "key": "QuestScene",
+        "next": [
+            "Main",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None"
+        ]
+    },
+    {
+        "key": "QuestClearScene",
+        "next": [
+            "Main",
             "None",
             "None",
             "None",
