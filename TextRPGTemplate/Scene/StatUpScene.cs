@@ -32,7 +32,7 @@ namespace TextRPG.Scene
 
         public override string respond(int i)
         {
-            if (gameContext.ch.Point > 0)
+            if (gameContext.ch.Point > 0 )
             {
                 switch (i)
                 {
@@ -43,7 +43,7 @@ namespace TextRPG.Scene
                 }
                 gameContext.ch.Point--;  // 포인트 차감
             }
-            else
+            else if (i != 0)
             {
                 // 포인트 부족 메시지 출력
                 ((DynamicView)viewMap[ViewID.Dynamic]).SetText(new string[]
@@ -58,9 +58,8 @@ namespace TextRPG.Scene
 
                 Render();
                 Thread.Sleep(1500); // 잠깐 보여주고 다시 DrawScene 호출
-            }
-
-            return sceneNext.next![i];
+            }            
+                return sceneNext.next![i];
         }
     }
 }
