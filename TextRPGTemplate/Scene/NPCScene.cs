@@ -41,9 +41,6 @@ namespace TextRPG.Scene
 
         public override string respond(int i)
         {
-            var quest = gameContext.questData[gameContext.questinput];
-            quest.clearquest = false;
-
             if (i == 0)
             {
                 return sceneNext.next![i];
@@ -51,6 +48,8 @@ namespace TextRPG.Scene
             else if (i < gameContext.questData.Length + 1)
             {
                 gameContext.questinput = i - 1; //번호에 맞는 npc
+                QuestData quest = gameContext.questData[gameContext.questinput];
+                quest.clearquest = false;
                 if (quest.clearquest == false)
                 {
                     return SceneID.QuestScene;

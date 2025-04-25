@@ -44,6 +44,7 @@ public class MonsterData
             Power = this.Power,
             ExpReward = this.ExpReward,
             GoldReward = this.GoldReward,
+            Dropitem = this.Dropitem,
             Type = new List<string>(this.Type)
         };
     }

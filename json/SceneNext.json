@@ -302,7 +302,7 @@
     {
         "key": "QuestScene",
         "next": [
-            "NPCScene",
+            "Main",
             "None",
             "None",
             "None",
@@ -317,7 +317,7 @@
     {
         "key": "QuestClearScene",
         "next": [
-            "NPCScene",
+            "Main",
             "None",
             "None",
             "None",

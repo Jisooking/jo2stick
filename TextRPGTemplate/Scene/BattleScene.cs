@@ -57,7 +57,8 @@ namespace TextRPG.Scene
                     {
                         Name = m.Name,
                         ExpReward = m.ExpReward,
-                        GoldReward = m.GoldReward
+                        GoldReward = m.GoldReward,
+                        Dropitem = m.Dropitem
                     })
                     .ToList();
 
