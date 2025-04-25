@@ -51,6 +51,7 @@ namespace TextRPG.Scene
                 gameContext.ch.Exp += totalExp;            // 총 경험치 누적 (기록용)
                 gameContext.ch.CurrentExp += totalExp;     // 실제 레벨업 계산에 사용됨
                 List<string> levelUpText = gameContext.ch.Levelup();              // 레벨업 처리 (CurrentExp, MaxExp 반영)
+                gameContext.clearedMonsters.Clear();
                 foreach (string levelUp in levelUpText)
                 {
                     ((LogView)viewMap[ViewID.Log]).AddLog(levelUp);
@@ -68,7 +69,7 @@ namespace TextRPG.Scene
                 dynamicText.Add($"골드 {gameContext.prevGold}G -> {gameContext.curGold}G");
                 dynamicText.Add($"{quest.questitem} 아이템을 얻었습니다!" +
                     $"({gameContext.dropitemcount}/{quest.questfigure})");
-
+                totalExp = 0;
                 gameContext.ch.clearCount++;
             }
 

@@ -98,6 +98,7 @@ namespace TextRPGTemplate.Scene
                 int damage = (skillDamage - target.Power);
                 if (damage < 0) damage = 0;
 
+                battleAttackAnimationPlay(target);
                 target.HP = Math.Max(0, target.HP - damage);
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{gameContext.ch.name}가 {target.Name}에게 {selectSkill.skillName}! {damage} 데미지!");
 
@@ -123,6 +124,7 @@ namespace TextRPGTemplate.Scene
                         }
                     }
                 }
+                battleIdleAnimationPlay();
             }
         }
         

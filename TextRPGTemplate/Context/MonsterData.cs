@@ -18,9 +18,12 @@ public class MonsterData
     public List<StatusEffect> StatusEffects { get; set; }
     public bool isActionable = true;
 
+    public string Id { get; set; } = "";
+
 
     public MonsterData(MonsterData other)
     {
+        this.Id = other.Id;
         this.Name = other.Name;  // other 객체의 값 복사
         this.Level = other.Level;
         this.Type = new List<string>(other.Type);  // List는 복사해야 함
@@ -41,6 +44,7 @@ public class MonsterData
     {
         return new MonsterData
         {
+            Id = this.Id,
             Name = this.Name,
             Level = this.Level,
             HP = this.HP,
