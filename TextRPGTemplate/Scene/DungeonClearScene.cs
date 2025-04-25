@@ -52,15 +52,19 @@ namespace TextRPG.Scene
                 dynamicText.Add($"체력 {gameContext.prevHp} -> {gameContext.curHp}");
                 dynamicText.Add($"골드 {gameContext.prevGold}G -> {gameContext.curGold}G");
                 var quest = gameContext.questData[gameContext.questinput];
-                for (int i = 0; i < gameContext.clearedMonsters.Count; i++)
+                if (quest.clearquest == false)
                 {
-                    if (quest.questitem == gameContext.clearedMonsters[i].Dropitem)
+                    for (int i = 0; i < gameContext.clearedMonsters.Count; i++)
                     {
-                        quest.dropitemcount++;
-                        dynamicText.Add($"{quest.questitem} 아이템을 얻었습니다!" +
-                        $"({quest.dropitemcount}/{quest.questfigure})");
+                        if (quest.questitem == gameContext.clearedMonsters[i].Dropitem)
+                        {
+                            quest.dropitemcount++;
+                            dynamicText.Add($"{quest.questitem} 아이템을 얻었습니다!" +
+                            $"({quest.dropitemcount}/{quest.questfigure})");
+                        }
                     }
                 }
+                
 
                 if (quest.dropitemcount >= quest.questfigure)
                 {
