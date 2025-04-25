@@ -82,6 +82,11 @@ namespace TextRPG.Scene
             var monsters = new List<MonsterData>();
             int monsterCount = rnd.Next(dungeon.MonsterCountMin, dungeon.MonsterCountMax + 1);
 
+            for (int i = 0; i < gameContext.ch.equipSkillList.Length; i++)
+            {
+                gameContext.ch.equipSkillList[i]?.Reset();
+            }
+
             for (int i = 0; i < monsterCount; i++)
             {
                 var monster = GenerateMonsterForDungeon(dungeon);
