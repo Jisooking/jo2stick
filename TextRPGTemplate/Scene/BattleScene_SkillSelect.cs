@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -66,6 +67,26 @@ namespace TextRPGTemplate.Scene
 
                 int damage = (skillDamage - target.Power);
                 if (damage < 0) damage = 0;
+
+                for (int i = 0; i < selectSkill.secondaryEffects.Count; i++)
+                {
+                    switch (selectSkill.secondaryEffects[i])
+                    {
+                        case SecondaryEffect.None:
+                            break;
+                        case SecondaryEffect.Stun:
+                            
+                            break;
+                        case SecondaryEffect.DoT:
+                            break;
+                        case SecondaryEffect.Curse:
+                            break;
+                        case SecondaryEffect.Pierce:
+                            break;
+                        case SecondaryEffect.Overflow:
+                            break;
+                    }
+                }
 
                 target.HP = Math.Max(0, target.HP - damage);
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{gameContext.ch.name}가 {target.Name}에게 {selectSkill.skillName}! {damage} 데미지!");

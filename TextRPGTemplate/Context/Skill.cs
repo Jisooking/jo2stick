@@ -98,6 +98,5 @@ namespace TextRPGTemplate.Context
         Curse,         // 스텟 감소
         Pierce,        // 방어 무시
         Overflow       // 남은 데미지 다음 적에게
-
     }
 }
