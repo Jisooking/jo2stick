@@ -36,7 +36,7 @@ namespace TextRPG.Scene
             dynamicText.Add($"Critical : {ch.critical}");
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            // 
             Render();
         }
 

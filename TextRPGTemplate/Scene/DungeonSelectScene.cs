@@ -26,7 +26,7 @@ namespace TextRPG.Scene
             }
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            // 
 
             Render();
         }
@@ -80,6 +80,7 @@ namespace TextRPG.Scene
             gameContext.enteredDungeon = selectedDungeon;
             gameContext.prevHp = gameContext.ch.hp;
             gameContext.prevGold = gameContext.ch.gold;
+            battleIdleAnimationPlay();
             return SceneID.BattleScene;
         }
 

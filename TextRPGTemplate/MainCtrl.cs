@@ -8,6 +8,7 @@ using TextRPG.Context;
 using TextRPGTemplate.Animation;
 using TextRPGTemplate.Managers;
 using TextRPGTemplate.Scene;
+using System.Diagnostics;
 
 //
 
@@ -112,7 +113,11 @@ namespace TextRPG
             var monsterDataJson = File.ReadAllText(JsonPath.monsterDataJsonPath);
             var monsterList = JsonSerializer.Deserialize<List<MonsterData>>(monsterDataJson);
 
-            GameContext gameContext = new(saveData!, dungeonData!, monsterList!, animationPlayer!, animationMap);
+            var battleAnimationPosJson = File.ReadAllText(JsonPath.battleAnimationPosJsonPath);
+            var battleAnimationPos = JsonSerializer.Deserialize<List<BattleAnimationPos>>(battleAnimationPosJson);
+
+
+            GameContext gameContext = new(saveData!, dungeonData!, monsterList!, animationPlayer!, animationMap, battleAnimationPos!);
 
 
             AScene startScene = sceneFactoryMap[SceneID.Main](gameContext,
@@ -151,6 +156,7 @@ namespace TextRPG
                     animationMap[pair.Key] = null;
                     continue;
                 }
+                Debug.Write(animationPathMap[pair.Key]);
                 animationJson = File.ReadAllText(animationPathMap[pair.Key]!);
                 animationMap[pair.Key] = JsonSerializer.Deserialize<Animation>(animationJson)!;
             }

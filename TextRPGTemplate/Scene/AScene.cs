@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,8 @@ namespace TextRPG.Scene
         protected Dictionary<string, AView> viewMap { get; set; }
         protected SceneText sceneText { get; set; }
         protected SceneNext sceneNext { get; set; }
+        Dictionary<int, Func<GameContext, Animation[]>> makeIdleAnimations = new Dictionary<int, Func<GameContext, Animation[]>>();
+        Dictionary<int, Func<GameContext, Animation[]>> makeAttackAnimations = new Dictionary<int, Func<GameContext, Animation[]>>();
         public AScene(GameContext gameContext, Dictionary<string, AView> viewMap, SceneText sceneText, SceneNext sceneNext)
         {
             this.gameContext = gameContext;
@@ -58,7 +61,7 @@ namespace TextRPG.Scene
             ((ScriptView)viewMap[ViewID.Script]).SetText(sceneText.scriptText!);
             ((ChoiceView)viewMap[ViewID.Choice]).SetText(sceneText.choiceText!);
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(System.Array.Empty<string>());
-            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            // 
             foreach (var pair in viewMap)
             {
                 pair.Value.Update();
@@ -96,7 +99,44 @@ namespace TextRPG.Scene
             {
                 Animation?[] animations = { gameContext.animationMap[s] };
                 gameContext.animationPlayer.play(animations, (SpriteView)viewMap[ViewID.Sprite]);
+
             }
+        }
+
+        public void battleIdleAnimationPlay()
+        {
+            List<Animation> animationsList = new List<Animation>();
+            Animation[] animationsArray = animationsList.ToArray();
+            BattleAnimationPos battleAnimationPos = gameContext.battleAnimationPos[gameContext.currentBattleMonsters.Count];
+
+            Animation animation = gameContext.animationMap["FighterIdle"]!.DeepCopy();
+            animation.x[0] += battleAnimationPos.characterPosX;
+            animation.y[0] += battleAnimationPos.characterPosY;
+            animationsList.Add(animation);
+
+            Debug.WriteLine(" ");
+            Debug.WriteLine(gameContext.currentBattleMonsters.Count);
+
+            for (int i = 0; i < gameContext.currentBattleMonsters.Count; i++)
+            {
+                if (gameContext.currentBattleMonsters[i].HP > 0)
+                {
+                    animation = gameContext.animationMap["FighterIdle"]!.DeepCopy();
+                    animation.x[0] += battleAnimationPos.monsterPosX[i];
+                    animation.y[0] += battleAnimationPos.monsterPosY[i];
+                    animationsList.Add(animation);
+                }
+            }
+            animationsArray = animationsList.ToArray();
+
+            gameContext.animationPlayer.play(animationsArray, (SpriteView)viewMap[ViewID.Sprite]);
+        }
+
+        public void battleAttackAnimationPlay()
+        {
+            List<Animation> animationsList = new List<Animation>();
+            Animation[] animationsArray = animationsList.ToArray();
+            gameContext.animationPlayer.play(animationsArray, (SpriteView)viewMap[ViewID.Sprite]);
         }
     }
 }
