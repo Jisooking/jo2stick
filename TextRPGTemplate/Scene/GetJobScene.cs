@@ -78,6 +78,14 @@ namespace TextRPG.Scene
                     if (skillList[i] == gameContext.skillList[j].key)
                     {
                         gameContext.ch.characterSkillList.Add(gameContext.skillList[j]);
+                        if(gameContext.skillList[j].isLearn == true)
+                        {
+                            gameContext.ch.learnSkillList.Add(gameContext.skillList[j]);
+                            if(gameContext.skillList[j].isEquip == true)
+                            {
+                                gameContext.ch.equipSkillList[gameContext.skillList[j].equipSlot] = gameContext.skillList[j];
+                            }
+                        }
                     }
                 }
             }
