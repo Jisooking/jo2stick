@@ -56,9 +56,9 @@ namespace TextRPG.Scene
                 {
                     if (quest.questitem == gameContext.clearedMonsters[i].Dropitem)
                     {
-                        gameContext.dropitemcount++;
+                        quest.dropitemcount++;
                         dynamicText.Add($"{quest.questitem} 아이템을 얻었습니다!" +
-                        $"({gameContext.dropitemcount}/{quest.questfigure})");
+                        $"({quest.dropitemcount}/{quest.questfigure})");
                     }
                 }
 
