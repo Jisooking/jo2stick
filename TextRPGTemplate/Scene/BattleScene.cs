@@ -41,7 +41,7 @@ namespace TextRPG.Scene
             dynamicText.Add($"플레이어: {player.name} | HP: {player.hp}/{player.MaxHp} | MP: {player.Mp}/{player.MaxMp}");
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            //
             Render();
         }
         private string? CheckBattleEnd()

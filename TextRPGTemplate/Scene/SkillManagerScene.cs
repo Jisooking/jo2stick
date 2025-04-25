@@ -25,7 +25,7 @@ namespace TextRPG.Scene
             dynamicText.Add("[스킬 목록]");
             dynamicText.Add("");
 
-            if (gameContext.ch.characterSkillList == null)
+            if (gameContext.ch.characterSkillList == null || gameContext.ch.characterSkillList.Count == 0)
             {
                 dynamicText.Add("현재 사용할 수 있는 스킬이 없습니다.");
             }
@@ -53,17 +53,25 @@ namespace TextRPG.Scene
                         case StatType.Luk: statType = "운"; break;
                     }
 
-                    dynamicText.Add($"{i + 1}.{(skill.isEquip ? "[E]" : "")} {skill.skillName}");
-                    dynamicText.Add($"   {skill.description}");
+                    if (skill.isLearn)
+                    {
+                        dynamicText.Add($"{(skill.isEquip ? "[E]" : "[L]")} {skill.skillName} : {statType} - {skillType}");                        
+                    }
+                    else
+                    {
+                        dynamicText.Add($"{skill.skillName} : {statType} - {skillType}");
+                    }
+
+                    dynamicText.Add($"    {skill.costMana}MP 소모 | 횟수 : {skill.maxUseCount} | 쿨타임 : {skill.coolTime}턴 | {(skill.duration[0] == 0 ? "즉발" : $"{skill.duration[0]}턴 지속")}");
                     dynamicText.Add("");
                 }
             }
+
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            
 
             Render();
         }
-
 
         //기능
         public override string respond(int i)

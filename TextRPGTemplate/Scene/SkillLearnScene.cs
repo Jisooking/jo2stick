@@ -25,7 +25,7 @@ namespace TextRPG.Scene
             dynamicText.Add("[스킬 목록]");
             dynamicText.Add("");
 
-            if (gameContext.ch.characterSkillList == null)
+            if (gameContext.ch.characterSkillList == null || gameContext.ch.characterSkillList.Count == 0)
             {
                 dynamicText.Add("배울수 있는 스킬이 없습니다.");
             }
@@ -53,14 +53,21 @@ namespace TextRPG.Scene
                         case StatType.Luk: statType = "운"; break;
                     }
 
-                    dynamicText.Add($"{i + 1}.{(skill.isEquip ? "[E]" : "")} {skill.skillName} [{statType} : {skillType}] {skill.costMana}MP");
-                    dynamicText.Add($"   횟수 : {skill.maxUseCount} | 쿨타임 : {skill.coolTime}턴 | {(skill.duration == 0 ? "즉발" : $"{skill.duration}턴 지속")}");
+                    if (skill.isLearn)
+                    {
+                        dynamicText.Add($"[{i + 1}] {skill.skillName} | [습득 완료]");
+                    }
+                    else
+                    {
+                        dynamicText.Add($"[{i + 1}] {skill.skillName} | 요구조건 : {skill.skillLevel} Level | {skill.skillPoint} Point");
+                    }
+                    dynamicText.Add($"    {skill.description}");
                     dynamicText.Add("");
                 }
             }
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+
             Render();
         }
 
@@ -68,7 +75,44 @@ namespace TextRPG.Scene
         //기능
         public override string respond(int i)
         {
+            if (i > 0 && i <= (gameContext.ch.characterSkillList?.Count ?? 0))
+            {
+                LearnSkill(i);
+            }
+            else if (i > (gameContext.ch.characterSkillList?.Count ?? 0) || i < 0)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog($"잘못된 입력입니다.");
+            }
+            convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
+        }
+
+        public void LearnSkill(int i)
+        {
+            if (gameContext.ch.characterSkillList[i - 1].isLearn)
+            {
+                ((LogView)viewMap[ViewID.Log]).AddLog($"이미 배운 스킬입니다.");
+            }
+            else
+            {
+                if (gameContext.ch.characterSkillList[i - 1].skillLevel <= gameContext.ch.Level)
+                {
+                    if (gameContext.ch.characterSkillList[i - 1].skillPoint <= gameContext.ch.Point)
+                    {
+                        gameContext.ch.learnSkillList.Add(gameContext.ch.characterSkillList[i - 1]);
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"{gameContext.ch.characterSkillList[i - 1].skillName} 획득 성공!");
+                        gameContext.ch.characterSkillList[i - 1].isLearn = true;
+                    }
+                    else
+                    {
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"{gameContext.ch.characterSkillList[i - 1].skillName}스킬을 배우기 위한 포인트가 {gameContext.ch.characterSkillList[i - 1].skillPoint - gameContext.ch.Point} 부족합니다.");
+                    }
+                }
+                else
+                {
+                    ((LogView)viewMap[ViewID.Log]).AddLog($"{gameContext.ch.characterSkillList[i - 1].skillName}스킬을 배우기 위한 레벨이 {gameContext.ch.characterSkillList[i - 1].skillLevel - gameContext.ch.Level} 부족합니다.");
+                }
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -41,7 +42,7 @@ namespace TextRPGTemplate.Scene
             //dynamicText.Add($"{gameContext.skillList[0].skillName}");
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            ((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
+            
 
             Render();
         }
@@ -62,10 +63,30 @@ namespace TextRPGTemplate.Scene
 
                 if (target == null) return;
 
-                int skillDamage = (int)((gameContext.ch.getTotalAttack() + selectSkill.effectAmount) + (gameContext.ch.getStat(selectSkill.statType) * selectSkill.skillFactor));
+                int skillDamage = (int)((gameContext.ch.getTotalAttack() + selectSkill.effectAmount[0]) + (gameContext.ch.getStat(selectSkill.statType) * selectSkill.skillFactor));
 
                 int damage = (skillDamage - target.Power);
                 if (damage < 0) damage = 0;
+
+                for (int i = 0; i < selectSkill.secondaryEffects.Count; i++)
+                {
+                    switch (selectSkill.secondaryEffects[i])
+                    {
+                        case SecondaryEffect.None:
+                            break;
+                        case SecondaryEffect.Stun:
+                            
+                            break;
+                        case SecondaryEffect.DoT:
+                            break;
+                        case SecondaryEffect.Curse:
+                            break;
+                        case SecondaryEffect.Pierce:
+                            break;
+                        case SecondaryEffect.Overflow:
+                            break;
+                    }
+                }
 
                 target.HP = Math.Max(0, target.HP - damage);
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{gameContext.ch.name}가 {target.Name}에게 {selectSkill.skillName}! {damage} 데미지!");

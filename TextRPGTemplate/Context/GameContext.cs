@@ -49,7 +49,7 @@ namespace TextRPG.Context
             this.animationMap = animationMap;
             this.monsterList = new List<MonsterData>(monsters);
             currentBattleMonsters = new List<MonsterData>();
-            //skillList = saveData.skillList.ToArray();
+            skillList = saveData.skillList.ToArray();
             this.animationMap = animationMap;
             this.questData = saveData.questData;
             this.afterJobStat = saveData.afterJobStat;
