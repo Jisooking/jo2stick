@@ -16,7 +16,7 @@ namespace TextRPGTemplate.Context
         public SkillType skillType { get; set; }        //스킬의 타입 : 공격,방어, 유틸 등 
         public StatType statType { get; set; }          //주스텟 : 스킬의 계수가 될 스텟
         public TargetType targetType { get; set; }      //스킬의 대상 : 자신,적
-        
+
         public bool isLearn { get; set; }               //배운 스킬인지 배우지 못한 스킬인지 판정
         public bool isEquip { get; set; }               //스킬을 골라서 사용되야 한다면 장착된 스킬인지 판정
 
@@ -39,11 +39,11 @@ namespace TextRPGTemplate.Context
         [JsonConstructor]
         public Skill
             (
-            string key, string? skillName, string? description, SkillType skillType, StatType statType, TargetType targetType, 
+            string key, string? skillName, string? description, SkillType skillType, StatType statType, TargetType targetType,
             bool isLearn, bool isEquip,
             int maxUseCount, List<int> effectAmount, float skillFactor, int coolTime, int curCoolTime, int costMana, List<int> duration, List<SecondaryEffect> secondaryEffects,
             int skillLevel, int skillPoint,
-            string[] flavorText, 
+            string[] flavorText,
             int equipSlot
             )
         {
@@ -53,7 +53,7 @@ namespace TextRPGTemplate.Context
             this.skillType = skillType;
             this.statType = statType;
             this.targetType = targetType;
-            
+
             this.isLearn = isLearn;
             this.isEquip = isEquip;
 
@@ -77,8 +77,15 @@ namespace TextRPGTemplate.Context
             curCoolTime = coolTime;
             curUseCount = maxUseCount;
         }
-    }
 
+        public void EndTurn()
+        {
+            if (curCoolTime < coolTime)
+            {
+                curCoolTime++;
+            }
+        }
+    }
     public enum SkillType
     {
         Attack,
