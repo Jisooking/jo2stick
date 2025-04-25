@@ -20,73 +20,87 @@ namespace TextRPG.Scene
 
             List<string> dynamicText = new();
             dynamicText.Add("[아이템 목록]");
+            int displayIndex = 1; // 1부터 시작하는 표시용 인덱스
+
             for (int i = 0; i < gameContext.ch.inventory.items.Count; i++)
             {
                 Item tmp = gameContext.ch.inventory.items[i];
                 if (tmp.isPotion)
                 {
-                    continue;
+                    continue; // 포션은 건너뜀
                 }
                 else
                 {
-                    // 일반 아이템인 경우: 기존 방식 유지
-                    dynamicText.Add($"- {i + 1} {(tmp.equiped ? "[E]" : "")} {tmp.name} \t | {(tmp.attack > 0 ? "공격력" : "방어력")} + {(tmp.attack > 0 ? tmp.attack : tmp.guard)} \t | {tmp.description}");
+                    // displayIndex를 사용하여 1, 2, 3... 순으로 출력
+                    dynamicText.Add($"- {displayIndex} {(tmp.equiped ? "[E]" : "")} {tmp.name} \t | {(tmp.attack > 0 ? "공격력" : "방어력")} + {(tmp.attack > 0 ? tmp.attack : tmp.guard)} \t | {tmp.description}");
+                    displayIndex++; // 포션을 제외한 아이템만 증가
                 }
             }
-            ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //
+    ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             Render();
         }
-        public override string respond(int i)
+        public override string respond(int inputIndex)
         {
-            bool weaponEquiped = false;
-            bool armorEquiped = false;
-            Character ch = gameContext.ch;
-            if (i > 0 && i < gameContext.ch.inventory?.items?.Count + 1)
+            if (inputIndex == 0)
             {
+                // 0번은 뒤로 가기
+                convertSceneAnimationPlay(sceneNext.next![0]);
+                return sceneNext.next![0];
+            }
+
+            // 포션을 제외한 유효한 아이템 인덱스 찾기
+            int actualIndex = -1;
+            int displayCount = 0;
+
+            for (int i = 0; i < gameContext.ch.inventory.items.Count; i++)
+            {
+                if (!gameContext.ch.inventory.items[i].isPotion)
+                {
+                    displayCount++;
+                    if (displayCount == inputIndex)
+                    {
+                        actualIndex = i; // 실제 인덱스 저장
+                        break;
+                    }
+                }
+            }
+
+            if (actualIndex >= 0)
+            {
+                // 아이템 장착/해제 로직 (기존 코드 유지, 단 i → actualIndex로 변경)
+                bool weaponEquiped = false;
+                bool armorEquiped = false;
+                Character ch = gameContext.ch;
+
                 foreach (var item in ch.inventory.items!)
                 {
-                    if (item.weapon && item.equiped)
-                    {
-                        weaponEquiped = true;
-                    }
-                    if (item.armor && item.equiped)
-                    {
-                        armorEquiped = true;
-                    }
+                    if (item.weapon && item.equiped) weaponEquiped = true;
+                    if (item.armor && item.equiped) armorEquiped = true;
                 }
-                if (gameContext.ch.inventory!.items![i - 1].weapon && gameContext.ch.inventory!.items![i - 1].equiped == false && weaponEquiped)
+
+                Item selectedItem = ch.inventory.items[actualIndex];
+
+                if (selectedItem.weapon && !selectedItem.equiped && weaponEquiped)
                 {
-                    for (int j = 0; j < ch.inventory.items.Count; j++)
-                    {
-                        if (ch.inventory.items[j].weapon && ch.inventory.items[j].equiped)
-                        {
-                            ch.inventory.items[j].equiped = false;
-                        }
-                    }
+                    foreach (var item in ch.inventory.items.Where(x => x.weapon && x.equiped))
+                        item.equiped = false;
                 }
-                if (gameContext.ch.inventory!.items![i - 1].armor && gameContext.ch.inventory!.items![i - 1].equiped == false && armorEquiped)
+
+                if (selectedItem.armor && !selectedItem.equiped && armorEquiped)
                 {
-                    for (int j = 0; j < ch.inventory.items.Count; j++)
-                    {
-                        if (ch.inventory.items[j].armor && ch.inventory.items[j].equiped)
-                        {
-                            ch.inventory.items[j].equiped = false;
-                        }
-                    }
+                    foreach (var item in ch.inventory.items.Where(x => x.armor && x.equiped))
+                        item.equiped = false;
                 }
-                gameContext.ch.inventory!.items![i - 1].equiped = !gameContext.ch.inventory!.items![i - 1].equiped;
+
+                selectedItem.equiped = !selectedItem.equiped;
             }
-            else if (i != 0)
+            else
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다!");
             }
-            else if (i == 0)
-            {
-                //((LogView)viewMap[ViewID.Log]).AddLog("메인 화면으로 돌아갑니다!");
-            }
-            convertSceneAnimationPlay(sceneNext.next![i]);
-            return sceneNext.next![i];
+
+            convertSceneAnimationPlay(sceneNext.next![inputIndex]);
+            return sceneNext.next![inputIndex];
         }
     }
 }
