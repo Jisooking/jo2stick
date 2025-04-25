@@ -58,7 +58,7 @@ namespace TextRPG.Scene
             }
             ((LogView)viewMap[ViewID.Log]).AddLog($"선택된 던전 타입: {string.Join(",", selectedDungeon.MonsterTypes)}");
             ((LogView)viewMap[ViewID.Log]).AddLog($"전체 몬스터 타입 목록:");
-            // 생성된 몬스터 로그 출력 (수정된 위치)
+            // 생성된 몬스터 로그 출력
             foreach (var m in gameContext.currentBattleMonsters)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"[던전 입장] {m.Name} 등장 (Lv.{m.Level})");
@@ -72,6 +72,7 @@ namespace TextRPG.Scene
 
             gameContext.enteredDungeon = selectedDungeon;
             gameContext.prevHp = gameContext.ch.hp;
+            gameContext.prevMp = gameContext.ch.Mp;
             gameContext.prevGold = gameContext.ch.gold;
             battleIdleAnimationPlay();
             return SceneID.BattleScene;

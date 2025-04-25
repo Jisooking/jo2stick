@@ -23,8 +23,9 @@ namespace TextRPG.Scene
                 dynamicText.Add("\n");
                 dynamicText.Add("[탐험 결과]");
                 gameContext.ch.hp = 0;
-                dynamicText.Add($"체력 {gameContext.prevHp} -> {gameContext.ch.hp}");
-            
+            dynamicText.Add($"체력 {gameContext.prevHp} -> {gameContext.ch.hp}");
+            dynamicText.Add($"체력 {gameContext.prevMp} -> {gameContext.ch.Mp}");
+
             //dynamicText.Add($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드:{gameContext.ch.gold})");
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             Render();

@@ -20,7 +20,9 @@ namespace TextRPG.Context
         public List<MonsterData>? clearedMonsters { get; set; }
         public DungeonData? enteredDungeon { get; set; } = null;
         public int prevHp { get; set; }
+        public int prevMp { get; set; }
         public int curHp { get; set; }
+        public int curMp { get; set; }
         public int prevGold { get; set; }
         public int curGold {  get; set; }
         public AnimationPlayer animationPlayer { get; set; }
