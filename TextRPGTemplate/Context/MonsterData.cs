@@ -17,9 +17,8 @@ public class MonsterData
     public string Dropitem { get; set; }
     public List<StatusEffect> StatusEffects { get; set; }
     public bool isActionable = true;
-
     public string Id { get; set; } = "";
-
+    public int preHP { get; set; }
 
     public MonsterData(MonsterData other)
     {
