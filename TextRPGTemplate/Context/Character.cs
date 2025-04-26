@@ -142,7 +142,7 @@ namespace TextRPG.Context
 
         public float getTotalGuard()
         {
-            return getNoArmorGuard() + getPlusGuard();
+            return getNoArmorGuard() + getPlusGuard() + getStatusEffectGuard();
         }
 
         public void AddJobStat(AfterJobStat afterjobstat)
@@ -180,28 +180,41 @@ namespace TextRPG.Context
             return 0;
         }
 
-        public int getTotalStat()
+        public int getTotalStat(StatType stat)
         {
-            return Str + getStatusEffectStat();
+            return getStat(stat) + getStatusEffectStat(stat);
         }
 
-        public int getStatusEffectStat()
+        public int getStatusEffectStat(StatType stat)
         {
+            int totalEffectStat = 0;
             for (int i = 0; i < StatusEffects.Count; i++)
             {
-                switch (StatusEffects[i].skill.statType)
+                if (StatusEffects[i].effectType == StatusEffectType.Buff)
                 {
-                    case StatType.Str:
-                        break;
-                    case StatType.Dex:
-                        break;
-                    case StatType.Int:
-                        break;
-                    case StatType.Luk:
-                        break;
+                    if (StatusEffects[i].skill.statType == stat)
+                    {
+                        totalEffectStat += (int)StatusEffects[i].effectAmount;
+                    }
                 }
             }
-            return 1;
+            return totalEffectStat;
+        }
+
+        public int getStatusEffectGuard()
+        {
+            int totalEffectStat = 0;
+            for (int i = 0; i < StatusEffects.Count; i++)
+            {
+                if (StatusEffects[i].effectType == StatusEffectType.Buff)
+                {
+                    if (StatusEffects[i].skill.skillType == SkillType.Defence)
+                    {
+                        totalEffectStat += (int)StatusEffects[i].effectAmount;
+                    }
+                }
+            }
+            return totalEffectStat;
         }
     }
 }
