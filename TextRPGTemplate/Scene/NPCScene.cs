@@ -32,7 +32,7 @@ namespace TextRPG.Scene
             if (gameContext.isaccept == true)
             {
                 dynamicText.Add("이미 퀘스트를 진행 중입니다.");
-                dynamicText.Add($"{gameContext.dropitemcount}/{gameContext.questData[gameContext.questinput].questfigure}\n");
+                dynamicText.Add($"{gameContext.questData[gameContext.questinput].dropitemcount}/{gameContext.questData[gameContext.questinput].questfigure}\n");
             }
                 ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
@@ -51,7 +51,6 @@ namespace TextRPG.Scene
                 {
                     gameContext.questinput = i - 1; //번호에 맞는 npc
                     QuestData quest = gameContext.questData[gameContext.questinput];
-                    quest.clearquest = false;
                     if (quest.clearquest == false)
                     {
                         return SceneID.QuestScene;

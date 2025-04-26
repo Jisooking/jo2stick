@@ -20,8 +20,9 @@ namespace TextRPGTemplate.Context
         public string text { get; set; }
         public bool clearquest { get; set; }
         public int dropitemcount { get; set; }
+        public bool rewardReceived { get; set; }
 
-        public QuestData(string key, string questitem, int questfigure, string npc, string text, bool clearquest, int dropitemcount)
+        public QuestData(string key, string questitem, int questfigure, string npc, string text, bool clearquest, int dropitemcount, bool rewardReceived)
         {
             this.key = key;
             this.questitem = questitem;
@@ -30,6 +31,7 @@ namespace TextRPGTemplate.Context
             this.text = text;
             this.clearquest = clearquest;
             this.dropitemcount = dropitemcount;
+            this.rewardReceived = rewardReceived;
         }
 
         public QuestData()

@@ -32,21 +32,6 @@ namespace TextRPG.Scene
                 int totalExp = gameContext.clearedMonsters.Sum(m => m.ExpReward);
                 int totalGold = gameContext.clearedMonsters.Sum(m => m.GoldReward);
 
-                var quest = gameContext.questData[gameContext.questinput];
-                for (int i = 0; i < gameContext.clearedMonsters.Count; i++)
-                {
-                    if (quest.questitem == gameContext.clearedMonsters[i].Dropitem)
-                    {
-                        gameContext.dropitemcount++;
-                    }
-                }
-
-                if (quest.dropitemcount >= quest.questfigure)
-                {
-                    quest.clearquest = true;
-                    gameContext.isaccept = false;
-                }
-
                 // 실제 보상 적용
                 gameContext.ch.Exp += totalExp;            // 총 경험치 누적 (기록용)
                 gameContext.ch.CurrentExp += totalExp;     // 실제 레벨업 계산에 사용됨
@@ -68,8 +53,26 @@ namespace TextRPG.Scene
                 dynamicText.Add($"체력 {gameContext.prevHp} -> {gameContext.curHp}");
                 dynamicText.Add($"체력 {gameContext.prevMp} -> {gameContext.curMp}");
                 dynamicText.Add($"골드 {gameContext.prevGold}G -> {gameContext.curGold}G");
-                dynamicText.Add($"{quest.questitem} 아이템을 얻었습니다!" +
-                    $"({gameContext.dropitemcount}/{quest.questfigure})");
+                var quest = gameContext.questData[gameContext.questinput];
+                if (quest.clearquest == false)
+                {
+                    for (int i = 0; i < gameContext.clearedMonsters.Count; i++)
+                    {
+                        if (quest.questitem == gameContext.clearedMonsters[i].Dropitem)
+                        {
+                            quest.dropitemcount++;
+                            dynamicText.Add($"{quest.questitem} 아이템을 얻었습니다!" +
+                            $"({quest.dropitemcount}/{quest.questfigure})");
+                        }
+                    }
+                }
+                
+
+                if (quest.dropitemcount >= quest.questfigure)
+                {
+                    quest.clearquest = true;
+                    gameContext.isaccept = false;
+                }
 
                 gameContext.ch.clearCount++;
             }

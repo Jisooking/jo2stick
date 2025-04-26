@@ -25,7 +25,7 @@ namespace TextRPG.Scene
 
             List<string> dynamicText = new();
             var quest = gameContext.questData[gameContext.questinput];
-            if (!gameContext.isaccept)
+            if (gameContext.isaccept == false)
             {
                 dynamicText.Add($"{quest.npc} :");
                 dynamicText.Add($"{quest.text}\n");

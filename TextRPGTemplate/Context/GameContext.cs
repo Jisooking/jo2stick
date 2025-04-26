@@ -28,9 +28,7 @@ namespace TextRPG.Context
         public AnimationPlayer animationPlayer { get; set; }
         public QuestData[] questData { get; set; }
         public int questinput { get; set; }
-        public int dropitemcount { get; set; } = 0;
         public bool isaccept { get; set; } = false;
-        public List<string> dropitemList { get; set; } = new List<string>();
         public Skill[] skillList { get; set; }
 
         public Dictionary<string, Animation?> animationMap = new();
