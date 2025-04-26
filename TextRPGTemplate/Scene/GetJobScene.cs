@@ -65,7 +65,11 @@ namespace TextRPG.Scene
                 gameContext.ch.AddJobStat(gameContext.afterJobStat![i-1]);
                 SetSkillList(gameContext.afterJobStat[i - 1].jobSkills!);
             }
-            convertSceneAnimationPlay(sceneNext.next![i]);
+            if (sceneNext.next![i] != SceneID.Status)
+            {
+                convertSceneAnimationPlay(SceneID.Status);
+            }
+            //convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
 

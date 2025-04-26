@@ -44,7 +44,7 @@ namespace TextRPG.Scene
             if (inputIndex == 0)
             {
                 // 0번은 뒤로 가기
-                convertSceneAnimationPlay(sceneNext.next![0]);
+                //convertSceneAnimationPlay(sceneNext.next![0]);
                 return sceneNext.next![0];
             }
 

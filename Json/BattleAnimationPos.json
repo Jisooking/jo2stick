@@ -2,9 +2,9 @@
     {
         "monsterCount": 1,
         "characterPosX": 3,
-        "characterPosY": 15,
+        "characterPosY": 18,
         "monsterPosX": [
-            60
+            65
         ],
         "monsterPosY": [
             0
@@ -13,10 +13,10 @@
     {
         "monsterCount": 2,
         "characterPosX": 3,
-        "characterPosY": 15,
+        "characterPosY": 18,
         "monsterPosX": [
-            50,
-            70
+            55,
+            75
         ],
         "monsterPosY": [
             0,
@@ -26,11 +26,11 @@
     {
         "monsterCount": 3,
         "characterPosX": 3,
-        "characterPosY": 15,
+        "characterPosY": 18,
         "monsterPosX": [
-            40,
-            60,
-            80
+            45,
+            65,
+            85
         ],
         "monsterPosY": [
             0,
@@ -41,12 +41,12 @@
     {
         "monsterCount": 4,
         "characterPosX": 3,
-        "characterPosY": 15,
+        "characterPosY": 18,
         "monsterPosX": [
-            30,
-            50,
-            70,
-            90
+            35,
+            55,
+            75,
+            95
         ],
         "monsterPosY": [
             0,

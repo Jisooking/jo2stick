@@ -67,14 +67,15 @@ namespace TextRPG.Scene
                 // 전투 몬스터 리스트 초기화
 
                 ((LogView)viewMap[ViewID.Log]).AddLog("모든 몬스터를 처치했습니다!");
-                ((LogView)viewMap[ViewID.Log]).ClearText();
-
+                //((LogView)viewMap[ViewID.Log]).ClearText();
+                battleIdleAnimationPlay();
                 return SceneID.DungeonClear;
             }
 
             // 플레이어 사망 경우
             if (player.hp <= 0)
             {
+                battleIdleAnimationPlay();
                 return SceneID.DungeonFail;
             }
 
@@ -95,7 +96,7 @@ namespace TextRPG.Scene
                 case 4: if (TryEscape()) return SceneID.DungeonSelect; break;
                 case 5: actionPerformed = UsePotion(); break;
                 default:
-                    Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
+                    ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다. 다시 선택해주세요.");
                     Thread.Sleep(1000);
                     return SceneID.BattleScene;
             }
@@ -138,14 +139,16 @@ namespace TextRPG.Scene
             int damage = (int)(player.getTotalAttack() *player.Str - target.Power);
             if (damage < 0) damage = 0;
 
+            battleAttackAnimationPlay(target);
             target.HP = Math.Max(0, target.HP - damage);
             ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}가 {target.Name}에게 물리 공격! {damage} 데미지!");
+
 
             if (target.HP <= 0)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
             }
-
+            battleIdleAnimationPlay();
             return true;
         }
 
@@ -158,6 +161,7 @@ namespace TextRPG.Scene
             int damage = (int)(player.getTotalAttack() * player.Int - target.Power); // 마법은 물리 공격보다 강하게 설정
             if (damage < 0) damage = 0;
 
+            battleAttackAnimationPlay(target);
             target.HP = Math.Max(0, target.HP - damage);
             ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}가 {target.Name}에게 마법 공격! {damage} 데미지!");
 
@@ -165,6 +169,7 @@ namespace TextRPG.Scene
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
             }
+            battleIdleAnimationPlay();
             return true;
         }
 
@@ -179,6 +184,7 @@ namespace TextRPG.Scene
             else
             {
                 // 도망 성공 시 몬스터 리스트 초기화
+                battleRunAnimationPlay();
                 ((LogView)viewMap[ViewID.Log]).AddLog("도망 성공!");
                 return true;
             }
@@ -337,7 +343,7 @@ namespace TextRPG.Scene
                 }
 
                 ((InputView)viewMap[ViewID.Input]).SetCursor();
-                Console.WriteLine("잘못된 선택입니다. 다시 입력하세요."); 
+                ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 선택입니다. 다시 입력하세요."); 
                 Render();
             }
         }

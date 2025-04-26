@@ -45,6 +45,7 @@ namespace TextRPG.Scene
             {
                 if (i == 0)
                 {
+                    convertSceneAnimationPlay(sceneNext.next![i]);
                     return sceneNext.next![i];
                 }
                 else if (i < gameContext.questData.Length + 1)
@@ -72,7 +73,7 @@ namespace TextRPG.Scene
                 return SceneID.Main;
             }
 
-                convertSceneAnimationPlay(sceneNext.next![i]);
+            convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
         }
     }

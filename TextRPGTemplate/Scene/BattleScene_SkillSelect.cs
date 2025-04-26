@@ -124,7 +124,7 @@ namespace TextRPGTemplate.Scene
                 // 전투 몬스터 리스트 초기화
 
                 ((LogView)viewMap[ViewID.Log]).AddLog("모든 몬스터를 처치했습니다!");
-                ((LogView)viewMap[ViewID.Log]).ClearText();
+                //((LogView)viewMap[ViewID.Log]).ClearText();
 
                 return SceneID.DungeonClear;
             }
@@ -132,6 +132,7 @@ namespace TextRPGTemplate.Scene
             // 플레이어 사망 경우
             if (gameContext.ch.hp <= 0)
             {
+                battleIdleAnimationPlay();
                 return SceneID.DungeonFail;
             }
 
@@ -200,6 +201,7 @@ namespace TextRPGTemplate.Scene
                 {
                     ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다. 게임 오버!");
                 }
+                battleIdleAnimationPlay();
             }
         }
 
@@ -284,7 +286,7 @@ namespace TextRPGTemplate.Scene
                 }
 
                 ((InputView)viewMap[ViewID.Input]).SetCursor();
-                Console.WriteLine("잘못된 선택입니다. 다시 입력하세요.");
+                ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 선택입니다. 다시 입력하세요.");
                 Console.ReadLine(); // 잘못된 입력 소비
                 ((InputView)viewMap[ViewID.Input]).SetCursor();
             }
@@ -297,6 +299,7 @@ namespace TextRPGTemplate.Scene
 
             if (target == null) return;
 
+            battleAttackAnimationPlay(target);
             selectSkill.curCoolTime = 0;
             selectSkill.curUseCount--;
             gameContext.ch.Mp -= selectSkill.costMana;

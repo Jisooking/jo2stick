@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace TextRPG.Scene
             List<string> dynamicText = new();
 
             // 디버그 정보 출력
-            Console.WriteLine($"clearedMonsters 개수: {gameContext.clearedMonsters?.Count}");
+            Debug.Write($"clearedMonsters 개수: {gameContext.clearedMonsters?.Count}");
 
             if (gameContext.clearedMonsters != null && gameContext.clearedMonsters.Count > 0)
             {
@@ -36,6 +37,7 @@ namespace TextRPG.Scene
                 gameContext.ch.Exp += totalExp;            // 총 경험치 누적 (기록용)
                 gameContext.ch.CurrentExp += totalExp;     // 실제 레벨업 계산에 사용됨
                 List<string> levelUpText = gameContext.ch.Levelup();              // 레벨업 처리 (CurrentExp, MaxExp 반영)
+                gameContext.clearedMonsters.Clear();
                 foreach (string levelUp in levelUpText)
                 {
                     ((LogView)viewMap[ViewID.Log]).AddLog(levelUp);
