@@ -15,6 +15,8 @@ namespace TextRPG.Context
         public List<Skill>? learnSkillList { get; set; } = new List<Skill>();
         public Skill[] equipSkillList { get; set; }
 
+        public List<StatusEffect> StatusEffects { get; set; }
+
         public int useableSlot = 5;
 
         public Character(SaveData saveData) : base()
@@ -176,6 +178,30 @@ namespace TextRPG.Context
             }
 
             return 0;
+        }
+
+        public int getTotalStat()
+        {
+            return Str + getStatusEffectStat();
+        }
+
+        public int getStatusEffectStat()
+        {
+            for (int i = 0; i < StatusEffects.Count; i++)
+            {
+                switch (StatusEffects[i].skill.statType)
+                {
+                    case StatType.Str:
+                        break;
+                    case StatType.Dex:
+                        break;
+                    case StatType.Int:
+                        break;
+                    case StatType.Luk:
+                        break;
+                }
+            }
+            return 1;
         }
     }
 }

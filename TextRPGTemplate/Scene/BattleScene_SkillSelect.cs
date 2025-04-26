@@ -171,7 +171,7 @@ namespace TextRPGTemplate.Scene
             }
             else if(selectSkill.targetType == TargetType.Self)
             {
-
+                ExecutorToSelf(selectSkill);
             }
         }
 
@@ -204,7 +204,6 @@ namespace TextRPGTemplate.Scene
                 }
             }
         }
-
         public void ApplySecondaryEffect(MonsterData monster)
         {
             for (int i = 0; i < monster.StatusEffects?.Count; i++)
@@ -217,7 +216,7 @@ namespace TextRPGTemplate.Scene
                     case StatusEffectType.DoT:
                         monster.HP = Math.Max(0, monster.HP - (int)(monster.StatusEffects[i].effectAmount));
                         ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}에게 상태 이상 발생! {monster.StatusEffects[i].effectAmount}의 데미지 !");
-                        if(monster.HP <= 0)
+                        if (monster.HP <= 0)
                         {
                             ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name} 처치!");
                         }
@@ -234,7 +233,6 @@ namespace TextRPGTemplate.Scene
                 }
             }
         }
-
         public StatusEffectType ConvertEffect(SecondaryEffect secondaryEffect)
         {
             StatusEffectType type;
@@ -332,7 +330,7 @@ namespace TextRPGTemplate.Scene
                 {
                     if (selectSkill.secondaryEffects[i] != SecondaryEffect.None)
                     {
-                        target.StatusEffects.Add(new StatusEffect(ConvertEffect(selectSkill.secondaryEffects[i]), selectSkill.duration[i], selectSkill.effectAmount[i+1]));
+                        target.StatusEffects.Add(new StatusEffect(selectSkill, ConvertEffect(selectSkill.secondaryEffects[i]), selectSkill.duration[i], selectSkill.effectAmount[i+1]));
                     }
                     else if (selectSkill.secondaryEffects[i] == SecondaryEffect.Pierce)
                     {
@@ -354,5 +352,12 @@ namespace TextRPGTemplate.Scene
                 }
             }
         }
+
+        private void ExecutorToSelf(Skill selectSkill)
+        {
+            gameContext.ch.StatusEffects.Add(new StatusEffect(selectSkill, StatusEffectType.Buff, selectSkill.duration[0], selectSkill.effectAmount[0]));
+
+        }
+
     }
 }
