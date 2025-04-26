@@ -21,6 +21,7 @@ namespace TextRPG.Context
         public float attack { get; set; }
         public float guard { get; set; }
         public int hp { get; set; }
+
         public int Str { get; set; }
         public int Int { get; set; }
         public int Dex { get; set; }
@@ -39,8 +40,6 @@ namespace TextRPG.Context
         // 기본 공격력/방어력
         public float defaultAttack { get { return SetDefaultAttack(statType); } }
         public float defaultGuard { get{ return SetDefaultGuard(statType); } }
-
-
 
         // 스탯 접근을 위한 인덱서
         public int this[string statName]

@@ -16,6 +16,10 @@ namespace TextRPG.Context
         public List<Skill>? learnSkillList { get; set; } = new List<Skill>();
         public Skill[] equipSkillList { get; set; }
 
+        public List<StatusEffect> StatusEffects { get; set; }
+
+        public StatType mainStat { get; set; } = StatType.Str;
+
         public int useableSlot = 5;
 
         public Character(SaveData saveData) : base()
@@ -137,12 +141,12 @@ namespace TextRPG.Context
 
         public float getTotalAttack()
         {
-            return getNoWeaponAttack() + getPlusAttack();
+            return getNoWeaponAttack() + getPlusAttack() + (getStat(mainStat) * 0.5f) + getStatusEffect(SkillType.Attack);
         }
 
         public float getTotalGuard()
         {
-            return getNoArmorGuard() + getPlusGuard();
+            return getNoArmorGuard() + getPlusGuard() + getStatusEffect(SkillType.Defence);
         }
 
         public void AddJobStat(AfterJobStat afterjobstat)
@@ -162,5 +166,64 @@ namespace TextRPG.Context
             statType = afterjobstat.stattype;
         }
 
+
+        public int getStat(StatType stat)
+        {
+            switch (stat)
+            {
+                case StatType.None:
+                    return 1;
+                case StatType.Str:
+                    return Str;
+                case StatType.Dex:
+                    return Dex;
+                case StatType.Int:
+                    return Int;
+                case StatType.Luk:
+                    return Luk;
+            }
+
+            return 0;
+        }
+
+        public int getTotalStat(StatType stat)
+        {
+            return getStat(stat) + getStatusEffectStat(stat,SkillType.Utility);
+        }
+
+        public int getStatusEffectStat(StatType stat, SkillType skillType)
+        {
+            int totalEffectStat = 0;
+            for (int i = 0; i < StatusEffects?.Count; i++)
+            {
+                if (StatusEffects[i].effectType == StatusEffectType.Buff && 
+                    StatusEffects[i].skill.skillType == skillType && 
+                    StatusEffects[i].skill.statType == stat)
+                {
+                    totalEffectStat += (int)StatusEffects[i].effectAmount;
+                }
+            }
+            return totalEffectStat;
+        }
+
+        public int getStatusEffect(SkillType skillType)
+        {
+            int totalEffectStat = 0;
+            for (int i = 0; i < StatusEffects?.Count; i++)
+            {
+                if (StatusEffects[i].effectType == StatusEffectType.Buff)
+                {
+                    if (StatusEffects[i].skill.skillType == skillType)
+                    {
+                        totalEffectStat += (int)StatusEffects[i].effectAmount;
+                    }
+                    else if (StatusEffects[i].skill.skillType == skillType)
+                    {
+                        totalEffectStat += (int)StatusEffects[i].effectAmount;
+                    }
+                }
+            }
+            return totalEffectStat;
+        }
     }
 }
