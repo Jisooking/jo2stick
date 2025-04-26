@@ -23,8 +23,8 @@ namespace TextRPG.Scene
 
             List<string> dynamicText = new();
             QuestData quest = gameContext.questData[gameContext.questinput];
-            bool isclearquest = quest.clearquest;
-            while (isclearquest)
+
+            if (quest.clearquest && !quest.rewardReceived)
             {
                 dynamicText.Add($"완료한 퀘스트 : [{quest.npc}]의 부탁으로 [{quest.questitem}] 가져오기");
                 dynamicText.Add($"{quest.dropitemcount}/{quest.questfigure}\n");
@@ -36,7 +36,7 @@ namespace TextRPG.Scene
                 {
                     case 0:
                         {
-                            gameContext.ch.hp += 10;
+                            gameContext.ch.MaxHp += 10;
                             dynamicText.Add($"상점 주인이 치유 물약을 내밉니다.");
                             dynamicText.Add($"HP가 증가했습니다! ( +10 )");
                             break;
@@ -56,10 +56,12 @@ namespace TextRPG.Scene
                             break;
                         }
                 }
-                isclearquest = false;
+                quest.rewardReceived = true;
             }
-
-            dynamicText.Add($"이미 보상을 받았습니다.");
+            else if (quest.rewardReceived)
+            {
+                dynamicText.Add($"이미 보상을 받았습니다.");
+            }
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
