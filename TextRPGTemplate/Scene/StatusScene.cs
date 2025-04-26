@@ -19,7 +19,33 @@ namespace TextRPG.Scene
             ClearScene();
 
             List<string> dynamicText = new();
-
+            List<Item> equipItemList = new();
+            foreach (var item in gameContext.ch.inventory.items)
+            {
+                if (item.equiped)
+                {
+                    equipItemList.Add(item);
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            int itemAddattack = 0;
+            int itemAddguard = 0;
+            foreach (var item in equipItemList)
+            {
+                if (item.attack > 0)
+                {
+                    itemAddattack += item.attack;
+                }
+                else
+                {
+                    itemAddguard += item.guard;
+                }
+            }
+            float totalAttack = (gameContext.ch.defaultAttack) + itemAddattack;
+            float totalGuard = (gameContext.ch.defaultGuard) + itemAddguard;
             Character ch = gameContext.ch;
 
             dynamicText.Add($" Lv. {ch.Level}\n");
@@ -34,6 +60,9 @@ namespace TextRPG.Scene
             dynamicText.Add($"경험치 : {ch.CurrentExp} / {ch.MaxExp}");
             dynamicText.Add($"Gold : {ch.gold}G");
             dynamicText.Add($"Critical : {ch.critical}");
+            dynamicText.Add($"주스텟 : {ch.statType}");
+            dynamicText.Add($"총 공격력 {totalAttack} : 기본 공격력({ch.defaultAttack}) + 추가 공격력 ({itemAddattack})");
+            dynamicText.Add($"총 방어력 {totalGuard} : 기본 방어력({ch.defaultGuard}) + 추가 방어력 ({itemAddguard})");
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
             Render();
