@@ -34,10 +34,11 @@ namespace TextRPG.Context
         public int Point { get; set; }
         public float critical { get; set; }
 
+        public StatType statType { get; set; } = StatType.Str; // 주 스탯 타입
 
         // 기본 공격력/방어력
-        public float defaultAttack { get; set; }
-        public float defaultGuard { get; set; }
+        public float defaultAttack { get { return SetDefaultAttack(statType); } }
+        public float defaultGuard { get{ return SetDefaultGuard(statType); } }
 
 
 
@@ -73,5 +74,31 @@ namespace TextRPG.Context
             }
             return total;
         }
+        public float SetDefaultAttack(StatType statType)
+        {
+            return ((float)getStat(statType) * 0.5f);
+        }
+        public float SetDefaultGuard(StatType statType)
+        {
+            return ((float)getStat(statType) * 0.5f);
+        }
+        public int getStat(StatType stat)
+        {
+            switch (stat)
+            {
+                case StatType.None:
+                    return 1;
+                case StatType.Str:
+                    return Str;
+                case StatType.Dex:
+                    return Dex;
+                case StatType.Int:
+                    return Int;
+                case StatType.Luk:
+                    return Luk;
+            }
+
+            return 0;
+        }        
     }
 }

@@ -35,9 +35,9 @@ namespace TextRPG.Scene
             List<JobRequirement> jobRequirements = new()
             {
                 new JobRequirement { JobName = "파이터", MinLevel = 0, MinStr = 0 },
-                new JobRequirement { JobName = "위자드", MinLevel = 15, MinInt = 100 },
-                new JobRequirement { JobName = "레인저", MinLevel = 15, MinDex = 100 },
-                new JobRequirement { JobName = "시프", MinLevel = 15, MinLuk = 100 },
+                new JobRequirement { JobName = "레인저", MinLevel = 0, MinDex = 0 },
+                new JobRequirement { JobName = "위자드", MinLevel = 0, MinInt = 0 },
+                new JobRequirement { JobName = "시프", MinLevel = 0, MinLuk = 0 },
             };
             eligibleJobs = jobRequirements
                 .Where(req => req.IsEligible(ch))

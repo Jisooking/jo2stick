@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using TextRPGTemplate.Context;
@@ -24,17 +25,18 @@ namespace TextRPG.Context
             job = saveData.job;
             Level = saveData.Level;
             gold = saveData.gold;
-            clearCount = saveData.clearCount;
+            clearCount = saveData.clearCount;                        
 
             Str = saveData.Str;
             Dex = saveData.Dex;
             Int = saveData.Int;
             Luk = saveData.Luk;
+            statType = saveData.stattype;
             // 스탯 설정
 
             // 전투 속성 설정
-            defaultAttack = saveData.attack;
-            defaultGuard = saveData.guard;
+            //defaultAttack = saveData.attack;
+            //defaultGuard = saveData.guard;
             hp = saveData.hp;
             MaxHp = saveData.MaxHp;
             Mp = saveData.Mp;
@@ -66,8 +68,8 @@ namespace TextRPG.Context
         {
             this.name = name;
             this.job = job;
-            this.defaultAttack = attack;
-            this.defaultGuard = guard;
+            //this.defaultAttack = attack;
+            //this.defaultGuard = guard;
             this.hp = hp;
             this.gold = gold;
             this.clearCount = clearCount;
@@ -100,7 +102,7 @@ namespace TextRPG.Context
 
         public float getNoWeaponAttack()
         {
-            return defaultAttack + (getLevel() - 1) * 0.5f;
+            return defaultAttack + (getLevel() - 1) * 0.5f; 
         }
 
         public float getNoArmorGuard()
@@ -157,25 +159,8 @@ namespace TextRPG.Context
             MaxMp += (int)(afterjobstat.addMp ?? 0);
             Point += (int)(afterjobstat.addPoint ?? 0);
             critical += (int)(afterjobstat.addcritical ?? 0);
+            statType = afterjobstat.stattype;
         }
 
-        public int getStat(StatType stat)
-        {
-            switch (stat)
-            {
-                case StatType.None:
-                    return 1;
-                case StatType.Str:
-                    return Str;
-                case StatType.Dex:
-                    return Dex;
-                case StatType.Int:
-                    return Int;
-                case StatType.Luk:
-                    return Luk;
-            }
-
-            return 0;
-        }
     }
 }

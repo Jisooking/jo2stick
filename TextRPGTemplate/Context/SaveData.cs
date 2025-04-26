@@ -19,7 +19,7 @@ namespace TextRPG.Context
         public List<Skill> learnSkillList { get; set; }
         public Skill[] skillList { get; set; }
         public List<Skill> characterSkillList { get; set; }
-
+        public StatType stattype { get; set; } = StatType.Str;
         public SaveData() { }
 
         public SaveData(GameContext gameContext)
@@ -34,6 +34,7 @@ namespace TextRPG.Context
             Dex = ch.Dex;
             Int = ch.Int;
             Luk = ch.Luk;
+            stattype = ch.statType;
 
             attack = ch.defaultAttack;
             guard = ch.defaultGuard;

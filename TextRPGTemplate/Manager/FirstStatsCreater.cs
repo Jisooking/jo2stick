@@ -127,8 +127,8 @@ namespace TextRPGTemplate.Managers
             saveData.MaxMp = this.MaxMp;
 
             saveData.gold = this.Gold;
-            saveData.defaultAttack = this.attack;
-            saveData.defaultGuard = this.guard;
+            //saveData.defaultAttack = this.attack;
+            //saveData.defaultGuard = this.guard;
             saveData.Level = this.Level;
             saveData.CurrentExp = this.CurrentExp;
             saveData.Exp = this.Exp;

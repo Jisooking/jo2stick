@@ -8,6 +8,7 @@
     "clearCount": 0,
     "items": [],
     "critical": 15,
+    "stattype": 1,
     "afterJobStat": [
         {
             "iD": 1,
@@ -22,7 +23,8 @@
             "addMp": 0,
             "addPoint": 10,
             "addStr": 100,
-            "jobSkills": [ "1-1", "1-2", "1-3", "1-4", "1-5" ]
+            "jobSkills": [ "1-1", "1-2", "1-3", "1-4", "1-5" ],
+            "stattype": 1
         },
         {
             "iD": 2,
@@ -37,7 +39,8 @@
             "addMp": 50,
             "addPoint": 10,
             "addStr": 50,
-            "jobSkills": [ "2-1", "2-2", "2-3", "2-4", "2-5" ]
+            "jobSkills": [ "2-1", "2-2", "2-3", "2-4", "2-5" ],
+            "stattype": 2
         },
         {
             "iD": 3,
@@ -52,7 +55,8 @@
             "addMp": 200,
             "addPoint": 10,
             "addStr": 0,
-            "jobSkills": [ "3-1", "3-2", "3-3", "3-4", "3-5" ]
+            "jobSkills": [ "3-1", "3-2", "3-3", "3-4", "3-5" ],
+            "stattype": 3
         },
         {
             "iD": 4,
@@ -67,7 +71,8 @@
             "addMp": 50,
             "addPoint": 10,
             "addStr": 10,
-            "jobSkills": [ "4-1", "4-2", "4-3", "4-4", "4-5" ]
+            "jobSkills": [ "4-1", "4-2", "4-3", "4-4", "4-5" ],
+            "stattype": 4
         }
     ],
     "shopItems": [

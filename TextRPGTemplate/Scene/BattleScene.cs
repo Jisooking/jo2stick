@@ -128,15 +128,13 @@ namespace TextRPG.Scene
             return SceneID.BattleScene;
         }
 
-
-
-
         private bool PerformPhysicalAttack()
         {
             var target = ChooseTarget();
             if (target == null) return false;
 
-            int damage = (int)(player.getTotalAttack() *player.Str - target.Power);
+            //int damage = (int)(player.getTotalAttack() +player.Str - target.Power);
+            int damage = (int)player.defaultAttack + (int)(player.getPlusAttack()) + (int)player.getStat(player.statType)/3 - target.Power; ;
             if (damage < 0) damage = 0;
 
             battleAttackAnimationPlay(target);
@@ -158,7 +156,8 @@ namespace TextRPG.Scene
             var target = ChooseTarget();
             if (target == null) return false;
 
-            int damage = (int)(player.getTotalAttack() * player.Int - target.Power); // 마법은 물리 공격보다 강하게 설정
+            //int damage = (int)(player.getTotalAttack() * player.Int - target.Power); // 마법은 물리 공격보다 강하게 설정
+            int damage = (int)player.defaultAttack + (int)(player.getPlusAttack()) + player.Int - target.Power; ;
             if (damage < 0) damage = 0;
 
             battleAttackAnimationPlay(target);
