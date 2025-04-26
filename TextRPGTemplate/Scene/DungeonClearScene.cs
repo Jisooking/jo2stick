@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace TextRPG.Scene
             List<string> dynamicText = new();
 
             // 디버그 정보 출력
-            Console.WriteLine($"clearedMonsters 개수: {gameContext.clearedMonsters?.Count}");
+            Debug.Write($"clearedMonsters 개수: {gameContext.clearedMonsters?.Count}");
 
             if (gameContext.clearedMonsters != null && gameContext.clearedMonsters.Count > 0)
             {

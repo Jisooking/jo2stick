@@ -129,7 +129,15 @@ namespace TextRPG.Scene
             Animation[] animationsArray = animationsList.ToArray();
             BattleAnimationPos battleAnimationPos = gameContext.battleAnimationPos[gameContext.currentBattleMonsters.Count - 1];
 
-            Animation animation = gameContext.animationMap[$"{gameContext.ch.job}Idle"]!.DeepCopy();
+            Animation animation;
+            if (gameContext.ch.hp > 0)
+            {
+                animation = gameContext.animationMap[$"{gameContext.ch.job}Idle"]!.DeepCopy();
+            }
+            else
+            {
+                animation = gameContext.animationMap["CharacterDie"]!.DeepCopy();
+            }
             animation.x[0] += battleAnimationPos.characterPosX;
             animation.y[0] += battleAnimationPos.characterPosY;
             animationsList.Add(animation);
@@ -139,14 +147,16 @@ namespace TextRPG.Scene
                 if (gameContext.currentBattleMonsters[i].HP > 0)
                 {
                     animation = gameContext.animationMap[$"{gameContext.currentBattleMonsters[i].ID}Idle"]!.DeepCopy();
-                    for (int j = 0; j < 1; j++)
-                    {
-                        animation.x[j] += battleAnimationPos.monsterPosX[i];
-                        animation.y[j] += battleAnimationPos.monsterPosY[i];
-                    }
-                    animation.frames = animation.frames[0..1];
-                    animationsList.Add(animation);
                 }
+                else
+                {
+                    animation = gameContext.animationMap["MonsterDie"]!.DeepCopy();
+                    
+                }
+                animation.x[0] += battleAnimationPos.monsterPosX[i];
+                animation.y[0] += battleAnimationPos.monsterPosY[i];
+                animation.frames = animation.frames[0..1];
+                animationsList.Add(animation);
             }
             animationsArray = animationsList.ToArray();
 
@@ -192,15 +202,16 @@ namespace TextRPG.Scene
                 {
                     animation = gameContext.animationMap[$"{gameContext.currentBattleMonsters[i].ID}Idle"]!.DeepCopy();
                 }
-                if (gameContext.currentBattleMonsters[i].HP > 0)
+                if (gameContext.currentBattleMonsters[i].HP <= 0)
                 {
-                    for (int j = 0; j < animation.frames.Length; j++)
-                    {
-                        animation.x[j] += battleAnimationPos.monsterPosX[i];
-                        animation.y[j] += battleAnimationPos.monsterPosY[i];
-                    }
-                    animationsList.Add(animation);
+                    animation = gameContext.animationMap[$"MonsterDie"]!.DeepCopy();
                 }
+                for (int j = 0; j < animation.frames.Length; j++)
+                {
+                    animation.x[j] += battleAnimationPos.monsterPosX[i];
+                    animation.y[j] += battleAnimationPos.monsterPosY[i];
+                }
+                animationsList.Add(animation);
             }
             animationsArray = animationsList.ToArray();
 

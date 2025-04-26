@@ -40,6 +40,14 @@
         "animationPath": "SkillManagerSceneAnimation.json"
     },
     {
+        "key": "MonsterDie",
+        "animationPath": "Monster/MonsterDieAnimation.json"
+    },
+    {
+        "key": "CharacterDie",
+        "animationPath": "CharacterDieAnimation.json"
+    },
+    {
         "key": "파이터Status",
         "animationPath": "Fighter/FighterStatusAnimation.json"
     },
