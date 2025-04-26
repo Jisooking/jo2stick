@@ -139,5 +139,6 @@
   "Point": 0,
   "critical": 0,
   "defaultAttack": 75,
-  "defaultGuard": 40.800003
+    "defaultGuard": 40.800003,  
+
 }
