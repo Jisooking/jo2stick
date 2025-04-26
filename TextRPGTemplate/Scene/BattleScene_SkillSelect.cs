@@ -79,6 +79,8 @@ namespace TextRPGTemplate.Scene
         {
             if (IsUseable(selectSkill))
             {
+                ApplySecondaryEffect();
+
                 UseSkill(selectSkill);
                
                 foreach (var monster in gameContext.currentBattleMonsters!.Where(m => m.HP > 0).ToList())
@@ -204,6 +206,39 @@ namespace TextRPGTemplate.Scene
                 }
             }
         }
+
+        public void ApplySecondaryEffect()
+        {
+            for (int i = 0; i < gameContext.ch.StatusEffects?.Count; i++)
+            {
+                switch (gameContext.ch.StatusEffects[i].effectType)
+                {
+                    case StatusEffectType.Stun:
+                        //player.isActionable = false;
+                        break;
+                    case StatusEffectType.DoT:
+                        /*
+                        monster.HP = Math.Max(0, monster.HP - (int)(monster.StatusEffects[i].effectAmount));
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}에게 상태 이상 발생! {monster.StatusEffects[i].effectAmount}의 데미지 !");
+                        if (monster.HP <= 0)
+                        {
+                            ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name} 처치!");
+                        }
+                        */
+                        break;
+                }
+                if (gameContext.ch.StatusEffects[i].duration == 0)
+                {
+                    gameContext.ch.StatusEffects.Remove(gameContext.ch.StatusEffects[i]);
+                    i--;
+                }
+                else
+                {
+                    gameContext.ch.StatusEffects[i].duration--;
+                }
+            }
+        }
+
         public void ApplySecondaryEffect(MonsterData monster)
         {
             for (int i = 0; i < monster.StatusEffects?.Count; i++)
@@ -233,6 +268,7 @@ namespace TextRPGTemplate.Scene
                 }
             }
         }
+
         public StatusEffectType ConvertEffect(SecondaryEffect secondaryEffect)
         {
             StatusEffectType type;
@@ -301,7 +337,7 @@ namespace TextRPGTemplate.Scene
             selectSkill.curUseCount--;
             gameContext.ch.Mp -= selectSkill.costMana;
 
-            int skillDamage = (int)((gameContext.ch.getTotalAttack() + selectSkill.effectAmount[0]) + (gameContext.ch.getStat(selectSkill.statType) * selectSkill.skillFactor));
+            int skillDamage = (int)((gameContext.ch.getTotalAttack() + selectSkill.effectAmount[0]) + (gameContext.ch.getTotalStat(selectSkill.statType) * selectSkill.skillFactor));
 
             int damage = (skillDamage - target.Power);
             if (damage < 0) damage = 0;
@@ -356,8 +392,6 @@ namespace TextRPGTemplate.Scene
         private void ExecutorToSelf(Skill selectSkill)
         {
             gameContext.ch.StatusEffects.Add(new StatusEffect(selectSkill, StatusEffectType.Buff, selectSkill.duration[0], selectSkill.effectAmount[0]));
-
         }
-
     }
 }

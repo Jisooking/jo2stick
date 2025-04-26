@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ExceptionServices;
+using System.Threading;
 using TextRPG.Context;
 using TextRPG.View;
 using TextRPGTemplate.Context;
@@ -106,6 +107,8 @@ namespace TextRPG.Scene
                 return SceneID.BattleScene;
             }
 
+            ApplySecondaryEffect();
+
             battleResult = CheckBattleEnd();
             if (battleResult != null) return battleResult;
 
@@ -135,7 +138,8 @@ namespace TextRPG.Scene
             var target = ChooseTarget();
             if (target == null) return false;
 
-            int damage = (int)(player.getTotalAttack() *player.Str - target.Power);
+            //int damage = (int)(player.getTotalAttack() * player.getStat(player.mainStat) - target.Power);
+            int damage = (int)(player.getTotalAttack());
             if (damage < 0) damage = 0;
 
             target.HP = Math.Max(0, target.HP - damage);
@@ -148,8 +152,7 @@ namespace TextRPG.Scene
 
             return true;
         }
-
-
+ 
         private bool PerformMagicAttack()
         {
             var target = ChooseTarget();
@@ -244,9 +247,8 @@ namespace TextRPG.Scene
                     }
                 }
 
-    ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다.");
+                ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다.");
             }
-
         }
 
         private void MonsterAttack(MonsterData monster)
@@ -351,6 +353,38 @@ namespace TextRPG.Scene
                 else
                 {
                     monster.StatusEffects[i].duration--;
+                }
+            }
+        }
+
+        public void ApplySecondaryEffect()
+        {
+            for (int i = 0; i < player.StatusEffects?.Count; i++)
+            {
+                switch (player.StatusEffects[i].effectType)
+                {
+                    case StatusEffectType.Stun:
+                        //player.isActionable = false;
+                        break;
+                    case StatusEffectType.DoT:
+                        /*
+                        monster.HP = Math.Max(0, monster.HP - (int)(monster.StatusEffects[i].effectAmount));
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}에게 상태 이상 발생! {monster.StatusEffects[i].effectAmount}의 데미지 !");
+                        if (monster.HP <= 0)
+                        {
+                            ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name} 처치!");
+                        }
+                        */
+                        break;
+                }
+                if (player.StatusEffects[i].duration == 0)
+                {
+                    player.StatusEffects.Remove(player.StatusEffects[i]);
+                    i--;
+                }
+                else
+                {
+                    player.StatusEffects[i].duration--;
                 }
             }
         }
