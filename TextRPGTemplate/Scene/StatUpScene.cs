@@ -58,8 +58,9 @@ namespace TextRPG.Scene
 
                 Render();
                 Thread.Sleep(1500); // 잠깐 보여주고 다시 DrawScene 호출
-            }            
-                return sceneNext.next![i];
+            }
+            convertSceneAnimationPlay(sceneNext.next![i]);
+            return sceneNext.next![i];
         }
     }
 }

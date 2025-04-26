@@ -124,7 +124,7 @@ namespace TextRPGTemplate.Scene
                 // 전투 몬스터 리스트 초기화
 
                 ((LogView)viewMap[ViewID.Log]).AddLog("모든 몬스터를 처치했습니다!");
-                ((LogView)viewMap[ViewID.Log]).ClearText();
+                //((LogView)viewMap[ViewID.Log]).ClearText();
 
                 return SceneID.DungeonClear;
             }

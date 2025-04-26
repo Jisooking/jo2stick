@@ -59,7 +59,10 @@ namespace TextRPG.Scene
 
         public override string respond(int i)
         {
-            convertSceneAnimationPlay(sceneNext.next![i]);
+            if (sceneNext.next![i] != SceneID.NPCScene)
+            {
+                convertSceneAnimationPlay(sceneNext.next![i]);
+            }
             return sceneNext.next![i];
         }
     }

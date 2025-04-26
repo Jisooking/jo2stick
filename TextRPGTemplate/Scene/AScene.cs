@@ -100,17 +100,34 @@ namespace TextRPG.Scene
         {
             if (gameContext.animationMap.ContainsKey(s))
             {
-                Animation?[] animations = { gameContext.animationMap[s] };
-                gameContext.animationPlayer.play(animations, (SpriteView)viewMap[ViewID.Sprite]);
+                if (s != SceneID.Status)
+                {
+                    Animation?[] animations = { gameContext.animationMap[s] };
+                    gameContext.animationPlayer.play(animations, (SpriteView)viewMap[ViewID.Sprite]);
+                }
+                else
+                {
+                    statusAnimationPlay();
+                }
 
             }
+        }
+
+        public void statusAnimationPlay()
+        {
+            List<Animation> animationsList = new List<Animation>();
+            Animation[] animationsArray = animationsList.ToArray();
+            Animation animation = gameContext.animationMap[$"{gameContext.ch.job}Status"]!.DeepCopy();
+            animationsList.Add(animation);
+            animationsArray = animationsList.ToArray();
+            gameContext.animationPlayer.play(animationsArray, (SpriteView)viewMap[ViewID.Sprite]);
         }
 
         public void battleIdleAnimationPlay()
         {
             List<Animation> animationsList = new List<Animation>();
             Animation[] animationsArray = animationsList.ToArray();
-            BattleAnimationPos battleAnimationPos = gameContext.battleAnimationPos[gameContext.currentBattleMonsters.Count];
+            BattleAnimationPos battleAnimationPos = gameContext.battleAnimationPos[gameContext.currentBattleMonsters.Count - 1];
 
             Animation animation = gameContext.animationMap[$"{gameContext.ch.job}Idle"]!.DeepCopy();
             animation.x[0] += battleAnimationPos.characterPosX;
@@ -121,7 +138,7 @@ namespace TextRPG.Scene
             {
                 if (gameContext.currentBattleMonsters[i].HP > 0)
                 {
-                    animation = gameContext.animationMap["SlimeIdle"]!.DeepCopy();
+                    animation = gameContext.animationMap[$"{gameContext.currentBattleMonsters[i].ID}Idle"]!.DeepCopy();
                     for (int j = 0; j < 1; j++)
                     {
                         animation.x[j] += battleAnimationPos.monsterPosX[i];
@@ -136,11 +153,26 @@ namespace TextRPG.Scene
             gameContext.animationPlayer.play(animationsArray, (SpriteView)viewMap[ViewID.Sprite]);
         }
 
+        public void battleRunAnimationPlay()
+        {
+            List<Animation> animationsList = new List<Animation>();
+            Animation[] animationsArray = animationsList.ToArray();
+            BattleAnimationPos battleAnimationPos = gameContext.battleAnimationPos[gameContext.currentBattleMonsters.Count - 1];
+
+            Animation animation = gameContext.animationMap[$"{gameContext.ch.job}Idle"]!.DeepCopy();
+            animation.x[0] += battleAnimationPos.characterPosX;
+            animation.y[0] += battleAnimationPos.characterPosY;
+            animationsList.Add(animation);
+            animationsArray = animationsList.ToArray();
+
+            gameContext.animationPlayer.play(animationsArray, (SpriteView)viewMap[ViewID.Sprite]);
+        }
+
         public void battleAttackAnimationPlay(MonsterData target)
         {
             List<Animation> animationsList = new List<Animation>();
             Animation[] animationsArray = animationsList.ToArray();
-            BattleAnimationPos battleAnimationPos = gameContext.battleAnimationPos[gameContext.currentBattleMonsters.Count];
+            BattleAnimationPos battleAnimationPos = gameContext.battleAnimationPos[gameContext.currentBattleMonsters.Count - 1];
 
             Animation animation = gameContext.animationMap[$"{gameContext.ch.job}Attack"]!.DeepCopy();
             for (int i = 0; i < animation.frames.Length; i++)
@@ -154,11 +186,11 @@ namespace TextRPG.Scene
             {
                 if(target == gameContext.currentBattleMonsters[i])
                 {
-                    animation = gameContext.animationMap["SlimeDefend"]!.DeepCopy();
+                    animation = gameContext.animationMap[$"{gameContext.currentBattleMonsters[i].ID}Defend"]!.DeepCopy();
                 }
                 else
                 {
-                    animation = gameContext.animationMap["SlimeIdle"]!.DeepCopy();
+                    animation = gameContext.animationMap[$"{gameContext.currentBattleMonsters[i].ID}Idle"]!.DeepCopy();
                 }
                 if (gameContext.currentBattleMonsters[i].HP > 0)
                 {

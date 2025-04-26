@@ -96,9 +96,12 @@ namespace TextRPG.Scene
             }
             else if (i == 0)
             {
-                ((LogView)viewMap[ViewID.Log]).ClearText();
+                //((LogView)viewMap[ViewID.Log]).ClearText();
             }
-            convertSceneAnimationPlay(sceneNext.next![i]);
+            if (sceneNext.next![i] != SceneID.Shop)
+            {
+                convertSceneAnimationPlay(sceneNext.next![i]);
+            }
             return sceneNext.next![i];
         }
     }

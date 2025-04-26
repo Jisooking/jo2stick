@@ -52,10 +52,18 @@ namespace TextRPG.Scene
             }
             else if (i == 0)
             {
+                if (sceneNext.next![i] != SceneID.NPCScene)
+                {
+                    convertSceneAnimationPlay(sceneNext.next![i]);
+                }
                 return sceneNext.next![i];
             }
             else
             {
+                if (sceneNext.next![i] != SceneID.NPCScene)
+                {
+                    convertSceneAnimationPlay(sceneNext.next![i]);
+                }
                 return SceneID.NPCScene;
             }
         }

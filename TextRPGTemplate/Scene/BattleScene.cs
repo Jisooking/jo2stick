@@ -67,7 +67,7 @@ namespace TextRPG.Scene
                 // 전투 몬스터 리스트 초기화
 
                 ((LogView)viewMap[ViewID.Log]).AddLog("모든 몬스터를 처치했습니다!");
-                ((LogView)viewMap[ViewID.Log]).ClearText();
+                //((LogView)viewMap[ViewID.Log]).ClearText();
 
                 return SceneID.DungeonClear;
             }
@@ -183,6 +183,7 @@ namespace TextRPG.Scene
             else
             {
                 // 도망 성공 시 몬스터 리스트 초기화
+                battleRunAnimationPlay();
                 ((LogView)viewMap[ViewID.Log]).AddLog("도망 성공!");
                 return true;
             }

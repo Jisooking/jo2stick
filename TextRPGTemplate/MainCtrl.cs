@@ -162,6 +162,7 @@ namespace TextRPG
                 }
                 Debug.Write(animationPathMap[pair.Key]);
                 animationJson = File.ReadAllText(animationPathMap[pair.Key]!);
+                Debug.WriteLine(animationJson);
                 animationMap[pair.Key] = JsonSerializer.Deserialize<Animation>(animationJson)!;
             }
         }
