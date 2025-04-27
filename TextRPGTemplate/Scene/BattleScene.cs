@@ -96,13 +96,20 @@ namespace TextRPG.Scene
                 case 3: return sceneNext.next![input];
                 case 4: if (TryEscape()) return SceneID.DungeonSelect; break;
                 case 5: actionPerformed = UsePotion(); break;
-                case 8: 
-                    battleSignatureAnimationPlay();
-                    for(int i = 0; i < gameContext.currentBattleMonsters.Count; i++)
+                case 8:
+                    if (gameContext.ch.job != "")
                     {
-                        gameContext.currentBattleMonsters[i].HP = 0;
+                        battleSignatureAnimationPlay();
+                        for (int i = 0; i < gameContext.currentBattleMonsters.Count; i++)
+                        {
+                            gameContext.currentBattleMonsters[i].HP = 0;
+                        }
+                        battleIdleAnimationPlay();
                     }
-                    battleIdleAnimationPlay();
+                    else
+                    {
+                        return SceneID.BattleScene;
+                    }
                     break;
                 default:
                     ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다. 다시 선택해주세요.");

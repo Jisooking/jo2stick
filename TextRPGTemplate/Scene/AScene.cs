@@ -184,13 +184,15 @@ namespace TextRPG.Scene
             Animation[] animationsArray = animationsList.ToArray();
             BattleAnimationPos battleAnimationPos = gameContext.battleAnimationPos[gameContext.currentBattleMonsters.Count - 1];
 
-            Animation animation = gameContext.animationMap[$"{gameContext.ch.job}Signature"]!.DeepCopy();
-            animation.x[0] += battleAnimationPos.characterPosX;
-            animation.y[0] += battleAnimationPos.characterPosY;
-            animationsList.Add(animation);
-            animationsArray = animationsList.ToArray();
+            if (gameContext.animationMap.ContainsKey($"{gameContext.ch.job}Signature")){
+                Animation animation = gameContext.animationMap[$"{gameContext.ch.job}Signature"]!.DeepCopy();
+                animation.x[0] += battleAnimationPos.characterPosX;
+                animation.y[0] += battleAnimationPos.characterPosY;
+                animationsList.Add(animation);
+                animationsArray = animationsList.ToArray();
 
-            gameContext.animationPlayer.play(animationsArray, (SpriteView)viewMap[ViewID.Sprite]);
+                gameContext.animationPlayer.play(animationsArray, (SpriteView)viewMap[ViewID.Sprite]);
+            }
         }
 
         public void battleAttackAnimationPlay(MonsterData target)
