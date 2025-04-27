@@ -1,9 +1,9 @@
 ﻿{
     "name": "Chad123123",
     "job": "",
-    "attack": 10,
-    "guard": 5,
-    "hp": 100,
+    "attack": 0,
+    "guard": 0,
+    "hp": 0,
     "gold": 1500,
     "clearCount": 0,
     "items": [],
