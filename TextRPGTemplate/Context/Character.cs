@@ -222,6 +222,17 @@ namespace TextRPG.Context
                         totalEffectStat += (int)StatusEffects[i].effectAmount;
                     }
                 }
+                else if (StatusEffects[i].effectType == StatusEffectType.Curse)
+                {
+                    if (StatusEffects[i].skill.skillType == skillType)
+                    {
+                        totalEffectStat -= (int)StatusEffects[i].effectAmount;
+                    }
+                    else if (StatusEffects[i].skill.skillType == skillType)
+                    {
+                        totalEffectStat -= (int)StatusEffects[i].effectAmount;
+                    }
+                }
             }
             return totalEffectStat;
         }

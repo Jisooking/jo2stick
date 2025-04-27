@@ -395,13 +395,16 @@ namespace TextRPG.Scene
                         break;
                     case StatusEffectType.DoT:
                         /*
-                        monster.HP = Math.Max(0, monster.HP - (int)(monster.StatusEffects[i].effectAmount));
-                        ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}에게 상태 이상 발생! {monster.StatusEffects[i].effectAmount}의 데미지 !");
-                        if (monster.HP <= 0)
+                        player.hp = Math.Max(0, player.hp - (int)(player.StatusEffects[i].effectAmount));
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}에게 상태 이상 발생! {player.StatusEffects[i].effectAmount}의 데미지 !");
+                        if (player.hp <= 0)
                         {
-                            ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name} 처치!");
+                            ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다. 게임 오버!");
                         }
                         */
+                        break;
+                    case StatusEffectType.Curse:
+
                         break;
                 }
                 if (player.StatusEffects[i].duration == 0)
