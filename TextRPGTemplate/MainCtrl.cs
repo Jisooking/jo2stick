@@ -29,6 +29,9 @@ namespace TextRPG
             else
             {
                 Console.WriteLine($"SetWindowSize ignored");
+                Console.WriteLine("콘솔 화면을 전체 화면으로 확대해 주세요");
+                Console.WriteLine("Press Any Key");
+                Console.ReadKey();
             }
             int width = Console.WindowWidth;
             int height = Console.WindowHeight;
