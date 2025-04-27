@@ -96,6 +96,14 @@ namespace TextRPG.Scene
                 case 3: return sceneNext.next![input];
                 case 4: if (TryEscape()) return SceneID.DungeonSelect; break;
                 case 5: actionPerformed = UsePotion(); break;
+                case 8: 
+                    battleSignatureAnimationPlay();
+                    for(int i = 0; i < gameContext.currentBattleMonsters.Count; i++)
+                    {
+                        gameContext.currentBattleMonsters[i].HP = 0;
+                    }
+                    battleIdleAnimationPlay();
+                    break;
                 default:
                     ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다. 다시 선택해주세요.");
                     Thread.Sleep(1000);
@@ -140,6 +148,8 @@ namespace TextRPG.Scene
             int damage = (int)player.defaultAttack + (int)(player.getPlusAttack()) + (int)player.getStat(player.statType)/3 - target.Power; ;
             if (damage < 0) damage = 0;
 
+            DrawScene();
+
             battleAttackAnimationPlay(target);
             target.HP = Math.Max(0, target.HP - damage);
             ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}가 {target.Name}에게 물리 공격! {damage} 데미지!");
@@ -161,6 +171,8 @@ namespace TextRPG.Scene
             //int damage = (int)(player.getTotalAttack() * player.Int - target.Power); // 마법은 물리 공격보다 강하게 설정
             int damage = (int)player.defaultAttack + (int)(player.getPlusAttack()) + player.Int - target.Power; ;
             if (damage < 0) damage = 0;
+
+            DrawScene();
 
             battleAttackAnimationPlay(target);
             target.HP = Math.Max(0, target.HP - damage);

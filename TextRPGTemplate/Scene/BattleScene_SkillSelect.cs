@@ -333,6 +333,8 @@ namespace TextRPGTemplate.Scene
 
             if (target == null) return;
 
+            DrawScene();
+
             battleAttackAnimationPlay(target);
             selectSkill.curCoolTime = 0;
             selectSkill.curUseCount--;

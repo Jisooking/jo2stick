@@ -180,12 +180,12 @@
         "animationPath": "Monster/SuccubusIdleAnimation.json"
     },
     {
-        "key": "DopplegangerDefend",
-        "animationPath": "Monster/DopplegangerDefendAnimation.json"
+        "key": "DoppelgangerDefend",
+        "animationPath": "Monster/DoppelgangerDefendAnimation.json"
     },
     {
-        "key": "DopplegangerIdle",
-        "animationPath": "Monster/DopplegangerIdleAnimation.json"
+        "key": "DoppelgangerIdle",
+        "animationPath": "Monster/DoppelgangerIdleAnimation.json"
     },
     {
         "key": "GolemDefend",

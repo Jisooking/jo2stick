@@ -45,13 +45,14 @@ namespace TextRPG.Scene
 
                 gameContext.curGold = gameContext.ch.gold;
                 gameContext.curHp = gameContext.ch.hp;
+                gameContext.curMp = gameContext.ch.Mp;
 
                 dynamicText.Add($"획득 경험치: {totalExp} EXP");
                 dynamicText.Add($"획득 골드: {totalGold} G");
                 dynamicText.Add("");
                 dynamicText.Add("[탐험 결과]");
                 dynamicText.Add($"체력 {gameContext.prevHp} -> {gameContext.curHp}");
-                dynamicText.Add($"체력 {gameContext.prevMp} -> {gameContext.curMp}");
+                dynamicText.Add($"마나 {gameContext.prevMp} -> {gameContext.curMp}");
                 dynamicText.Add($"골드 {gameContext.prevGold}G -> {gameContext.curGold}G");
                 var quest = gameContext.questData[gameContext.questinput];
                 if (quest.clearquest == false)
@@ -66,7 +67,9 @@ namespace TextRPG.Scene
                         }
                     }
                 }
-                
+                gameContext.clearedMonsters.Clear();
+
+
 
                 if (quest.dropitemcount >= quest.questfigure)
                 {

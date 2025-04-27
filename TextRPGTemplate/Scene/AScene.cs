@@ -178,6 +178,21 @@ namespace TextRPG.Scene
             gameContext.animationPlayer.play(animationsArray, (SpriteView)viewMap[ViewID.Sprite]);
         }
 
+        public void battleSignatureAnimationPlay()
+        {
+            List<Animation> animationsList = new List<Animation>();
+            Animation[] animationsArray = animationsList.ToArray();
+            BattleAnimationPos battleAnimationPos = gameContext.battleAnimationPos[gameContext.currentBattleMonsters.Count - 1];
+
+            Animation animation = gameContext.animationMap[$"{gameContext.ch.job}Signature"]!.DeepCopy();
+            animation.x[0] += battleAnimationPos.characterPosX;
+            animation.y[0] += battleAnimationPos.characterPosY;
+            animationsList.Add(animation);
+            animationsArray = animationsList.ToArray();
+
+            gameContext.animationPlayer.play(animationsArray, (SpriteView)viewMap[ViewID.Sprite]);
+        }
+
         public void battleAttackAnimationPlay(MonsterData target)
         {
             List<Animation> animationsList = new List<Animation>();
