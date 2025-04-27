@@ -79,7 +79,7 @@ namespace TextRPG.Context
         }
         public float SetDefaultGuard(StatType statType)
         {
-            return ((float)getStat(statType) * 0.5f);
+            return ((float)getStat(statType) * 0.01f);
         }
 
         public int SetMaxHp(StatType statType)

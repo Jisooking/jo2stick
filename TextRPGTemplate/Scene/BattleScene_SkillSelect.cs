@@ -166,6 +166,8 @@ namespace TextRPGTemplate.Scene
 
         public void UseSkill(Skill selectSkill)
         {
+            int flavor = new Random().Next(selectSkill.flavorText.Length - 1);
+            ((LogView)viewMap[ViewID.Log]).AddLog($"{selectSkill.flavorText[flavor]}");
             if (selectSkill.targetType == TargetType.Enemy)
             {
                 ExecutorToEnemy(selectSkill);

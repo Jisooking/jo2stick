@@ -293,7 +293,7 @@ namespace TextRPG.Scene
             }
             else
             {
-                int damage = (int)(monster.Power - player.getTotalGuard());
+                int damage = (int)((monster.Power + 100) - player.getTotalGuard());
                 if (damage < 0) damage = 0;
 
                 player.hp -= damage;
