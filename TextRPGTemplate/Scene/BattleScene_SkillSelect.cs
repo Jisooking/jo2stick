@@ -346,6 +346,8 @@ namespace TextRPGTemplate.Scene
             target.HP = Math.Max(0, target.HP - damage);
             ((LogView)viewMap[ViewID.Log]).AddLog($"{gameContext.ch.name}가 {target.Name}에게 {selectSkill.skillName}! {damage} 데미지!");
 
+            SeconDaryEffect(selectSkill, target, damage);
+
             if (target.HP <= 0)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
@@ -372,6 +374,33 @@ namespace TextRPGTemplate.Scene
                     {
 
                     }
+                }
+            }
+        }
+
+        private void SeconDaryEffect(Skill selectSkill, MonsterData target, int damage)
+        {
+            if (selectSkill.secondaryEffects.Contains(SecondaryEffect.Multiple))
+            {
+                var aliveMonsters = gameContext.currentBattleMonsters!.Where(m => m.HP > 0).ToList();
+                var addTargets = aliveMonsters!.Where(m => m != target).ToList();
+
+                int targetCount = Math.Min(selectSkill.effectAmount[1]-1, addTargets.Count);
+
+                //멀티샷이 3명을 공격한다고 하면, 본체는 이미 공격을 했기 때문에 2마리만 더 공격해야되서 본체를 -1해준 Count를 사용한다.
+                for (int i = 0; i < targetCount; i++)
+                {
+                    addTargets[i].HP = Math.Max(0, addTargets[i].HP - damage);
+                    ((LogView)viewMap[ViewID.Log]).AddLog($"{gameContext.ch.name}가 {addTargets[i].Name}에게 {selectSkill.skillName}! {damage} 데미지!");
+                }
+            }
+            else if (selectSkill.secondaryEffects.Contains(SecondaryEffect.Consecutive))
+            {
+                for (int i = 0; i < selectSkill.effectAmount[1]; i++)
+                {
+                    damage = (damage - damage / 10);
+                    target.HP = Math.Max(0, target.HP - damage);
+                    ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name}에게 {selectSkill.skillName}! {damage} 데미지!");
                 }
             }
         }
