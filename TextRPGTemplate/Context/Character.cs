@@ -15,7 +15,7 @@ namespace TextRPG.Context
         public List<Skill>? learnSkillList { get; set; } = new List<Skill>();
         public Skill[] equipSkillList { get; set; }
 
-        public List<StatusEffect> StatusEffects { get; set; }
+        public List<StatusEffect> StatusEffects { get; set; } = new List<StatusEffect>();
 
         public StatType mainStat { get; set; } = StatType.Str;
 
