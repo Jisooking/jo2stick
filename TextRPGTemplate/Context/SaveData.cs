@@ -39,9 +39,9 @@ namespace TextRPG.Context
             attack = ch.defaultAttack;
             guard = ch.defaultGuard;
             hp = ch.hp;
-            MaxHp = ch.MaxHp;
+            //MaxHp = ch.MaxHp;
             Mp = ch.Mp;
-            MaxMp = ch.MaxMp;
+            //MaxMp = ch.MaxMp;
             Exp = ch.Exp;
             Point = ch.Point;
             CurrentExp = ch.CurrentExp;

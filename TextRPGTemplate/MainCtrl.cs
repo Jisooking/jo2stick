@@ -92,9 +92,9 @@ namespace TextRPG
                 saveData.Dex = statCreater.Dex;
                 saveData.Luk = statCreater.Luk;
                 saveData.hp = statCreater.hp;
-                saveData.MaxHp = statCreater.MaxHp;
+                //saveData.MaxHp = statCreater.MaxHp;
                 saveData.Mp = statCreater.Mp;
-                saveData.MaxMp = statCreater.MaxMp;
+                //saveData.MaxMp = statCreater.MaxMp;
                 saveData.gold = statCreater.Gold;
             }
 

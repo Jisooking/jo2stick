@@ -36,7 +36,7 @@ namespace TextRPG.Scene
                 {
                     case 0:
                         {
-                            gameContext.ch.MaxHp += 10;
+                            //gameContext.ch.MaxHp += 10;
                             gameContext.ch.hp += 10;
                             dynamicText.Add($"상점 주인이 치유 물약을 내밉니다.");
                             dynamicText.Add($"HP가 증가했습니다! ( +10 )");

@@ -26,9 +26,9 @@ namespace TextRPG.Context
         public int Int { get; set; }
         public int Dex { get; set; }
         public int Luk { get; set; }
-        public int MaxHp { get; set; }
+        public int MaxHp { get { return SetMaxHp(statType); } }
         public int Mp { get; set; }
-        public int MaxMp { get; set; }
+        public int MaxMp { get { return SetMaxMp(statType); } }
         public int Exp { get; set; }
         public int CurrentExp { get; set; }
         public int MaxExp => (int)(100 * Math.Pow(1.2, Level - 1));
@@ -80,6 +80,15 @@ namespace TextRPG.Context
         public float SetDefaultGuard(StatType statType)
         {
             return ((float)getStat(statType) * 0.5f);
+        }
+
+        public int SetMaxHp(StatType statType)
+        {
+            return (((int)Str * 1) + (getStat(statType) * 1/2));
+        }
+        public int SetMaxMp(StatType statType)
+        {
+            return (((int)Int * 1) + (getStat(statType) * 99)); // 스킬 테스트를 위해 마나최대치 높게설정해둠. 원래는 * 1/2
         }
         public int getStat(StatType stat)
         {

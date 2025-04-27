@@ -42,9 +42,9 @@ namespace TextRPG.Context
             //defaultAttack = saveData.attack;
             //defaultGuard = saveData.guard;
             hp = saveData.hp;
-            MaxHp = saveData.MaxHp;
+            //MaxHp = saveData.MaxHp;
             Mp = saveData.Mp;
-            MaxMp = saveData.MaxMp;
+            //MaxMp = saveData.MaxMp;
             Exp = saveData.Exp;
             Point = saveData.Point;
             CurrentExp = saveData.CurrentExp;
@@ -157,10 +157,10 @@ namespace TextRPG.Context
             Luk += (int)(afterjobstat.addLuk ?? 0);
             attack += (int)(afterjobstat.addattack ?? 0);
             guard += (int)(afterjobstat.addguard ?? 0);
-            hp += (int)(afterjobstat.addHp ?? 0);
-            MaxHp += (int)(afterjobstat.addHp ?? 0);
-            Mp += (int)(afterjobstat.addMp ?? 0);
-            MaxMp += (int)(afterjobstat.addMp ?? 0);
+            //hp += (int)(afterjobstat.addHp ?? 0);
+            //MaxHp += (int)(afterjobstat.addHp ?? 0);
+            //Mp += (int)(afterjobstat.addMp ?? 0);
+            //MaxMp += (int)(afterjobstat.addMp ?? 0);
             Point += (int)(afterjobstat.addPoint ?? 0);
             critical += (int)(afterjobstat.addcritical ?? 0);
             statType = afterjobstat.stattype;
