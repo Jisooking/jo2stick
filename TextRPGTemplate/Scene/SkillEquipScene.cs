@@ -119,7 +119,7 @@ namespace TextRPG.Scene
 
         public bool UseableSkillSlot()
         {
-            if (gameContext.ch.learnSkillList.Count < gameContext.ch.useableSlot)
+            if (gameContext.ch.equipSkillList.Length-1 < gameContext.ch.useableSlot)
             {
                 return true;
             }

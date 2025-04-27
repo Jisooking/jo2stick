@@ -168,6 +168,11 @@ namespace TextRPGTemplate.Scene
         {
             int flavor = new Random().Next(selectSkill.flavorText.Length - 1);
             ((LogView)viewMap[ViewID.Log]).AddLog($"{selectSkill.flavorText[flavor]}");
+
+            selectSkill.curCoolTime = 0;
+            selectSkill.curUseCount--;
+            gameContext.ch.Mp -= selectSkill.costMana;
+
             if (selectSkill.targetType == TargetType.Enemy)
             {
                 ExecutorToEnemy(selectSkill);
@@ -203,7 +208,17 @@ namespace TextRPGTemplate.Scene
 
                 if (gameContext.ch.hp <= 0)
                 {
-                    ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다. 게임 오버!");
+                    StatusEffect skill = gameContext.ch.StatusEffects.FirstOrDefault(m => m.skill.skillName == "최후의 저항");
+                    if (skill != null)
+                    {
+                        gameContext.ch.hp = Math.Max((int)skill.effectAmount, gameContext.ch.MaxHp);
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"불가사이한 힘으로 {gameContext.ch.name}이 죽음에서 돌아옵니다.");
+                        gameContext.ch.StatusEffects.Remove(skill);
+                    }
+                    else
+                    {
+                        ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다. 게임 오버!");
+                    }
                 }
                 battleIdleAnimationPlay();
             }
@@ -334,13 +349,6 @@ namespace TextRPGTemplate.Scene
             MonsterData target = ChooseTarget();
 
             if (target == null) return;
-
-            DrawScene();
-
-            battleAttackAnimationPlay(target);
-            selectSkill.curCoolTime = 0;
-            selectSkill.curUseCount--;
-            gameContext.ch.Mp -= selectSkill.costMana;
 
             int skillDamage = (int)((gameContext.ch.getTotalAttack() + selectSkill.effectAmount[0]) + (gameContext.ch.getTotalStat(selectSkill.statType) * selectSkill.skillFactor));
 

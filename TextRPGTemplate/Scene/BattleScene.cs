@@ -304,7 +304,17 @@ namespace TextRPG.Scene
 
                 if (player.hp <= 0)
                 {
-                    ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다. 게임 오버!");
+                    StatusEffect skill = gameContext.ch.StatusEffects.FirstOrDefault(m => m.skill.skillName == "최후의 저항");
+                    if (skill != null)
+                    {
+                        player.hp = Math.Max((int)skill.effectAmount,player.MaxHp);
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"불가사이한 힘으로 \"{player.name}\" 플레이어가 죽음에서 돌아옵니다.");
+                        gameContext.ch.StatusEffects.Remove(skill);
+                    }
+                    else
+                    {
+                        ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다. 게임 오버!");
+                    }
                 }
             }
         }
