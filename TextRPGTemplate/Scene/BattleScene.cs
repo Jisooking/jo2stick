@@ -148,6 +148,8 @@ namespace TextRPG.Scene
 
         private bool PerformPhysicalAttack()
         {
+            DrawScene();
+            
             var target = ChooseTarget();
             if (target == null) return false;
 
@@ -172,6 +174,7 @@ namespace TextRPG.Scene
  
         private bool PerformMagicAttack()
         {
+            DrawScene();
             var target = ChooseTarget();
             if (target == null) return false;
 
@@ -330,6 +333,7 @@ namespace TextRPG.Scene
             int choice;
             while (true)
             {
+                ((InputView)viewMap[ViewID.Input]).SetCursor();
                 if (int.TryParse(Console.ReadLine(), out choice))
                 {
                     if (choice == 0)
