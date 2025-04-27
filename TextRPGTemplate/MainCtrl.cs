@@ -20,8 +20,16 @@ namespace TextRPG
         static void Main(string[] args)
         {
             // 화면 크기 조정
-            Console.SetWindowSize(183, 56);
-            Console.SetBufferSize(183, 56);
+
+            if (OperatingSystem.IsWindows())
+            {
+                Console.SetWindowSize(183, 56);
+                Console.SetBufferSize(183, 56);
+            }
+            else
+            {
+                Console.WriteLine($"SetWindowSize ignored");
+            }
             int width = Console.WindowWidth;
             int height = Console.WindowHeight;
             AudioManager.Instance().InitBgm();
