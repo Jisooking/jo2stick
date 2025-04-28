@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using TextRPG.Context;
 using TextRPG.View;
@@ -25,14 +26,16 @@ namespace TextRPG.Scene
             }
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
-
             Render();
         }
 
         public override string respond(int i)
         {
-            if (i == 0) return SceneID.Main;
+            if (i == 0)
+            {
+                convertSceneAnimationPlay(sceneNext.next![i]);
+                return sceneNext.next![i];
+            }
 
             if (i < 1 || i > gameContext.dungeonList.Count)
             {
@@ -47,11 +50,11 @@ namespace TextRPG.Scene
             var selectedDungeon = gameContext.dungeonList[i - 1]; 
             gameContext.currentBattleMonsters = new List<MonsterData>();
             gameContext.currentBattleMonsters = GenerateMonstersForDungeon(selectedDungeon);
-            Console.WriteLine($"생성된 몬스터 수: {gameContext.currentBattleMonsters.Count}");
+            ((LogView)viewMap[ViewID.Log]).AddLog($"생성된 몬스터 수: {gameContext.currentBattleMonsters.Count}");
 
             foreach (var m in gameContext.currentBattleMonsters)
             {
-                Console.WriteLine($"- {m.Name} (HP: {m.HP}/{m.MaxHP})");
+                ((LogView)viewMap[ViewID.Log]).AddLog($"- {m.Name} (HP: {m.HP}/{m.MaxHP})");
             }
             if (gameContext.currentBattleMonsters == null || gameContext.currentBattleMonsters.Count == 0)
             {
@@ -76,6 +79,7 @@ namespace TextRPG.Scene
             gameContext.prevHp = gameContext.ch.hp;
             gameContext.prevMp = gameContext.ch.Mp;
             gameContext.prevGold = gameContext.ch.gold;
+            battleIdleAnimationPlay();
             return SceneID.BattleScene;
         }
 
@@ -83,6 +87,11 @@ namespace TextRPG.Scene
         {
             var monsters = new List<MonsterData>();
             int monsterCount = rnd.Next(dungeon.MonsterCountMin, dungeon.MonsterCountMax + 1);
+
+            for (int i = 0; i < gameContext.ch.equipSkillList.Length; i++)
+            {
+                gameContext.ch.equipSkillList[i]?.Reset();
+            }
 
             for (int i = 0; i < monsterCount; i++)
             {
@@ -120,7 +129,6 @@ namespace TextRPG.Scene
                 ((LogView)viewMap[ViewID.Log]).AddLog($"가능한 몬스터 타입: {string.Join(",",gameContext.monsterList.SelectMany(m => m.Type).Distinct())}");
                 return null;
             }
-
             return WeightedRandomSelection(validMonsters)?.Clone();
         }
 

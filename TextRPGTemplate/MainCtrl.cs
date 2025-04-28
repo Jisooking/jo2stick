@@ -8,6 +8,10 @@ using TextRPG.Context;
 using TextRPGTemplate.Animation;
 using TextRPGTemplate.Managers;
 using TextRPGTemplate.Scene;
+using System.Diagnostics;
+using System;
+using System.IO;
+using NAudio.Wave;
 
 namespace TextRPG
 {
@@ -16,11 +20,22 @@ namespace TextRPG
         static void Main(string[] args)
         {
             // 화면 크기 조정
-            Console.SetWindowSize(183, 56);
-            Console.SetBufferSize(183, 56);
+
+            if (OperatingSystem.IsWindows())
+            {
+                Console.SetWindowSize(183, 56);
+                Console.SetBufferSize(183, 56);
+            }
+            else
+            {
+                Console.WriteLine($"SetWindowSize ignored");
+                Console.WriteLine("콘솔 화면을 전체 화면으로 확대해 주세요");
+                Console.WriteLine("Press Any Key");
+                Console.ReadKey();
+            }
             int width = Console.WindowWidth;
             int height = Console.WindowHeight;
-
+            AudioManager.Instance().InitBgm();
 
             //Save 불러오기
             string? name = "";
@@ -68,20 +83,26 @@ namespace TextRPG
                 statCreater.GenerateStats();
                 Console.Clear();
                 saveDataJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
+
                 saveData = JsonSerializer.Deserialize<SaveData>(saveDataJson)!;
+
                 saveData.name = name;
                 saveData.Str = statCreater.Str;
                 saveData.Int = statCreater.Int;
                 saveData.Dex = statCreater.Dex;
                 saveData.Luk = statCreater.Luk;
                 saveData.hp = statCreater.hp;
-                saveData.MaxHp = statCreater.MaxHp;
+                //saveData.MaxHp = statCreater.MaxHp;
                 saveData.Mp = statCreater.Mp;
-                saveData.MaxMp = statCreater.MaxMp;
+                //saveData.MaxMp = statCreater.MaxMp;
                 saveData.gold = statCreater.Gold;
             }
 
             //정적 데이터 불러오기
+            Dictionary<string, string?> animationPathMap = new();
+            initanimationPathMap(animationPathMap);
+            Dictionary<string, Animation?> animationMap = new();
+            initanimationMap(animationPathMap, animationMap);
             Dictionary<string, AView> viewMap = new();
             initViewMap(viewMap);
             Dictionary<string, SceneText> sceneTextMap = new();
@@ -101,17 +122,17 @@ namespace TextRPG
             var dungeonDataJson = File.ReadAllText(JsonPath.dungeonDataJsonPath);
             var dungeonData = JsonSerializer.Deserialize<List<DungeonData>>(dungeonDataJson);
 
-            Dictionary<string, string?> animationPathMap = new();
-            initanimationPathMap(animationPathMap);
-            Dictionary<string, Animation?> animationMap = new();
-            initanimationMap(animationPathMap, animationMap);
 
             AnimationPlayer animationPlayer = new AnimationPlayer();
             // 몬스터 데이터 로드 추가
             var monsterDataJson = File.ReadAllText(JsonPath.monsterDataJsonPath);
             var monsterList = JsonSerializer.Deserialize<List<MonsterData>>(monsterDataJson);
 
-            GameContext gameContext = new(saveData!, dungeonData!, monsterList!, animationPlayer!, animationMap);
+            var battleAnimationPosJson = File.ReadAllText(JsonPath.battleAnimationPosJsonPath);
+            var battleAnimationPos = JsonSerializer.Deserialize<List<BattleAnimationPos>>(battleAnimationPosJson);
+
+
+            GameContext gameContext = new(saveData!, dungeonData!, monsterList!, animationPlayer!, animationMap, battleAnimationPos!);
 
 
             AScene startScene = sceneFactoryMap[SceneID.Main](gameContext,
@@ -121,7 +142,7 @@ namespace TextRPG
                 sceneNextMap);
 
             Console.Clear();
-            //실행
+            //실행            
             run(gameContext,
                 startScene,
                 viewMap,
@@ -283,8 +304,44 @@ namespace TextRPG
             };
         }
 
-        // 새 Scene을 만들면 이 부분에 추가
-        static void initSceneFactoryMap(Dictionary<string, SceneMaker> sceneFactoryMap)
+        internal class AudioManager
+        {
+            private IWavePlayer waveOut;
+            private AudioFileReader audioFile;
+
+            private static AudioManager instance;
+            public static AudioManager Instance()
+            {
+                if (instance == null)
+                    instance = new AudioManager();
+                return instance;
+            }
+
+            public void InitBgm()
+            {
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "bgm.wav");
+
+                if (File.Exists(filePath))
+                {
+                    waveOut = new WaveOutEvent();
+                    audioFile = new AudioFileReader(filePath);
+
+                    audioFile.Volume = 0.3f;
+                    // 재생이 끝날 때 이벤트를 감지하여 무한 반복
+                    waveOut.PlaybackStopped += (sender, args) =>
+                    {
+                        audioFile.Position = 0; // 파일의 시작 위치로 되돌림
+                        waveOut.Play();
+                    };
+
+                    waveOut.Init(audioFile);
+                    waveOut.Play();
+                }
+            }
+        }
+
+                    // 새 Scene을 만들면 이 부분에 추가
+                    static void initSceneFactoryMap(Dictionary<string, SceneMaker> sceneFactoryMap)
         {
             RegisterScene<MainScene>(sceneFactoryMap, SceneID.Main);
             RegisterScene<WearScene>(sceneFactoryMap, SceneID.Wear);
@@ -300,6 +357,9 @@ namespace TextRPG
             RegisterScene<BattleScene>(sceneFactoryMap, SceneID.BattleScene);
             RegisterScene<BattleScene_SkillSelect>(sceneFactoryMap, SceneID.BattleScene_Skill);
             RegisterScene<StatUpScene>(sceneFactoryMap, SceneID.StatUp);
+            RegisterScene<QuestScene>(sceneFactoryMap, SceneID.QuestScene);
+            RegisterScene<NPCScene>(sceneFactoryMap, SceneID.NPCScene);
+            RegisterScene<QuestClearScene>(sceneFactoryMap,SceneID.QuestClearScene);
             RegisterScene<GetJobScene>(sceneFactoryMap, SceneID.GetJob);
             RegisterScene<SkillManagerScene>(sceneFactoryMap, SceneID.SkillManager);
             RegisterScene<SkillLearnScene>(sceneFactoryMap, SceneID.SkillLearn);

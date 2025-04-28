@@ -18,6 +18,7 @@ namespace TextRPGTemplate.Managers
         public int Gold;
         public int MaxExp => 100 * (int)Math.Pow(1.2, Level - 1);
         public int Critical;
+        public int Avoidance;
         public int statLimit = 200;
 
 
@@ -82,21 +83,21 @@ namespace TextRPGTemplate.Managers
             if (autoGenerate)
             {
                 RandomStats();
-                Calculate();
+                //Calculate();
             }
         }
 
-        public void Calculate()
-        {
-            MaxHp = 50 + (Str * 2);
-            MaxMp = 50 + (Int * 1);
+        //public void Calculate()       // maxHp, maxMp 계산식 변경으로 주석처리 해둠.
+        //{
+        //    MaxHp = 50 + (Str * 2);
+        //    MaxMp = 50 + (Int * 1);
 
-            hp = MaxHp;
-            Mp = MaxMp;
+        //    hp = MaxHp;
+        //    Mp = MaxMp;
 
-            attack = Str * 1.5f;  // 공격력 계산
-            guard = Dex * 1.2f;   // 방어력 계산
-        }
+        //    attack = Str * 1.5f;  // 공격력 계산
+        //    guard = Dex * 1.2f;   // 방어력 계산
+        //}
         public void GenerateSaveData()
         {
             string defaultJson = File.ReadAllText(JsonPath.defaultDataJsonPath);
@@ -122,18 +123,17 @@ namespace TextRPGTemplate.Managers
             saveData.Luk = this.Luk;
 
             saveData.hp = this.hp;
-            saveData.MaxHp = this.MaxHp;
+            //saveData.MaxHp = this.MaxHp;
             saveData.Mp = this.Mp;
-            saveData.MaxMp = this.MaxMp;
+            //saveData.MaxMp = this.MaxMp;
 
             saveData.gold = this.Gold;
-            saveData.defaultAttack = this.attack;
-            saveData.defaultGuard = this.guard;
+            //saveData.defaultAttack = this.attack;
+            //saveData.defaultGuard = this.guard;
             saveData.Level = this.Level;
             saveData.CurrentExp = this.CurrentExp;
             saveData.Exp = this.Exp;
             saveData.Point = this.Point;
-            saveData.critical = this.Critical;
             saveData.clearCount = 0; // 기본값 초기화
         }
 
@@ -143,7 +143,7 @@ namespace TextRPGTemplate.Managers
 
             Console.Clear();
 
-            Calculate();
+            //Calculate();
             hp = MaxHp;
             Mp = MaxMp;
 
@@ -163,7 +163,7 @@ namespace TextRPGTemplate.Managers
             while (true)
             {
                 RandomStats();
-                Calculate();
+                //Calculate();
 
                 if (showWindow)
                 {

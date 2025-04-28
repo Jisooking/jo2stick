@@ -31,13 +31,14 @@ namespace TextRPG.Scene
             dynamicText.Add($" 운 : {ch.Luk}\n");
             dynamicText.Add($"체 력 : {ch.hp} / {ch.MaxHp}");
             dynamicText.Add($"Gold : {ch.gold}G");
+            dynamicText.Add($"Avoidance : {ch.Avoidance}");
             dynamicText.Add("원하는 직업을 선택해 주세요.");
             List<JobRequirement> jobRequirements = new()
             {
                 new JobRequirement { JobName = "파이터", MinLevel = 0, MinStr = 0 },
-                new JobRequirement { JobName = "위자드", MinLevel = 15, MinInt = 100 },
-                new JobRequirement { JobName = "레인저", MinLevel = 15, MinDex = 100 },
-                new JobRequirement { JobName = "시프", MinLevel = 15, MinLuk = 100 },
+                new JobRequirement { JobName = "레인저", MinLevel = 0, MinDex = 0 },
+                new JobRequirement { JobName = "위자드", MinLevel = 0, MinInt = 0 },
+                new JobRequirement { JobName = "시프", MinLevel = 0, MinLuk = 0 },
             };
             eligibleJobs = jobRequirements
                 .Where(req => req.IsEligible(ch))
@@ -63,9 +64,36 @@ namespace TextRPG.Scene
                 gameContext.ch.job = selectedJob.JobName;   // 클래스 직업변경
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{selectedJob.JobName}로 전직했습니다.");
                 gameContext.ch.AddJobStat(gameContext.afterJobStat![i-1]);
+                SetSkillList(gameContext.afterJobStat[i - 1].jobSkills!);
             }
-            convertSceneAnimationPlay(sceneNext.next![i]);
+            if (sceneNext.next![i] != SceneID.Status)
+            {
+                convertSceneAnimationPlay(SceneID.Status);
+            }
+            //convertSceneAnimationPlay(sceneNext.next![i]);
             return sceneNext.next![i];
+        }
+
+        public void SetSkillList(List<string> skillList)
+        {
+            for (int i = 0; i < skillList.Count; i++)
+            {
+                for (int j = 0; j < gameContext.skillList.Length; j++)
+                {
+                    if (skillList[i] == gameContext.skillList[j].key)
+                    {
+                        gameContext.ch.characterSkillList.Add(gameContext.skillList[j]);
+                        if(gameContext.skillList[j].isLearn == true)
+                        {
+                            gameContext.ch.learnSkillList.Add(gameContext.skillList[j]);
+                            if(gameContext.skillList[j].isEquip == true)
+                            {
+                                gameContext.ch.equipSkillList[gameContext.skillList[j].equipSlot] = gameContext.skillList[j];
+                            }
+                        }
+                    }
+                }
+            }
         }
     }    
 }

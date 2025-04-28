@@ -17,5 +17,6 @@ namespace TextRPG
         public const string animationPathJsonPath = "AnimationPath.json";
         public const string dungeonDataJsonPath = "DungeonData.json";
         public const string monsterDataJsonPath = "MonsterData.json";
+        public const string battleAnimationPosJsonPath = "BattleAnimationPos.json";
     }
 }

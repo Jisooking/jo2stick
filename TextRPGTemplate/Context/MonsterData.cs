@@ -1,6 +1,7 @@
 ﻿// Monster.cs
 using System.Reflection.Emit;
 using System.Xml.Linq;
+using TextRPGTemplate.Context;
 
 [Serializable]
 public class MonsterData
@@ -13,10 +14,15 @@ public class MonsterData
     public int HP { get; set; }
     public int MaxHP { get; set; }
     public int Power { get; set; }
-
+    public string Dropitem { get; set; }
+    public List<StatusEffect> StatusEffects { get; set; }
+    public bool isActionable = true;
+    public string ID { get; set; } = "";
+    public int preHP { get; set; }
 
     public MonsterData(MonsterData other)
     {
+        this.ID = other.ID;
         this.Name = other.Name;  // other 객체의 값 복사
         this.Level = other.Level;
         this.Type = new List<string>(other.Type);  // List는 복사해야 함
@@ -25,6 +31,8 @@ public class MonsterData
         this.HP = other.HP;
         this.MaxHP = other.MaxHP;
         this.Power = other.Power;
+        this.Dropitem = other.Dropitem;
+        this.StatusEffects = other.StatusEffects;
     }
 
     public MonsterData()
@@ -35,6 +43,7 @@ public class MonsterData
     {
         return new MonsterData
         {
+            ID = this.ID,
             Name = this.Name,
             Level = this.Level,
             HP = this.HP,
@@ -42,7 +51,10 @@ public class MonsterData
             Power = this.Power,
             ExpReward = this.ExpReward,
             GoldReward = this.GoldReward,
-            Type = new List<string>(this.Type)
+            Dropitem = this.Dropitem,
+            Type = new List<string>(this.Type),
+            StatusEffects = new List<StatusEffect>()
         };
     }
 }
+

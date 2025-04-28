@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using TextRPGTemplate.Context;
@@ -11,8 +12,13 @@ namespace TextRPG.Context
     public class Character : CharacterBase
     {
         public Inventory inventory { get; set; }
+        public List<Skill> characterSkillList { get; set; } = new List<Skill>();
+        public List<Skill>? learnSkillList { get; set; } = new List<Skill>();
+        public Skill[] equipSkillList { get; set; }
 
-        public List<Skill>? learnSkillList { get; set; }
+        public List<StatusEffect> StatusEffects { get; set; } = new List<StatusEffect>();
+
+        public StatType mainStat { get; set; } = StatType.Str;
 
         public int useableSlot = 5;
 
@@ -23,47 +29,82 @@ namespace TextRPG.Context
             job = saveData.job;
             Level = saveData.Level;
             gold = saveData.gold;
-            clearCount = saveData.clearCount;
+            clearCount = saveData.clearCount;                        
 
             Str = saveData.Str;
             Dex = saveData.Dex;
             Int = saveData.Int;
             Luk = saveData.Luk;
+            statType = saveData.stattype;
             // 스탯 설정
 
             // 전투 속성 설정
-            defaultAttack = saveData.attack;
-            defaultGuard = saveData.guard;
+            //defaultAttack = saveData.attack;
+            //defaultGuard = saveData.guard;
             hp = saveData.hp;
-            MaxHp = saveData.MaxHp;
+            //MaxHp = saveData.MaxHp;
             Mp = saveData.Mp;
-            MaxMp = saveData.MaxMp;
+            //MaxMp = saveData.MaxMp;
             Exp = saveData.Exp;
             Point = saveData.Point;
             CurrentExp = saveData.CurrentExp;
-            critical = saveData.critical;
 
             inventory = new Inventory(new List<Item>(saveData.items));
-            this.learnSkillList = new List<Skill>(saveData.learnSkillList ?? new List<Skill>());
+
+            this.characterSkillList = new List<Skill>(saveData.characterSkillList ?? new List<Skill>());
+            this.equipSkillList = new Skill[useableSlot];
+
+            for (int i = 0; i < characterSkillList.Count; i++)
+            {
+                if (characterSkillList[i].isLearn)
+                {
+                    learnSkillList.Add(characterSkillList[i]);
+                    if (characterSkillList[i].isEquip)
+                    {
+                        equipSkillList[characterSkillList[i].equipSlot] = characterSkillList[i];
+                    }
+                }
+            }
         }
 
-        public int getLevel()
-        {  
+        public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, Skill[] learnSkillList , Skill[] characterSkillList)
+        {
+            this.name = name;
+            this.job = job;
+            //this.defaultAttack = attack;
+            //this.defaultGuard = guard;
+            this.hp = hp;
+            this.gold = gold;
+            this.clearCount = clearCount;
+            this.inventory = inventory;
+
+            this.characterSkillList = new List<Skill>(characterSkillList);
+            this.learnSkillList = new List<Skill>(learnSkillList);
+        }
+
+        public List<string> Levelup()
+        {
+            List<string> ret = new();
             while (CurrentExp >= MaxExp)
             {
                 CurrentExp -= MaxExp;
                 Level++;
                 Point += 3;
 
-                Console.WriteLine($"레벨업! 현재 레벨: {Level}, 포인트: {Point}");
-                Console.WriteLine($"현재 EXP: {CurrentExp} / {MaxExp}");
+                ret.Add($"레벨업! 현재 레벨: {Level}, 포인트: {Point}");
+                ret.Add($"현재 EXP: {CurrentExp} / {MaxExp}");
             }
+            return ret;
+        }
+
+        public int getLevel()
+        {
             return Level;
         }
 
         public float getNoWeaponAttack()
         {
-            return defaultAttack + (getLevel() - 1) * 0.5f;
+            return defaultAttack + (getLevel() - 1) * 0.5f; 
         }
 
         public float getNoArmorGuard()
@@ -98,12 +139,12 @@ namespace TextRPG.Context
 
         public float getTotalAttack()
         {
-            return getNoWeaponAttack() + getPlusAttack();
+            return getNoWeaponAttack() + getPlusAttack() + (getStat(mainStat) * 0.5f) + getStatusEffect(SkillType.Attack);
         }
 
         public float getTotalGuard()
         {
-            return getNoArmorGuard() + getPlusGuard();
+            return getNoArmorGuard() + getPlusGuard() + getStatusEffect(SkillType.Defence);
         }
 
         public void AddJobStat(AfterJobStat afterjobstat)
@@ -114,13 +155,15 @@ namespace TextRPG.Context
             Luk += (int)(afterjobstat.addLuk ?? 0);
             attack += (int)(afterjobstat.addattack ?? 0);
             guard += (int)(afterjobstat.addguard ?? 0);
-            hp += (int)(afterjobstat.addHp ?? 0);
-            MaxHp += (int)(afterjobstat.addHp ?? 0);
-            Mp += (int)(afterjobstat.addMp ?? 0);
-            MaxMp += (int)(afterjobstat.addMp ?? 0);
+            //hp += (int)(afterjobstat.addHp ?? 0);
+            //MaxHp += (int)(afterjobstat.addHp ?? 0);
+            //Mp += (int)(afterjobstat.addMp ?? 0);
+            //MaxMp += (int)(afterjobstat.addMp ?? 0);
             Point += (int)(afterjobstat.addPoint ?? 0);
-            critical += (int)(afterjobstat.addcritical ?? 0);
+            statType = afterjobstat.stattype;
         }
+
+
         public int getStat(StatType stat)
         {
             switch (stat)
@@ -139,5 +182,57 @@ namespace TextRPG.Context
 
             return 0;
         }
+
+        public int getTotalStat(StatType stat)
+        {
+            return getStat(stat) + getStatusEffectStat(stat,SkillType.Utility);
+        }
+
+        public int getStatusEffectStat(StatType stat, SkillType skillType)
+        {
+            int totalEffectStat = 0;
+            for (int i = 0; i < StatusEffects?.Count; i++)
+            {
+                if (StatusEffects[i].effectType == StatusEffectType.Buff && 
+                    StatusEffects[i].skill.skillType == skillType && 
+                    StatusEffects[i].skill.statType == stat)
+                {
+                    totalEffectStat += (int)StatusEffects[i].effectAmount;
+                }
+            }
+            return totalEffectStat;
+        }
+
+        public int getStatusEffect(SkillType skillType)
+        {
+            int totalEffectStat = 0;
+            for (int i = 0; i < StatusEffects?.Count; i++)
+            {
+                if (StatusEffects[i].effectType == StatusEffectType.Buff)
+                {
+                    if (StatusEffects[i].skill.skillType == skillType)
+                    {
+                        totalEffectStat += (int)StatusEffects[i].effectAmount;
+                    }
+                    else if (StatusEffects[i].skill.skillType == skillType)
+                    {
+                        totalEffectStat += (int)StatusEffects[i].effectAmount;
+                    }
+                }
+                else if (StatusEffects[i].effectType == StatusEffectType.Curse)
+                {
+                    if (StatusEffects[i].skill.skillType == skillType)
+                    {
+                        totalEffectStat -= (int)StatusEffects[i].effectAmount;
+                    }
+                    else if (StatusEffects[i].skill.skillType == skillType)
+                    {
+                        totalEffectStat -= (int)StatusEffects[i].effectAmount;
+                    }
+                }
+            }
+            return totalEffectStat;
+        }
+
     }
 }

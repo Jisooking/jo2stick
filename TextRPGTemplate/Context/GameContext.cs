@@ -26,14 +26,24 @@ namespace TextRPG.Context
         public int prevGold { get; set; }
         public int curGold {  get; set; }
         public AnimationPlayer animationPlayer { get; set; }
+        public QuestData[] questData { get; set; }
+        public int questinput { get; set; }
+        public bool isaccept { get; set; } = false;
         public Skill[] skillList { get; set; }
 
         public Dictionary<string, Animation?> animationMap = new();
+
+        public List<BattleAnimationPos> battleAnimationPos { get; set; }
         public void ResetBattleMonsters()
         {
             currentBattleMonsters.Clear();
         }
-        public GameContext(SaveData saveData, List<DungeonData> dungeonData, List<MonsterData> monsters, AnimationPlayer animationPlayer, Dictionary<string, Animation?> animationMap)
+        public GameContext(SaveData saveData, 
+            List<DungeonData> dungeonData, 
+            List<MonsterData> monsters, 
+            AnimationPlayer animationPlayer, 
+            Dictionary<string, Animation?> animationMap, 
+            List<BattleAnimationPos> battleAnimationPos)
         {
             // Character 생성자는 변경되지 않았으므로 기존 코드 유지
             ch = new Character(saveData);
@@ -46,9 +56,11 @@ namespace TextRPG.Context
             this.animationMap = animationMap;
             this.monsterList = new List<MonsterData>(monsters);
             currentBattleMonsters = new List<MonsterData>();
-            //skillList = saveData.skillList.ToArray();
+            skillList = saveData.skillList.ToArray();
             this.animationMap = animationMap;
+            this.questData = saveData.questData;
             this.afterJobStat = saveData.afterJobStat;
+            this.battleAnimationPos = battleAnimationPos;
         }
     }
 }

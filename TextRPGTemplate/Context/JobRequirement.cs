@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPGTemplate.Context;
 
 namespace TextRPG.Context
 {
@@ -30,7 +31,6 @@ namespace TextRPG.Context
     {
         public int iD { get; set; }
         public string? job { get; set; }
-
         public int? addStr { get; set; }
         public int? addDex { get; set; }
         public int? addInt { get; set; }
@@ -43,7 +43,7 @@ namespace TextRPG.Context
         public int? addguard { get; set; }
         public int? addcritical { get; set; }
         public List<string>? jobSkills { get; set; }
-
+        public StatType stattype { get; set; }
     }
 
 } 

@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
+using System.Threading;
 using TextRPG.Context;
 using TextRPG.View;
 using TextRPGTemplate.Context;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TextRPG.Scene
 {
@@ -41,7 +45,6 @@ namespace TextRPG.Scene
             dynamicText.Add($"플레이어: {player.name} | HP: {player.hp}/{player.MaxHp} | MP: {player.Mp}/{player.MaxMp}");
 
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
             Render();
         }
         private string? CheckBattleEnd()
@@ -57,7 +60,8 @@ namespace TextRPG.Scene
                     {
                         Name = m.Name,
                         ExpReward = m.ExpReward,
-                        GoldReward = m.GoldReward
+                        GoldReward = m.GoldReward,
+                        Dropitem = m.Dropitem
                     })
                     .ToList();
 
@@ -65,14 +69,15 @@ namespace TextRPG.Scene
                 // 전투 몬스터 리스트 초기화
 
                 ((LogView)viewMap[ViewID.Log]).AddLog("모든 몬스터를 처치했습니다!");
-                ((LogView)viewMap[ViewID.Log]).ClearText();
-
+                //((LogView)viewMap[ViewID.Log]).ClearText();
+                battleIdleAnimationPlay();
                 return SceneID.DungeonClear;
             }
 
             // 플레이어 사망 경우
             if (player.hp <= 0)
             {
+                battleIdleAnimationPlay();
                 return SceneID.DungeonFail;
             }
 
@@ -92,8 +97,23 @@ namespace TextRPG.Scene
                 case 3: return sceneNext.next![input];
                 case 4: if (TryEscape()) return SceneID.DungeonSelect; break;
                 case 5: actionPerformed = UsePotion(); break;
+                case 8:
+                    if (gameContext.ch.job != "")
+                    {
+                        battleSignatureAnimationPlay();
+                        for (int i = 0; i < gameContext.currentBattleMonsters.Count; i++)
+                        {
+                            gameContext.currentBattleMonsters[i].HP = 0;
+                        }
+                        battleIdleAnimationPlay();
+                    }
+                    else
+                    {
+                        return SceneID.BattleScene;
+                    }
+                    break;
                 default:
-                    Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
+                    ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다. 다시 선택해주세요.");
                     Thread.Sleep(1000);
                     return SceneID.BattleScene;
             }
@@ -103,6 +123,8 @@ namespace TextRPG.Scene
                 // 공격 대상 선택 취소 시 턴 유지
                 return SceneID.BattleScene;
             }
+
+            ApplySecondaryEffect();
 
             battleResult = CheckBattleEnd();
             if (battleResult != null) return battleResult;
@@ -114,40 +136,56 @@ namespace TextRPG.Scene
                 battleResult = CheckBattleEnd();
                 if (battleResult != null) return battleResult;
             }
+
+            foreach (var skill in gameContext.ch.equipSkillList)
+            {
+                if (skill != null)
+                {
+                    skill.EndTurn();
+                }
+            }  
             return SceneID.BattleScene;
         }
 
-
-
-
         private bool PerformPhysicalAttack()
         {
+            DrawScene();
+            
             var target = ChooseTarget();
             if (target == null) return false;
 
-            int damage = (int)(player.getTotalAttack() *player.Str - target.Power);
+            //int damage = (int)(player.getTotalAttack() +player.Str - target.Power);
+            int damage = (int)player.defaultAttack + (int)(player.getPlusAttack()) + (int)player.getStat(player.statType)/3 - target.Power; ;
             if (damage < 0) damage = 0;
 
+            DrawScene();
+
+            battleAttackAnimationPlay(target);
             target.HP = Math.Max(0, target.HP - damage);
             ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}가 {target.Name}에게 물리 공격! {damage} 데미지!");
+
 
             if (target.HP <= 0)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
             }
-
+            battleIdleAnimationPlay();
             return true;
         }
-
-
+ 
         private bool PerformMagicAttack()
         {
+            DrawScene();
             var target = ChooseTarget();
             if (target == null) return false;
 
-            int damage = (int)(player.getTotalAttack() * player.Int - target.Power); // 마법은 물리 공격보다 강하게 설정
+            //int damage = (int)(player.getTotalAttack() * player.Int - target.Power); // 마법은 물리 공격보다 강하게 설정
+            int damage = (int)player.defaultAttack + (int)(player.getPlusAttack()) + player.Int - target.Power; ;
             if (damage < 0) damage = 0;
 
+            DrawScene();
+
+            battleAttackAnimationPlay(target);
             target.HP = Math.Max(0, target.HP - damage);
             ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}가 {target.Name}에게 마법 공격! {damage} 데미지!");
 
@@ -155,6 +193,7 @@ namespace TextRPG.Scene
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog($"{target.Name} 처치!");
             }
+            battleIdleAnimationPlay();
             return true;
         }
 
@@ -169,6 +208,7 @@ namespace TextRPG.Scene
             else
             {
                 // 도망 성공 시 몬스터 리스트 초기화
+                battleRunAnimationPlay();
                 ((LogView)viewMap[ViewID.Log]).AddLog("도망 성공!");
                 return true;
             }
@@ -199,7 +239,7 @@ namespace TextRPG.Scene
             int choice;
             while (true)
             {
-                Console.Write("선택: ");
+                ((LogView)viewMap[ViewID.Log]).AddLog("선택: ");
                 if (int.TryParse(Console.ReadLine(), out choice))
                 {
                     if (choice == 0) return false;
@@ -236,27 +276,52 @@ namespace TextRPG.Scene
                     }
                 }
 
-    ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다.");
+                ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 입력입니다.");
             }
-
         }
 
         private void MonsterAttack(MonsterData monster)
         {
+            ApplySecondaryEffect(monster);
+            monster.isActionable = true; //턴 시작시 몬스터 상태를 true로 초기화
+
             if (monster.HP <= 0) return;
 
-            int damage = (int)(monster.Power - player.getTotalGuard());
-            if (damage < 0) damage = 0;
 
-            player.hp -= damage;
-
-            if (player.hp < 0) player.hp = 0;
-
-            ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}가 {player.name}에게 공격! {damage} 데미지!");
-
-            if (player.hp <= 0)
+            if (!monster.isActionable)
             {
-                ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다. 게임 오버!");
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}은 행동불능 상태!");
+            }
+            else
+            {
+                if (new Random().Next(0, 100) < player.Avoidance)
+                {
+                    Console.WriteLine($">> {player.name}의 공격을 회피했습니다!");
+                    Thread.Sleep(1000);
+                }
+                int damage = (int)((monster.Power + 100) - player.getTotalGuard());
+                if (damage < 0) damage = 0;
+
+                player.hp -= damage;
+
+                if (player.hp < 0) player.hp = 0;
+
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}가 {player.name}에게 공격! {damage} 데미지!");
+
+                if (player.hp <= 0)
+                {
+                    StatusEffect skill = gameContext.ch.StatusEffects.FirstOrDefault(m => m.skill.skillName == "최후의 저항");
+                    if (skill != null)
+                    {
+                        player.hp = Math.Max((int)skill.effectAmount,player.MaxHp);
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"불가사이한 힘으로 \"{player.name}\" 플레이어가 죽음에서 돌아옵니다.");
+                        gameContext.ch.StatusEffects.Remove(skill);
+                    }
+                    else
+                    {
+                        ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다. 게임 오버!");
+                    }
+                }
             }
         }
 
@@ -284,6 +349,7 @@ namespace TextRPG.Scene
             int choice;
             while (true)
             {
+                ((InputView)viewMap[ViewID.Input]).SetCursor();
                 if (int.TryParse(Console.ReadLine(), out choice))
                 {
                     if (choice == 0)
@@ -299,8 +365,73 @@ namespace TextRPG.Scene
                 }
 
                 ((InputView)viewMap[ViewID.Input]).SetCursor();
-                Console.WriteLine("잘못된 선택입니다. 다시 입력하세요."); 
+                ((LogView)viewMap[ViewID.Log]).AddLog("잘못된 선택입니다. 다시 입력하세요."); 
                 Render();
+            }
+        }
+
+        public void ApplySecondaryEffect(MonsterData monster)
+        {
+            for (int i = 0; i < monster.StatusEffects?.Count; i++)
+            {
+                switch (monster.StatusEffects[i].effectType)
+                {
+                    case StatusEffectType.Stun:
+                        monster.isActionable = false;
+                        break;
+                    case StatusEffectType.DoT:
+                        monster.HP = Math.Max(0, monster.HP - (int)(monster.StatusEffects[i].effectAmount));
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}에게 상태 이상 발생! {monster.StatusEffects[i].effectAmount}의 데미지 !");
+                        if (monster.HP <= 0)
+                        {
+                            ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name} 처치!");
+                        }
+                        break;
+                }
+                if (monster.StatusEffects[i].duration == 0)
+                {
+                    monster.StatusEffects.Remove(monster.StatusEffects[i]);
+                    i--;
+                }
+                else
+                {
+                    monster.StatusEffects[i].duration--;
+                }
+            }
+        }
+
+        public void ApplySecondaryEffect()
+        {
+            for (int i = 0; i < player.StatusEffects?.Count; i++)
+            {
+                switch (player.StatusEffects[i].effectType)
+                {
+                    case StatusEffectType.Stun:
+                        //player.isActionable = false;
+                        break;
+                    case StatusEffectType.DoT:
+                        /*
+                        player.hp = Math.Max(0, player.hp - (int)(player.StatusEffects[i].effectAmount));
+                        ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}에게 상태 이상 발생! {player.StatusEffects[i].effectAmount}의 데미지 !");
+                        if (player.hp <= 0)
+                        {
+                            ((LogView)viewMap[ViewID.Log]).AddLog("플레이어가 쓰러졌습니다. 게임 오버!");
+                        }
+                        */
+                        break;
+                    case StatusEffectType.Curse:
+
+                        break;
+                }
+                if (player.StatusEffects[i].duration == 0)
+                {
+                    player.StatusEffects.Remove(player.StatusEffects[i]);
+                    i--;
+                }
+                else
+                {
+                    player.StatusEffects[i].duration--;
+                }
             }
         }
     }

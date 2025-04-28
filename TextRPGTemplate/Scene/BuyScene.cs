@@ -34,17 +34,15 @@ namespace TextRPG.Scene
                     if (tmp.healAmount > 0) effectText += $"체력 +{tmp.healAmount} ";
                     if (tmp.manaAmount > 0) effectText += $"마나 +{tmp.manaAmount}";
 
-                    dynamicText.Add($"-{i + 1}.{tmp.name} \t | {effectText} \t | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
+                    dynamicText.Add($"-{i + 1}.{tmp.name} | {effectText} | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
                 }
                 else
                 {
                     // 일반 아이템인 경우: 기존 방식 유지
-                    dynamicText.Add($"-{i + 1}.{tmp.name} \t | {(tmp.attack > 0 ? "공격력" : "방어력")} + {(tmp.attack > 0 ? tmp.attack : tmp.guard)} \t | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
+                    dynamicText.Add($"-{i + 1}.{tmp.name} | {(tmp.attack > 0 ? "공격력" : "방어력")} + {(tmp.attack > 0 ? tmp.attack : tmp.guard)} | {(tmp.bought ? "구매완료" : tmp.price + "G")}");
                 }
             }
             ((DynamicView)viewMap[ViewID.Dynamic]).SetText(dynamicText.ToArray());
-            //((SpriteView)viewMap[ViewID.Sprite]).SetText(sceneText.spriteText!);
-
             Render();
         }
         public override string respond(int i)
@@ -98,9 +96,12 @@ namespace TextRPG.Scene
             }
             else if (i == 0)
             {
-                ((LogView)viewMap[ViewID.Log]).ClearText();
+                //((LogView)viewMap[ViewID.Log]).ClearText();
             }
-            convertSceneAnimationPlay(sceneNext.next![i]);
+            if (sceneNext.next![i] != SceneID.Shop)
+            {
+                convertSceneAnimationPlay(sceneNext.next![i]);
+            }
             return sceneNext.next![i];
         }
     }
