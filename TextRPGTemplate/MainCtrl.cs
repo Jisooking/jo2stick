@@ -319,7 +319,8 @@ namespace TextRPG
 
             public void InitBgm()
             {
-                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "bgm.wav");
+                string exePath = AppContext.BaseDirectory;
+                string filePath = Path.Combine(exePath, "Data", "bgm.wav");
 
                 if (File.Exists(filePath))
                 {
