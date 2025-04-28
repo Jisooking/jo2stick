@@ -95,7 +95,11 @@ namespace TextRPG.Scene
                 case 1: actionPerformed = PerformPhysicalAttack(); break;
                 case 2: actionPerformed = PerformMagicAttack(); break;
                 case 3: return sceneNext.next![input];
-                case 4: if (TryEscape()) return SceneID.DungeonSelect; break;
+                case 4: if (TryEscape()) {
+                        convertSceneAnimationPlay(SceneID.DungeonSelect);
+                        return SceneID.DungeonSelect;
+                    }
+                    break;
                 case 5: actionPerformed = UsePotion(); break;
                 case 8:
                     if (gameContext.ch.job != "")
@@ -240,6 +244,7 @@ namespace TextRPG.Scene
             while (true)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog("선택: ");
+                ((InputView)viewMap[ViewID.Input]).SetCursor();
                 if (int.TryParse(Console.ReadLine(), out choice))
                 {
                     if (choice == 0) return false;

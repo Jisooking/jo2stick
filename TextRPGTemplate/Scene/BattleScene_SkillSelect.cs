@@ -70,6 +70,7 @@ namespace TextRPGTemplate.Scene
                 ((LogView)viewMap[ViewID.Log]).AddLog($"잘못된 입력입니다.");
                 return SceneID.Nothing;
             }
+
             return SceneID.BattleScene;
         }
 
@@ -330,6 +331,7 @@ namespace TextRPGTemplate.Scene
             int choice;
             while (true)
             {
+                ((InputView)viewMap[ViewID.Input]).SetCursor();
                 if (int.TryParse(Console.ReadLine(), out choice) && choice > 0 && choice <= aliveMonsters.Count)
                 {
                     Console.Clear(); // 추가: 화면 정리
