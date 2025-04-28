@@ -636,5 +636,6 @@
     "Point": 0,
     "critical": 0,
     "defaultAttack": 0,
-    "defaultGuard": 0
+    "defaultGuard": 0,
+    "stattype" : 1
 }

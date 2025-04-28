@@ -88,7 +88,7 @@ namespace TextRPG.Context
         }
         public int SetMaxMp(StatType statType)
         {
-            return (((int)Int * 1) + (getStat(statType) * 99)); // 스킬 테스트를 위해 마나최대치 높게설정해둠. 원래는 * 1/2
+            return (((int)Int * 1) + (getStat(statType) * 1/2)); 
         }
         public int getStat(StatType stat)
         {
