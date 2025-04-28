@@ -160,9 +160,18 @@ namespace TextRPG.Scene
 
             DrawScene();
 
+            bool isCritical = new Random().Next(0, 100) < player.critical;
+            if (isCritical)
+            {
+                damage = (int)(damage * 1.5); // 크리티컬이면 1.5배
+            }
+
             battleAttackAnimationPlay(target);
             target.HP = Math.Max(0, target.HP - damage);
-            ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}가 {target.Name}에게 물리 공격! {damage} 데미지!");
+            if (isCritical)
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}가 {target.Name}에게 크리티컬 물리 공격! {damage} 데미지!");
+            else
+                ((LogView)viewMap[ViewID.Log]).AddLog($"{player.name}가 {target.Name}에게 물리 공격! {damage} 데미지!");
 
 
             if (target.HP <= 0)
