@@ -47,7 +47,6 @@ namespace TextRPG.Context
             CurrentExp = ch.CurrentExp;
             gold = ch.gold;
 
-            critical = ch.critical;
             clearCount = ch.clearCount;
 
             items = ch.inventory.items!.ToArray();

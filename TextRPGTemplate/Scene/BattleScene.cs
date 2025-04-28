@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ExceptionServices;
@@ -293,6 +294,11 @@ namespace TextRPG.Scene
             }
             else
             {
+                if (new Random().Next(0, 100) < player.Avoidance)
+                {
+                    Console.WriteLine($">> {player.name}의 공격을 회피했습니다!");
+                    Thread.Sleep(1000);
+                }
                 int damage = (int)((monster.Power) - player.getTotalGuard());
                 if (damage < 0) damage = 0;
 
