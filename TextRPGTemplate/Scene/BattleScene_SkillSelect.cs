@@ -70,6 +70,7 @@ namespace TextRPGTemplate.Scene
                 ((LogView)viewMap[ViewID.Log]).AddLog($"잘못된 입력입니다.");
                 return SceneID.Nothing;
             }
+
             return SceneID.BattleScene;
         }
 
@@ -330,6 +331,7 @@ namespace TextRPGTemplate.Scene
             int choice;
             while (true)
             {
+                ((InputView)viewMap[ViewID.Input]).SetCursor();
                 if (int.TryParse(Console.ReadLine(), out choice) && choice > 0 && choice <= aliveMonsters.Count)
                 {
                     Console.Clear(); // 추가: 화면 정리
@@ -346,8 +348,10 @@ namespace TextRPGTemplate.Scene
         }
         public void ExecutorToEnemy(Skill selectSkill)
         {
+            DrawScene();
             MonsterData target = ChooseTarget();
-
+            DrawScene();
+            battleAttackAnimationPlay(target);
             if (target == null) return;
 
             int skillDamage = (int)((gameContext.ch.getTotalAttack() + selectSkill.effectAmount[0]) + (gameContext.ch.getTotalStat(selectSkill.statType) * selectSkill.skillFactor));
@@ -389,6 +393,7 @@ namespace TextRPGTemplate.Scene
                     }
                 }
             }
+            battleIdleAnimationPlay();
         }
 
         private void SeconDaryEffect(Skill selectSkill, MonsterData target, int damage)
