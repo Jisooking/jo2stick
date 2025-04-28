@@ -296,8 +296,9 @@ namespace TextRPG.Scene
             {
                 if (new Random().Next(0, 100) < player.Avoidance)
                 {
-                    Console.WriteLine($">> {player.name}의 공격을 회피했습니다!");
+                    ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}가 {player.name}에게 회피했습니다!");
                     Thread.Sleep(1000);
+                    return;
                 }
                 int damage = (int)((monster.Power) - player.getTotalGuard());
                 if (damage < 0) damage = 0;
