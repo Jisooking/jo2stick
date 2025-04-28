@@ -160,7 +160,7 @@ namespace TextRPG.Context
             //Mp += (int)(afterjobstat.addMp ?? 0);
             //MaxMp += (int)(afterjobstat.addMp ?? 0);
             Point += (int)(afterjobstat.addPoint ?? 0);
-            critical += (int)(afterjobstat.addcritical ?? 0);
+            //critical += (int)(afterjobstat.addcritical ?? 0);
             statType = afterjobstat.stattype;
         }
 
