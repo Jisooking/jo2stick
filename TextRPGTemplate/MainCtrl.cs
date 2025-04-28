@@ -326,7 +326,7 @@ namespace TextRPG
                     waveOut = new WaveOutEvent();
                     audioFile = new AudioFileReader(filePath);
 
-                    audioFile.Volume = 0.0f;
+                    audioFile.Volume = 0.3f;
                     // 재생이 끝날 때 이벤트를 감지하여 무한 반복
                     waveOut.PlaybackStopped += (sender, args) =>
                     {
