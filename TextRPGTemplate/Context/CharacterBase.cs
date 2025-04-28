@@ -33,9 +33,11 @@ namespace TextRPG.Context
         public int CurrentExp { get; set; }
         public int MaxExp => (int)(100 * Math.Pow(1.2, Level - 1));
         public int Point { get; set; }
-        public float critical { get; set; }
+        public float critical => (int)(0.5 * Luk);
 
         public StatType statType { get; set; } = StatType.Str; // 주 스탯 타입
+
+        public float Avoidance => (int)(0.2 * Luk);
 
         // 기본 공격력/방어력
         public float defaultAttack { get { return SetDefaultAttack(statType); } }
@@ -88,7 +90,7 @@ namespace TextRPG.Context
         }
         public int SetMaxMp(StatType statType)
         {
-            return (((int)Int * 1) + (getStat(statType) * 99)); // 스킬 테스트를 위해 마나최대치 높게설정해둠. 원래는 * 1/2
+            return (((int)Int * 1) + (getStat(statType) * 5)); 
         }
         public int getStat(StatType stat)
         {

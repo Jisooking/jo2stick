@@ -18,6 +18,7 @@ namespace TextRPGTemplate.Managers
         public int Gold;
         public int MaxExp => 100 * (int)Math.Pow(1.2, Level - 1);
         public int Critical;
+        public int Avoidance;
         public int statLimit = 200;
 
 
@@ -133,7 +134,6 @@ namespace TextRPGTemplate.Managers
             saveData.CurrentExp = this.CurrentExp;
             saveData.Exp = this.Exp;
             saveData.Point = this.Point;
-            saveData.critical = this.Critical;
             saveData.clearCount = 0; // 기본값 초기화
         }
 

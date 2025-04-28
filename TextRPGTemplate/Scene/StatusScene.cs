@@ -60,6 +60,7 @@ namespace TextRPG.Scene
             dynamicText.Add($"경험치 : {ch.CurrentExp} / {ch.MaxExp}");
             dynamicText.Add($"Gold : {ch.gold}G");
             dynamicText.Add($"Critical : {ch.critical}");
+            dynamicText.Add($"Avoidance : {ch.Avoidance}");
             dynamicText.Add($"주스텟 : {ch.statType}");
             dynamicText.Add($"총 공격력 {totalAttack} : 기본 공격력({ch.defaultAttack}) + 추가 공격력 ({itemAddattack})");
             dynamicText.Add($"총 방어력 {totalGuard} : 기본 방어력({ch.defaultGuard}) + 추가 방어력 ({itemAddguard})");

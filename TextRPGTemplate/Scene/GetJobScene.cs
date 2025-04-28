@@ -25,13 +25,17 @@ namespace TextRPG.Scene
             Character ch = gameContext.ch;
 
             dynamicText.Add($" Lv. {ch.Level}\n");
+            dynamicText.Add($" 이 름 : {ch.name}\n");
+            dynamicText.Add($" 직 업 : {ch.job}\n");
             dynamicText.Add($" 힘 : {ch.Str}\n");
             dynamicText.Add($" 지 능 : {ch.Int}\n");
             dynamicText.Add($" 민 첩 : {ch.Dex}\n");
             dynamicText.Add($" 운 : {ch.Luk}\n");
             dynamicText.Add($"체 력 : {ch.hp} / {ch.MaxHp}");
-            dynamicText.Add($"Gold : {ch.gold}G");
-            dynamicText.Add("원하는 직업을 선택해 주세요.");
+            dynamicText.Add($"마 나 : {ch.Mp} / {ch.MaxMp}");
+            dynamicText.Add($"Critical : {ch.critical}");
+            dynamicText.Add($"주스텟 : {ch.statType}");
+;
             List<JobRequirement> jobRequirements = new()
             {
                 new JobRequirement { JobName = "파이터", MinLevel = 0, MinStr = 0 },

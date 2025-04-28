@@ -48,7 +48,6 @@ namespace TextRPG.Context
             Exp = saveData.Exp;
             Point = saveData.Point;
             CurrentExp = saveData.CurrentExp;
-            critical = saveData.critical;
 
             inventory = new Inventory(new List<Item>(saveData.items));
 
@@ -68,7 +67,7 @@ namespace TextRPG.Context
             }
         }
 
-        public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, float critical, Skill[] learnSkillList , Skill[] characterSkillList)
+        public Character(string name, string job, float attack, float guard, int hp, int gold, int clearCount, Inventory inventory, Skill[] learnSkillList , Skill[] characterSkillList)
         {
             this.name = name;
             this.job = job;
@@ -78,7 +77,6 @@ namespace TextRPG.Context
             this.gold = gold;
             this.clearCount = clearCount;
             this.inventory = inventory;
-            this.critical = critical;
 
             this.characterSkillList = new List<Skill>(characterSkillList);
             this.learnSkillList = new List<Skill>(learnSkillList);
@@ -162,7 +160,7 @@ namespace TextRPG.Context
             //Mp += (int)(afterjobstat.addMp ?? 0);
             //MaxMp += (int)(afterjobstat.addMp ?? 0);
             Point += (int)(afterjobstat.addPoint ?? 0);
-            critical += (int)(afterjobstat.addcritical ?? 0);
+            //critical += (int)(afterjobstat.addcritical ?? 0);
             statType = afterjobstat.stattype;
         }
 
@@ -236,5 +234,6 @@ namespace TextRPG.Context
             }
             return totalEffectStat;
         }
+
     }
 }

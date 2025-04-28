@@ -212,7 +212,7 @@
       "npc": "\uC0C1\uC810 \uC8FC\uC778",
       "text": "\uC774\uB7F0, \uC7AC\uB8CC\uAC00 \uB2E4 \uB5A8\uC5B4\uC84C\uC796\uC544. \uC6A9\uC0AC\uB2D8 \uD639\uC2DC \uC7AC\uB8CC\uB97C \uC880 \uAC00\uC838\uB2E4 \uC8FC\uC2E4 \uC218 \uC788\uC73C\uC138\uC694?",
       "clearquest": false,
-      "dropitemcount": 0,
+      "dropitemcount": 1,
       "rewardReceived": false
     },
     {
@@ -574,14 +574,14 @@
       "isLearn": true,
       "isEquip": true,
       "maxUseCount": 10,
-      "curUseCount": 0,
+      "curUseCount": 9,
       "effectAmount": [
         150,
         50
       ],
       "skillFactor": 0,
       "coolTime": 3,
-      "curCoolTime": 0,
+      "curCoolTime": 1,
       "costMana": 150,
       "duration": [
         0
@@ -887,30 +887,193 @@
       "equipSlot": 0
     }
   ],
-  "characterSkillList": [],
-  "stattype": 1,
+  "characterSkillList": [
+    {
+      "key": "3-1",
+      "skillName": "\uD30C\uC774\uC5B4 \uBCFC",
+      "description": "\uD654\uC5FC\uC744 \uC751\uCD95\uD55C \uB9C8\uB098\uB97C \uBC1C\uC0AC\uD569\uB2C8\uB2E4.",
+      "skillType": 0,
+      "statType": 3,
+      "targetType": 1,
+      "isLearn": true,
+      "isEquip": true,
+      "maxUseCount": 10,
+      "curUseCount": 9,
+      "effectAmount": [
+        150,
+        50
+      ],
+      "skillFactor": 0,
+      "coolTime": 3,
+      "curCoolTime": 1,
+      "costMana": 150,
+      "duration": [
+        0
+      ],
+      "secondaryEffects": [
+        2
+      ],
+      "skillLevel": 0,
+      "skillPoint": 0,
+      "flavorText": [
+        "Fireball!!",
+        "Explosion!!"
+      ],
+      "equipSlot": 0
+    },
+    {
+      "key": "3-2",
+      "skillName": "\uB77C\uC774\uD2B8\uB2DD \uBCFC\uD2B8",
+      "description": "\uC801\uB4E4\uC744 \uAC15\uD558\uAC8C \uACF5\uACA9\uD569\uB2C8\uB2E4.",
+      "skillType": 0,
+      "statType": 3,
+      "targetType": 1,
+      "isLearn": false,
+      "isEquip": false,
+      "maxUseCount": 3,
+      "curUseCount": 0,
+      "effectAmount": [
+        200
+      ],
+      "skillFactor": 0,
+      "coolTime": 5,
+      "curCoolTime": 0,
+      "costMana": 250,
+      "duration": [
+        0
+      ],
+      "secondaryEffects": [
+        0
+      ],
+      "skillLevel": 20,
+      "skillPoint": 5,
+      "flavorText": [
+        "Thunder!",
+        "\uCE58\uB3C4\uB9AC!!"
+      ],
+      "equipSlot": 0
+    },
+    {
+      "key": "3-3",
+      "skillName": "\uB9C8\uB098 \uC274\uB4DC",
+      "description": "\uB9C8\uB098\uB85C \uB9CC\uB4E0 \uBC29\uD328\uB85C \uC790\uC2E0\uC744 \uBCF4\uD638\uD569\uB2C8\uB2E4.",
+      "skillType": 0,
+      "statType": 0,
+      "targetType": 0,
+      "isLearn": false,
+      "isEquip": false,
+      "maxUseCount": 3,
+      "curUseCount": 0,
+      "effectAmount": [
+        1000
+      ],
+      "skillFactor": 0,
+      "coolTime": 5,
+      "curCoolTime": 0,
+      "costMana": 500,
+      "duration": [
+        3
+      ],
+      "secondaryEffects": [
+        0
+      ],
+      "skillLevel": 30,
+      "skillPoint": 10,
+      "flavorText": [
+        "\uB098\uC5D0\uAC8C \uB2FF\uC744 \uC218 \uC788\uACA0\uB294\uAC00??",
+        "\uC601\uC5ED \uC804\uAC1C\uC77C\uC138!!"
+      ],
+      "equipSlot": 0
+    },
+    {
+      "key": "3-4",
+      "skillName": "\uC544\uC774\uC2A4 \uC2A4\uD53C\uC5B4",
+      "description": "\uB0C9\uAE30\uAC00 \uC751\uCD95\uB41C \uCC3D\uC740 \uD798\uC774 \uB2E4\uD560\uB54C\uAE4C\uC9C0 \uC801\uC744 \uAFF0\uB6AB\uC2B5\uB2C8\uB2E4.",
+      "skillType": 0,
+      "statType": 3,
+      "targetType": 1,
+      "isLearn": false,
+      "isEquip": false,
+      "maxUseCount": 2,
+      "curUseCount": 0,
+      "effectAmount": [
+        500
+      ],
+      "skillFactor": 0,
+      "coolTime": 5,
+      "curCoolTime": 0,
+      "costMana": 1000,
+      "duration": [
+        0
+      ],
+      "secondaryEffects": [
+        5
+      ],
+      "skillLevel": 40,
+      "skillPoint": 15,
+      "flavorText": [
+        "\uBC1B\uC544\uBCF4\uC2DC\uAC8C\uB098!!",
+        "\uD638\uB77D\uD638\uB77D\uD558\uC9C4 \uC54A\uC744\uAC78\uC138"
+      ],
+      "equipSlot": 0
+    },
+    {
+      "key": "3-5",
+      "skillName": "\uB9C8\uB098 \uC911\uB3C5",
+      "description": "\uB118\uCCD0\uB098\uB294 \uB9C8\uB098\uB294 \uC8FC\uBCC0 \uBAA8\uB4E0\uAC83\uC744 \uD30C\uAD34\uD569\uB2C8\uB2E4.",
+      "skillType": 0,
+      "statType": 0,
+      "targetType": 0,
+      "isLearn": false,
+      "isEquip": false,
+      "maxUseCount": 1,
+      "curUseCount": 0,
+      "effectAmount": [
+        200
+      ],
+      "skillFactor": 0,
+      "coolTime": 0,
+      "curCoolTime": 0,
+      "costMana": 2000,
+      "duration": [
+        3
+      ],
+      "secondaryEffects": [
+        0
+      ],
+      "skillLevel": 50,
+      "skillPoint": 20,
+      "flavorText": [
+        "\uBA38\uB9AC\uAC00 \uB9D1\uC544\uC9C0\uB294 \uAD70",
+        "\uB098\uC5D0\uAC8C\uC11C \uB5A8\uC5B4\uC9C0\uC2DC\uAC8C\uB098"
+      ],
+      "equipSlot": 0
+    }
+  ],
+  "stattype": 3,
   "name": "qwerty",
-  "job": "",
-  "Level": 1,
-  "gold": 20000,
-  "clearCount": 0,
+  "job": "\uC704\uC790\uB4DC",
+  "Level": 6,
+  "gold": 28100,
+  "clearCount": 2,
   "Stats": null,
-  "attack": 88.5,
-  "guard": 1.77,
-  "hp": 265,
-  "Str": 177,
-  "Int": 19,
-  "Dex": 4,
-  "Luk": 0,
-  "MaxHp": 265,
-  "Mp": 17542,
-  "MaxMp": 17542,
-  "Exp": 0,
-  "CurrentExp": 0,
-  "MaxExp": 100,
-  "Point": 0,
-  "critical": 0,
+  "attack": 138.5,
+  "guard": 2.77,
+  "hp": 131,
+  "Str": 1,
+  "Int": 277,
+  "Dex": 7,
+  "Luk": 64,
+  "MaxHp": 1,
+  "Mp": 265,
+  "MaxMp": 277,
+  "Exp": 860,
+  "CurrentExp": 117,
+  "MaxExp": 248,
+  "Point": 25,
+  "critical": 32,
   "statType": 1,
-  "defaultAttack": 88.5,
-  "defaultGuard": 1.77
+  "Avoidance": 12,
+  "defaultAttack": 0.5,
+  "defaultGuard": 0.01
 }

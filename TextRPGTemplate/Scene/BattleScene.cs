@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ExceptionServices;
@@ -94,7 +95,11 @@ namespace TextRPG.Scene
                 case 1: actionPerformed = PerformPhysicalAttack(); break;
                 case 2: actionPerformed = PerformMagicAttack(); break;
                 case 3: return sceneNext.next![input];
-                case 4: if (TryEscape()) return SceneID.DungeonSelect; break;
+                case 4: if (TryEscape()) {
+                        convertSceneAnimationPlay(SceneID.DungeonSelect);
+                        return SceneID.DungeonSelect;
+                    }
+                    break;
                 case 5: actionPerformed = UsePotion(); break;
                 case 8:
                     if (gameContext.ch.job != "")
@@ -239,6 +244,7 @@ namespace TextRPG.Scene
             while (true)
             {
                 ((LogView)viewMap[ViewID.Log]).AddLog("선택: ");
+                ((InputView)viewMap[ViewID.Input]).SetCursor();
                 if (int.TryParse(Console.ReadLine(), out choice))
                 {
                     if (choice == 0) return false;
@@ -293,7 +299,13 @@ namespace TextRPG.Scene
             }
             else
             {
-                int damage = (int)((monster.Power + 100) - player.getTotalGuard());
+                if (new Random().Next(0, 100) < player.Avoidance)
+                {
+                    ((LogView)viewMap[ViewID.Log]).AddLog($"{monster.Name}가 {player.name}에게 회피했습니다!");
+                    Thread.Sleep(1000);
+                    return;
+                }
+                int damage = (int)((monster.Power) - player.getTotalGuard());
                 if (damage < 0) damage = 0;
 
                 player.hp -= damage;
