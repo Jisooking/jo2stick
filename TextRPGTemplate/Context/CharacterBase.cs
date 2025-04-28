@@ -90,7 +90,7 @@ namespace TextRPG.Context
         }
         public int SetMaxMp(StatType statType)
         {
-            return (((int)Int * 1) + (getStat(statType) * 1/2)); 
+            return (((int)Int * 1) + (getStat(statType) * 5)); 
         }
         public int getStat(StatType stat)
         {
