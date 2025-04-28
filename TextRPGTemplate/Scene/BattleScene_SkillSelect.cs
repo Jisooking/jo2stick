@@ -346,8 +346,10 @@ namespace TextRPGTemplate.Scene
         }
         public void ExecutorToEnemy(Skill selectSkill)
         {
+            DrawScene();
             MonsterData target = ChooseTarget();
-
+            DrawScene();
+            battleAttackAnimationPlay(target);
             if (target == null) return;
 
             int skillDamage = (int)((gameContext.ch.getTotalAttack() + selectSkill.effectAmount[0]) + (gameContext.ch.getTotalStat(selectSkill.statType) * selectSkill.skillFactor));
@@ -389,6 +391,7 @@ namespace TextRPGTemplate.Scene
                     }
                 }
             }
+            battleIdleAnimationPlay();
         }
 
         private void SeconDaryEffect(Skill selectSkill, MonsterData target, int damage)
